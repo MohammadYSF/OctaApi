@@ -6,12 +6,12 @@ namespace OctaApi.Controllers.Customer;
 
 [ApiController]
 [Route("[controller]")]
-public class AddInventoryItemController : ControllerBase
+public class AddCustomerController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    private readonly ILogger<AddInventoryItemController> _logger;
-    public AddInventoryItemController(IMediator mediator, ILogger<AddInventoryItemController> logger)
+    private readonly ILogger<AddCustomerController> _logger;
+    public AddCustomerController(IMediator mediator, ILogger<AddCustomerController> logger)
     {
         _mediator = mediator;
         _logger = logger;
