@@ -1,16 +1,19 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
-namespace OctaApi.Controllers.Customer;
+using OctaApi.Application.Features.VehicleFeatures.GetAllVehicles;
+using OctaApi.Controllers.Customer;
+
+namespace OctaApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GetInventoryItems : ControllerBase
+public class GetAllVehiclesController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    private readonly ILogger<GetInventoryItems> _logger;
-    public GetInventoryItems(IMediator mediator, ILogger<GetInventoryItems> logger)
+    private readonly ILogger<GetAllVehiclesController> _logger;
+    public GetAllVehiclesController(IMediator mediator, ILogger<GetAllVehiclesController> logger)
     {
         _mediator = mediator;
         _logger = logger;
@@ -18,7 +21,7 @@ public class GetInventoryItems : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var request = new GetCustomersRequest();
+        var request = new GetAllVehiclesRequest();
         try
         {
             var response = await _mediator.Send(request);
@@ -27,9 +30,8 @@ public class GetInventoryItems : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }
-
 }
