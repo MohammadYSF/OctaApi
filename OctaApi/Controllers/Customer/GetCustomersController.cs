@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 namespace OctaApi.Controllers.Customer;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetCustomersController : ControllerBase
@@ -16,6 +18,8 @@ public class GetCustomersController : ControllerBase
         _logger = logger;
     }
     [HttpGet]
+    [Authorize]
+
     public async Task<IActionResult> Index()
     {
         var request = new GetCustomersRequest();

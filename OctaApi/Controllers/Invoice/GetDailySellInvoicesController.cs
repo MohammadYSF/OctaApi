@@ -23,10 +23,11 @@ public class GetDailySellInvoicesController : ControllerBase
         _logger = logger;
     }
     [HttpGet]
-    public async Task<IActionResult> Index(GetDailySellInvoicesRequest request)
+    public async Task<IActionResult> Index()
     {
         try
         {
+            GetDailySellInvoicesRequest request = new();
             var response = await _mediator.Send(request);
             return Ok(response);
 
