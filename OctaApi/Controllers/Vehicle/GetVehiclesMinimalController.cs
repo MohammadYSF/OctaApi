@@ -1,12 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
-using OctaApi.Application.Features.VehicleFeatures.GetAllVehicles;
 using OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;
-using OctaApi.Controllers.Customer;
-
 namespace OctaApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetVehiclesMinimalController : ControllerBase

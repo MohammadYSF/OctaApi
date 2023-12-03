@@ -1,12 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
-using OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice;
 using OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellInvoice;
-using OctaApi.Controllers.Customer;
-
 namespace OctaApi.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class CreateMiscellaneousSellInvoiceController : ControllerBase
@@ -20,7 +17,7 @@ public class CreateMiscellaneousSellInvoiceController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index(CreateMiscellaneousSellInvoiceRequest request)
+    public async Task<IActionResult> Index([FromBody]CreateMiscellaneousSellInvoiceRequest request)
     {
         try
         {

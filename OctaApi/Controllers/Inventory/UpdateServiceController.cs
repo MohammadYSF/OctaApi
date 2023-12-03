@@ -1,13 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.AddCustomer;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
-using OctaApi.Application.Features.InventoryFeatures.AddInventoryItem;
-using OctaApi.Application.Features.InventoryFeatures.AddService;
-using OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem;
 using OctaApi.Application.Features.InventoryFeatures.UpdateService;
 namespace OctaApi.Controllers.Inventory;
-
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UpdateServiceController : ControllerBase
@@ -21,7 +17,7 @@ public class UpdateServiceController : ControllerBase
         _logger = logger;
     }
     [HttpPut]
-    public async Task<IActionResult> Index(UpdateServiceRequest request)
+    public async Task<IActionResult> Index([FromBody]UpdateServiceRequest request)
     {
         try
         {

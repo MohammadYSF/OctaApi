@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 using OctaApi.Application.Features.Inventory.GetInventoryItems;
 namespace OctaApi.Controllers.Inventory;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetInventoryItemsController : ControllerBase

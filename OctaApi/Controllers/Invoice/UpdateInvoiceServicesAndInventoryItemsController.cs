@@ -1,13 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
-using OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice;
-using OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
 using OctaApi.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndInventoryItems;
-using OctaApi.Controllers.Customer;
 
 namespace OctaApi.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UpdateInvoiceServicesAndInventoryItemsController : ControllerBase
@@ -21,7 +18,7 @@ public class UpdateInvoiceServicesAndInventoryItemsController : ControllerBase
         _logger = logger;
     }
     [HttpPut]
-    public async Task<IActionResult> Index(UpdateInvoiceServicesAndInventoryItemsRequest request)
+    public async Task<IActionResult> Index([FromBody]UpdateInvoiceServicesAndInventoryItemsRequest request)
     {
         try
         {

@@ -1,13 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
-using OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice;
-using OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
 using OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce;
-using OctaApi.Controllers.Customer;
-
 namespace OctaApi.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class DeleteSellInvoiceController : ControllerBase
@@ -21,7 +17,7 @@ public class DeleteSellInvoiceController : ControllerBase
         _logger = logger;
     }
     [HttpDelete]
-    public async Task<IActionResult> Index(DeleteSellInvoiceRequest request)
+    public async Task<IActionResult> Index([FromQuery]DeleteSellInvoiceRequest request)
     {
         try
         {

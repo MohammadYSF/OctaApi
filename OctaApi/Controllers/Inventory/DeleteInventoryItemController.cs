@@ -1,12 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.AddCustomer;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
-using OctaApi.Application.Features.InventoryFeatures.AddInventoryItem;
-using OctaApi.Application.Features.InventoryFeatures.AddService;
 using OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem;
 namespace OctaApi.Controllers.Inventory;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class DeleteInventoryItemController : ControllerBase
@@ -20,7 +18,7 @@ public class DeleteInventoryItemController : ControllerBase
         _logger = logger;
     }
     [HttpDelete]
-    public async Task<IActionResult> Index(DeleteInventoryItemRequest request)
+    public async Task<IActionResult> Index([FromQuery]DeleteInventoryItemRequest request)
     {
         try
         {

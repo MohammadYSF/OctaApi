@@ -1,15 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
-using OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice;
-using OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
-using OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce;
-using OctaApi.Application.Features.InvoiceFeatures.GetBuyInvoices;
 using OctaApi.Application.Features.InvoiceFeatures.GetDailySellInvoices;
-using OctaApi.Controllers.Customer;
-
 namespace OctaApi.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetDailySellInvoicesController : ControllerBase

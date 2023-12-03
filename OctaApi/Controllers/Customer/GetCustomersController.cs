@@ -18,8 +18,6 @@ public class GetCustomersController : ControllerBase
         _logger = logger;
     }
     [HttpGet]
-    [Authorize]
-
     public async Task<IActionResult> Index()
     {
         var request = new GetCustomersRequest();

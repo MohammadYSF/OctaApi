@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 using OctaApi.Application.Features.CustomerFeatures.GetCustomersMinimal;
 namespace OctaApi.Controllers.Customer;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetCustomersMinimalController : ControllerBase

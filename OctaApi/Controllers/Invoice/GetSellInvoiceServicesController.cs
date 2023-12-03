@@ -1,21 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
-using OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice;
-using OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
-using OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce;
-using OctaApi.Application.Features.InvoiceFeatures.GetBuyInvoices;
-using OctaApi.Application.Features.InvoiceFeatures.GetDailySellInvoices;
-using OctaApi.Application.Features.InvoiceFeatures.GetInvoiceById;
-using OctaApi.Application.Features.InvoiceFeatures.GetInvoicePaymentInfo;
-using OctaApi.Application.Features.InvoiceFeatures.GetInvoiceReportInfo;
-using OctaApi.Application.Features.InvoiceFeatures.GetSellInvoiceInventoryItems;
-using OctaApi.Application.Features.InvoiceFeatures.GetSellInvoices;
 using OctaApi.Application.Features.InvoiceFeatures.GetSellInvoiceServices;
-using OctaApi.Controllers.Customer;
-
 namespace OctaApi.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetSellInvoiceServicesController : ControllerBase
@@ -29,7 +17,7 @@ public class GetSellInvoiceServicesController : ControllerBase
         _logger = logger;
     }
     [HttpGet]
-    public async Task<IActionResult> Index(GetSellInvoicecServicesRequest request)
+    public async Task<IActionResult> Index([FromQuery]GetSellInvoicecServicesRequest request)
     {
         try
         {

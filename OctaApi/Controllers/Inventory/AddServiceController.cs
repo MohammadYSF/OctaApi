@@ -1,11 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.AddCustomer;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
-using OctaApi.Application.Features.InventoryFeatures.AddInventoryItem;
 using OctaApi.Application.Features.InventoryFeatures.AddService;
 namespace OctaApi.Controllers.Inventory;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class AddServiceController : ControllerBase
@@ -19,7 +18,7 @@ public class AddServiceController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index(AddServiceRequest request)
+    public async Task<IActionResult> Index([FromBody]AddServiceRequest request)
     {
         try
         {

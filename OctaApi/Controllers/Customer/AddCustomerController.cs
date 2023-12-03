@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.CustomerFeatures.AddCustomer;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 namespace OctaApi.Controllers.Customer;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class AddCustomerController : ControllerBase
@@ -17,7 +18,7 @@ public class AddCustomerController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index(AddCustomerRequest request)
+    public async Task<IActionResult> Index([FromBody]AddCustomerRequest request)
     {
         try
         {
