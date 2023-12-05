@@ -22,7 +22,8 @@ public class GetCustomersController : ControllerBase
     {
         var request = new GetCustomersRequest();
         try
-        {
+        {  
+                                     
             var response = await _mediator.Send(request);
             return Ok(response);
 
