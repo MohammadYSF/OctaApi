@@ -1,6 +1,6 @@
 using OctaApi.Domain.Common;
 
-namespace OctaApi.Domain.InventoryItem.ValueObjects;
+namespace Domain.Core;
 public sealed class Price : ValueObject<Price>
 {
     public Price(long value)

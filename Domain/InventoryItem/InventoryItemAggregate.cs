@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Domain.Core;
 using OctaApi.Domain.Common;
 using OctaApi.Domain.InventoryItem.ValueObjects;
 
@@ -29,14 +30,18 @@ public class InventoryItem : AggregateRoot
         this.SellPriceHistory.Add(new PriceHistory(new Price(sellPrice), DateTime.UtcNow));
         //TODO
     }
-    public void Update(string name,long newBuyPrice, long newSellPrice, float newCount)
+    public void Update(string name, long newBuyPrice, long newSellPrice, float newCount)
     {
         this.Name = new InventoryItemName(name);
         this.BuyPrice = new Price(newBuyPrice);
         this.SellPrice = new Price(newSellPrice);
         this.Count = new InventoryItemCount(newCount);
-        this.BuyPriceHistory.Add(new PriceHistory(new Price(newBuyPrice),DateTime.UtcNow));
-        this.SellPriceHistory.Add(new PriceHistory(new Price(newSellPrice),DateTime.UtcNow));
+        this.BuyPriceHistory.Add(new PriceHistory(new Price(newBuyPrice), DateTime.UtcNow));
+        this.SellPriceHistory.Add(new PriceHistory(new Price(newSellPrice), DateTime.UtcNow));
+    }
+    public void Use(float count)
+    {
+        this.Count = new InventoryItemCount(this.Count.Value - count);
     }
     //public Guid Id { get; set; }
     public List<PriceHistory> BuyPriceHistory { get; set; }
