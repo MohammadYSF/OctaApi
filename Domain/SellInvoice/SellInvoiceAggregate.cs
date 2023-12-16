@@ -1,5 +1,6 @@
 ﻿using Domain.BuyInvoice.ValueObjects;
 using Domain.Core;
+using Domain.SellInvoice.Entities;
 using Domain.SellInvoice.ValueObjects;
 using OctaApi.Domain;
 
@@ -15,4 +16,6 @@ public class SellInvoiceAggregate : AggregateRoot
     public Guid Vehicle{ get; set; }
     public bool UseBuyPrice { get; set; }
     public Price Discount{ get; set; }
+    public SellInvoicecDescription Description{ get; set; }
+    public List<SellInvoicePayment> Payments{ get; set; }
 }

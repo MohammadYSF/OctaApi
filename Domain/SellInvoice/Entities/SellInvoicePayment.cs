@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.SellInvoice.Entities
+﻿using Domain.SellInvoice.ValueObjects;
+using OctaApi.Domain.Common;
+namespace Domain.SellInvoice.Entities;
+public class SellInvoicePayment:Entity
 {
-    public class SellInvoicePayment
-    {
-    }
+    public SellInvoicePaymentDate PaidDate{ get; set; }
+    public SellInvoicePaymentTrackCode PaymentTrackCode{ get; set; }
+    public SellInvoicePaidAmount PaidAmount{ get; set; }
 }

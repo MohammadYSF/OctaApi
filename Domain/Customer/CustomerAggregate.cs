@@ -32,6 +32,10 @@ public class CustomerAggregate : AggregateRoot
     {
         this.CustomerVehicles = this.CustomerVehicles.Where(a => a.Id != id).ToList();
     }
+    public void UpdateCustomerPhoneNumber(string phoneNumber)
+    {
+        this.PhoneNumber = new CustomerPhoneNumber(phoneNumber);
+    }
     public CustomerCode Code { get; set; }
     public CustomerFirstName FirstName { get; set; }
     public CustomerLastName LastName { get; set; }
