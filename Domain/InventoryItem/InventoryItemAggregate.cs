@@ -1,15 +1,15 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Domain.Core;
 using OctaApi.Domain.Common;
 using OctaApi.Domain.InventoryItem.ValueObjects;
 
 namespace OctaApi.Domain.InventoryItem;
 
-public class InventoryItem : AggregateRoot
+public class InventoryItemَAggregate : AggregateRoot
 {
-    public static InventoryItem Create(Guid id, string name, int code)
+    public static InventoryItemَAggregate Create(Guid id, string name, int code)
     {
-        return new InventoryItem
+        return new InventoryItemَAggregate
         {
             Id = id,
             Name = new InventoryItemName(name),

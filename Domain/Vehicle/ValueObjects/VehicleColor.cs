@@ -1,6 +1,6 @@
 ﻿using OctaApi.Domain.Common;
 
-namespace Domain.Customer.ValueObjects;
+namespace Domain.Vehicle.ValueObjects;
 public sealed class VehicleColor : ValueObject<VehicleColor>
 {
     public VehicleColor(string value)

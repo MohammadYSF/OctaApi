@@ -23,14 +23,13 @@ public class CustomerAggregate : AggregateRoot
         };
         return customerAggregate;
     }
-    public void AddVehicle(Guid id, int vehicleCode, string vehicleName, string vehicleColor, string vehiclePlate)
+    public void AddVehicle(Guid vehicleId)
     {
-        var vehicle = CustomerVehicle.Create(id, vehicleCode, vehicleName, vehicleColor, vehiclePlate);
-        this.CustomerVehicles.Add(vehicle);
+        this.Vehicles.Add(vehicleId);
     }
-    public void RemoveVehicle(Guid id)
+    public void RemoveVehicle(Guid vehicleId)
     {
-        this.CustomerVehicles = this.CustomerVehicles.Where(a => a.Id != id).ToList();
+        this.Vehicles = this.Vehicles.Where(a => a != vehicleId).ToList();
     }
     public void UpdateCustomerPhoneNumber(string phoneNumber)
     {
@@ -40,5 +39,5 @@ public class CustomerAggregate : AggregateRoot
     public CustomerFirstName FirstName { get; set; }
     public CustomerLastName LastName { get; set; }
     public CustomerPhoneNumber PhoneNumber { get; set; }
-    public List<CustomerVehicle> CustomerVehicles { get; set; }
+    public List<Guid> Vehicles { get; set; } = new();
 }
