@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Domain.Core;
+using Domain.InventoryItem.Events;
 using OctaApi.Domain.Common;
 using OctaApi.Domain.InventoryItem.ValueObjects;
 
@@ -28,6 +29,16 @@ public class InventoryItemَAggregate : AggregateRoot
         this.Count = new InventoryItemCount(count);
         this.BuyPriceHistory.Add(new PriceHistory(new Price(buyPrice), DateTime.UtcNow));
         this.SellPriceHistory.Add(new PriceHistory(new Price(sellPrice), DateTime.UtcNow));
+
+
+        this.AddDomainEvent(new InventoryItemBoughtEvent
+        {
+            EventId = Guid.NewGuid(),
+            BuyPrice = buyPrice,
+            SellPrice = sellPrice,
+            Code = this.Code.ToString(),
+            Name = this.Name.ToString(),
+        });
         //TODO
     }
     public void Update(string name, long newBuyPrice, long newSellPrice, float newCount)

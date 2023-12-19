@@ -5,7 +5,7 @@ using OctaApi.Domain.Common;
 using OctaApi.Domain.InventoryItem;
 
 namespace Persistence.Configs.InventoryItem;
-public class InventoryItemConfig : IEntityTypeConfiguration<InventoryItemَAggregate>
+public class InventoryItemAggregateConfig : IEntityTypeConfiguration<InventoryItemَAggregate>
 {
     public void Configure(EntityTypeBuilder<InventoryItemَAggregate> builder)
     {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OctaApi.Persistence.Contexts;
+
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions options) : base(options)

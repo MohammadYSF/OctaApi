@@ -1,5 +1,4 @@
-﻿using Domain.Customer.Entities;
-using Domain.Customer.ValueObjects;
+﻿using Domain.Customer.ValueObjects;
 using OctaApi.Domain;
 using OctaApi.Domain.Models;
 namespace Domain.Customer;

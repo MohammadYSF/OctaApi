@@ -3,7 +3,7 @@ using Domain.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Persistence.Configs.Service;
-public class ServiceConfig : IEntityTypeConfiguration<ServiceAggregate>
+public class ServiceAggregateConfig : IEntityTypeConfiguration<ServiceAggregate>
 {
     public void Configure(EntityTypeBuilder<ServiceAggregate> builder)
     {

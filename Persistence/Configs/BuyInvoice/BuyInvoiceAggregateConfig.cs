@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Persistence.Configs.BuyInvoice;
 
-public class BuyInvoiceConfig : IEntityTypeConfiguration<BuyInvoiceAggregate>
+public class BuyInvoiceAggregateConfig : IEntityTypeConfiguration<BuyInvoiceAggregate>
 {
     public void Configure(EntityTypeBuilder<BuyInvoiceAggregate> builder)
     {

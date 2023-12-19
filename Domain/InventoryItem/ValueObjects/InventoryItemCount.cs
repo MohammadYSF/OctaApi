@@ -18,4 +18,8 @@ public sealed class InventoryItemCount : ValueObject<InventoryItemCount>
     {
         throw new NotImplementedException();
     }
+    public override string ToString()
+    {
+        return this.Value.ToString();
+    }
 }

@@ -17,4 +17,8 @@ public sealed class InventoryItemName : ValueObject<InventoryItemName>
     {
         throw new NotImplementedException();
     }
+    public override string ToString()
+    {
+        return this.Value;
+    }
 }

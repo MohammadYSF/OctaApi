@@ -35,5 +35,23 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
             ;
             b.HasKey("Id", "SellInvoiceId");
         });
+        builder.OwnsMany(a => a.Services, b =>
+        {
+            b.ToTable("SellInvoiceServices");
+            b.WithOwner().HasForeignKey("SellInvoiceId");
+            b.Property(c => c.Id)
+            .ValueGeneratedNever()
+            ;
+            b.HasKey("Id", "SellInvoiceId");
+        });
+        builder.OwnsMany(a => a.InventoryItems, b =>
+        {
+            b.ToTable("SellInvoicecInventoryItems");
+            b.WithOwner().HasForeignKey("SellInvoiceId");
+            b.Property(c => c.Id)
+            .ValueGeneratedNever()
+            ;
+            b.HasKey("Id", "SellInvoiceId");
+        });
     }
 }
