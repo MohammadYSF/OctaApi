@@ -11,20 +11,20 @@ public sealed class ServiceAggregate : AggregateRoot
         {
             Id = id,
             DefaultPrice = new Price(defaultPrice),
-            ServiceName = new ServiceName(serviceName),
-            ServiceCode = new ServiceCode(code)
+            Name = new ServiceName(serviceName),
+            Code = new ServiceCode(code)
         };
         return serviceAggregate;
     }
     public void Update(string newServiceName, long newDefaultPrice)
     {
-        this.ServiceName = new ServiceName(newServiceName);
+        this.Name = new ServiceName(newServiceName);
         this.DefaultPrice = new Price(newDefaultPrice);
         this.DefaultPricecHistory.Add(new PriceHistory(new Price(newDefaultPrice), DateTime.UtcNow));
 
     }    
-    public ServiceName ServiceName { get; set; }
-    public ServiceCode ServiceCode { get; set; }
+    public ServiceName Name { get; set; }
+    public ServiceCode Code { get; set; }
     public Price? DefaultPrice { get; set; }
     public List<PriceHistory> DefaultPricecHistory { get; set; } = new();
 

@@ -8,7 +8,7 @@ namespace Domain.SellInvoice;
 
 public class SellInvoiceAggregate : AggregateRoot
 {
-    public SellInvoiceSellDate BuyDate { get; set; }
+    public SellInvoiceSellDate CreateDate { get; set; }
     public SellInvoiceCode Code { get; set; }
     List<Guid> InventoryItems { get; set; } = new();
     List<Guid> Services { get; set; } = new();

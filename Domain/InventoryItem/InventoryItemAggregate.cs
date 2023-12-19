@@ -43,7 +43,6 @@ public class InventoryItemَAggregate : AggregateRoot
     {
         this.Count = new InventoryItemCount(this.Count.Value - count);
     }
-    //public Guid Id { get; set; }
     public List<PriceHistory> BuyPriceHistory { get; set; }
     public List<PriceHistory> SellPriceHistory { get; set; }
     public InventoryItemCode Code { get; set; }
@@ -54,11 +53,7 @@ public class InventoryItemَAggregate : AggregateRoot
     public bool IsActive { get; set; }
     public DateTime RegisterDate { get; set; }
 
-    //public string BuyFactorCode { get; set; }
-    //public string SellerName { get; set; }
 
     public float? CountLowerBound { get; set; }
 
-    // public virtual ICollection<InventoryItemHistory> InventoryItemHistories { get; set; }
-    //public virtual ICollection<InvoiceInventoryItem> InvoiceInventoryItems { get; set; }
 }
