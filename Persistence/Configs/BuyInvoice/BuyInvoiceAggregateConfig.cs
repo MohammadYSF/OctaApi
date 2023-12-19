@@ -17,13 +17,14 @@ public class BuyInvoiceAggregateConfig : IEntityTypeConfiguration<BuyInvoiceAggr
         {
             b.Property(c => c.Value).IsRequired(true).HasColumnName("BuyDate");
         });
-   
-        builder.Property(a => a.InventoryItems)
-            .HasConversion(
-                b => string.Join(',', b),
-                b => b.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList()
-             )
-            .HasColumnName("InventoryItems");
-
+        builder.OwnsMany(a => a.InventoryItems, b =>
+        {
+            b.ToTable("BuyInvoicecInventoryItems");
+            b.WithOwner().HasForeignKey("BuyInvoiceId");
+            b.Property(c => c.Id)
+            .ValueGeneratedNever()
+            ;
+            b.HasKey("Id", "SellInvoiceId");
+        });
     }
 }

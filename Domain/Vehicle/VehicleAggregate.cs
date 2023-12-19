@@ -1,5 +1,4 @@
-﻿using Domain.Customer.Entities;
-using Domain.Vehicle.ValueObjects;
+﻿using Domain.Vehicle.ValueObjects;
 using OctaApi.Domain;
 
 namespace Domain.Vehicle;
