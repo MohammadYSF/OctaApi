@@ -9,6 +9,10 @@ public class BuyInvoiceAggregateConfig : IEntityTypeConfiguration<BuyInvoiceAggr
     {
         builder.ToTable("BuyInvoice");
         builder.HasKey(a => a.Id);
+        builder.OwnsOne(a => a.Code, b =>
+        {
+            b.Property(c => c.Value).HasColumnName("Code").IsRequired(true);
+        });
         builder.OwnsOne(a => a.SellerName, b =>
         {
             b.Property(c => c.Value).HasMaxLength(255).IsRequired(true).HasColumnName("SellerName");

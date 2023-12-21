@@ -25,7 +25,7 @@ public sealed class ServiceAggregate : AggregateRoot
     }    
     public ServiceName Name { get; set; }
     public ServiceCode Code { get; set; }
-    public Price? DefaultPrice { get; set; }
+    public Price DefaultPrice { get; set; } = new Price(0);
     public List<PriceHistory> DefaultPricecHistory { get; set; } = new();
 
 

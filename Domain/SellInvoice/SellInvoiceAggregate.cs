@@ -18,17 +18,35 @@ public class SellInvoiceAggregate : AggregateRoot
                 CreateDate.Value.Day != dtNow.Day;
         }
     }
+    public bool IsMiscellaneous
+    {
+        get
+        {
+            return this.Vehicle == Guid.Empty && this.Vehicle == Guid.Empty;
+        }
+    }
     public SellInvoiceSellDate CreateDate { get; set; }
     public SellInvoiceCode Code { get; set; }
     public List<SellInvoiceInventoryItem> InventoryItems { get; set; } = new();
     public List<SellInvoiceService> Services { get; set; } = new();
-    public Guid Customer { get; set; }
-    public Guid Vehicle { get; set; }
+    public Guid? Customer { get; set; }
+    public Guid? Vehicle { get; set; }
     public bool UseBuyPrice { get; set; } = false;
     public Price Discount { get; set; }
     public SellInvoicecDescription Description { get; set; }
     public List<SellInvoicePayment> Payments { get; set; }
-
+    public static SellInvoiceAggregate CreateMiscellaneous(Guid id, DateTime createDate, int code)
+    {
+        var agg = new SellInvoiceAggregate
+        {
+            Id = id,
+            CreateDate = new SellInvoiceSellDate(createDate),
+            Code = new SellInvoiceCode(code),
+            Customer = Guid.Empty,
+            Vehicle = Guid.Empty,
+        };
+        return agg;
+    }
     public static SellInvoiceAggregate Create(Guid id, DateTime createDate, int code, Guid customer, Guid vehicle)
     {
         var agg = new SellInvoiceAggregate

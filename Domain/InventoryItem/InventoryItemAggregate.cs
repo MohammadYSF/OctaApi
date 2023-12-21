@@ -15,11 +15,6 @@ public class InventoryItemَAggregate : AggregateRoot
             Id = id,
             Name = new InventoryItemName(name),
             Code = new InventoryItemCode(code),
-            Count = new InventoryItemCount(0f),
-            IsActive = true,
-            RegisterDate = DateTime.UtcNow,
-            BuyPriceHistory = new(),
-            SellPriceHistory = new()
         };
     }
     public void Buy(long buyPrice, long sellPrice, float count)
@@ -54,17 +49,17 @@ public class InventoryItemَAggregate : AggregateRoot
     {
         this.Count = new InventoryItemCount(this.Count.Value - count);
     }
-    public List<PriceHistory> BuyPriceHistory { get; set; }
-    public List<PriceHistory> SellPriceHistory { get; set; }
+    public List<PriceHistory> BuyPriceHistory { get; set; } = new();
+    public List<PriceHistory> SellPriceHistory { get; set; } = new();
     public InventoryItemCode Code { get; set; }
     public InventoryItemName Name { get; set; }
-    public Price? BuyPrice { get; set; }
-    public Price? SellPrice { get; set; }
-    public InventoryItemCount Count { get; set; }
-    public bool IsActive { get; set; }
-    public DateTime RegisterDate { get; set; }
+    public Price BuyPrice { get; set; } = new Price(0);
+    public Price SellPrice { get; set; } = new Price(0);
+    public InventoryItemCount Count { get; set; } = new InventoryItemCount(0);
+    public bool IsActive { get; set; } = true;
+    public DateTime RegisterDate { get; set; } = DateTime.UtcNow;
 
 
-    public float? CountLowerBound { get; set; }
+    public float CountLowerBound { get; set; } = 0;
 
 }

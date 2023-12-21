@@ -23,11 +23,11 @@ public class InventoryItemAggregateConfig : IEntityTypeConfiguration<InventoryIt
         });
         builder.OwnsOne(a => a.BuyPrice, b =>
         {
-            b.Property(c => c.Value).HasColumnName("BuyPrice").IsRequired(false);
+            b.Property(c => c.Value).HasColumnName("BuyPrice").IsRequired(true);
         });
         builder.OwnsOne(a => a.SellPrice, b =>
         {
-            b.Property(c => c.Value).HasColumnName("SellPrice").IsRequired(false);
+            b.Property(c => c.Value).HasColumnName("SellPrice").IsRequired(true);
         });
         builder.Property(a => a.BuyPriceHistory)
         .HasConversion(

@@ -17,7 +17,7 @@ public class ServiceAggregateConfig : IEntityTypeConfiguration<ServiceAggregate>
         });
         builder.OwnsOne(a => a.DefaultPrice, b =>
         {
-            b.Property(c => c.Value).HasColumnName("DefaultPrice").IsRequired(false);
+            b.Property(c => c.Value).HasColumnName("DefaultPrice").IsRequired(true);
         });
 
         builder.Property(a => a.DefaultPricecHistory)

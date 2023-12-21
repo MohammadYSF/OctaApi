@@ -17,7 +17,8 @@ public static class ServiceExtentions
     {
         string connectionString = configuration.GetConnectionString("OAS");
 
-        services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(connectionString) , ServiceLifetime.Singleton);
+        services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(connectionString));
+        services.AddDbContext<WriteDbContext>(opt => opt.UseNpgsql(connectionString));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IInventoryItemHistoryRepository, InventoryItemHistoryRepository>();
         services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();

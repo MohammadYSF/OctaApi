@@ -17,6 +17,6 @@ namespace Domain.SellInvoice.Entities
         }
         public Guid SellInvoiceId{ get; private set; }
         public Guid InventoryItemId{ get; private set; }
-        public float Count{ get; private set; }
+        public float Count { get; private set; } = 0;
     }
 }

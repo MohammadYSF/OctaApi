@@ -6,7 +6,11 @@ namespace OctaApi.Domain;
     public abstract class AggregateRoot : Entity
     {
         private readonly List<DomainEvent> _domainEvents = new List<DomainEvent>();
-        public virtual IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
+        public IReadOnlyList<DomainEvent> GetDomainEvents()
+    {
+        return _domainEvents;
+    }    
+    //public virtual IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
 
         protected virtual void AddDomainEvent(DomainEvent newEvent)
         {

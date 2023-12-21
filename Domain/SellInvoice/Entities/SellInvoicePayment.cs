@@ -6,5 +6,5 @@ public class SellInvoicePayment:Entity
     public Guid SellInvoiceId { get; set; }
     public SellInvoicePaymentDate PaidDate{ get; set; }
     public SellInvoicePaymentTrackCode PaymentTrackCode{ get; set; }
-    public SellInvoicePaidAmount PaidAmount{ get; set; }
+    public SellInvoicePaidAmount PaidAmount { get; set; } = new SellInvoicePaidAmount(0);
 }

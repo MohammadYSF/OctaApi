@@ -9,7 +9,6 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
 {
     public void Configure(EntityTypeBuilder<SellInvoiceAggregate> builder)
     {
-
         builder.OwnsOne(a => a.Code, b =>
         {
             b.Property(c => c.Value).HasColumnName("Code").IsRequired(true);
@@ -20,7 +19,7 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
         });
         builder.OwnsOne(a => a.Discount, b =>
         {
-            b.Property(c => c.Value).HasColumnName("Discount").IsRequired(false);
+            b.Property(c => c.Value).HasColumnName("Discount").IsRequired(true);
         });
         builder.OwnsOne(a => a.CreateDate, b =>
         {
@@ -28,12 +27,25 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
         });
         builder.OwnsMany(a => a.Payments, b =>
         {
-            b.ToTable("SellInvoicePayments");            
+            b.ToTable("SellInvoicePayments");
             b.WithOwner().HasForeignKey("SellInvoiceId");
             b.Property(c => c.Id)
             .ValueGeneratedNever()
             ;
             b.HasKey("Id", "SellInvoiceId");
+            b.OwnsOne(c => c.PaidAmount, d =>
+            {
+                d.Property(e => e.Value).HasColumnName("PaidAmount").IsRequired(true);
+            });
+            b.OwnsOne(c => c.PaymentTrackCode, d =>
+            {
+                d.Property(e => e.Value).HasColumnName("PaymentTrackCode").IsRequired(true);
+            });
+            b.OwnsOne(c => c.PaidDate, d =>
+            {
+                d.Property(e => e.Value).HasColumnName("PaidDate").IsRequired(true);
+            });
+    
         });
         builder.OwnsMany(a => a.Services, b =>
         {
@@ -43,6 +55,11 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
             .ValueGeneratedNever()
             ;
             b.HasKey("Id", "SellInvoiceId");
+            b.OwnsOne(c => c.ServicePrice, d =>
+            {
+                d.Property(e => e.Value).HasColumnName("ServicePrice").IsRequired(true);
+            });
+            b.Property(c => c.ServiceId).HasColumnName("ServiceId").IsRequired(true);
         });
         builder.OwnsMany(a => a.InventoryItems, b =>
         {
@@ -52,6 +69,9 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
             .ValueGeneratedNever()
             ;
             b.HasKey("Id", "SellInvoiceId");
+            b.Property(c => c.Count).HasColumnName("Count").IsRequired(true);
+            b.Property(c => c.InventoryItemId).HasColumnName("InventoryItemId").IsRequired(true);
+
         });
     }
 }
