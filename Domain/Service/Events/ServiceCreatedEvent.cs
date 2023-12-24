@@ -18,4 +18,5 @@ public class ServiceCreatedEvent:DomainEvent
     public string Name{ get; set; }
     public long DefaultPrice{ get; set; }
     public int Code { get; set; }
+    public DateTime CreateDateTime { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Repositories.Command;
+using MediatR;
 using OctaApi.Application.Repositories;
 using OctaApi.Domain.Models;
 using System;
@@ -14,12 +15,12 @@ namespace OctaApi.Application.Features.InvoiceFeatures.GetInvoicePaymentInfo
     public sealed class GetInvoicePaymentInfoHandler : IRequestHandler<GetInvoicePaymentInfoRequest, GetInvoicePaymentInfoResponse>
     {
         private readonly IInvoiceRepository _invoiceRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerCommandRepository _customerRepository;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly IServiceHistoryRepository _serviceHistoryRepository;
 
-        public GetInvoicePaymentInfoHandler(IInvoiceRepository invoiceRepository, ICustomerRepository customerRepository, IVehicleRepository vehicleRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IServiceHistoryRepository serviceHistoryRepository)
+        public GetInvoicePaymentInfoHandler(IInvoiceRepository invoiceRepository, ICustomerCommandRepository customerRepository, IVehicleRepository vehicleRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IServiceHistoryRepository serviceHistoryRepository)
         {
             _invoiceRepository = invoiceRepository;
             _customerRepository = customerRepository;

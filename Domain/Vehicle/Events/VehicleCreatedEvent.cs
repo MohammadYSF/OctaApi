@@ -15,7 +15,8 @@ namespace Domain.Vehicle.Events
 
         }
         public Guid VehicleId { get; set; }
-        public string Code { get; set; }
+        public Guid CustomerId { get; set; }
+        public int Code { get; set; }
         public string Name{ get; set; }
         public string Color{ get; set; }
         public string Plate{ get; set; }

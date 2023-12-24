@@ -1,4 +1,5 @@
 ﻿using Domain.Core;
+using Domain.Service.Events;
 using Domain.Service.ValueObjects;
 using OctaApi.Domain;
 namespace Domain.Service;
@@ -14,6 +15,15 @@ public sealed class ServiceAggregate : AggregateRoot
             Name = new ServiceName(serviceName),
             Code = new ServiceCode(code)
         };
+        serviceAggregate.AddDomainEvent(new ServiceCreatedEvent
+        {
+            Code = code,
+            CreateDateTime = DateTime.UtcNow,
+            DefaultPrice = defaultPrice,
+            EventId = Guid.NewGuid(),
+            Name = serviceName,
+            ServiceId = id,
+        });
         return serviceAggregate;
     }
     public void Delete()
@@ -26,7 +36,7 @@ public sealed class ServiceAggregate : AggregateRoot
         this.DefaultPrice = new Price(newDefaultPrice);
         this.DefaultPricecHistory.Add(new PriceHistory(new Price(newDefaultPrice), DateTime.UtcNow));
 
-    }    
+    }
     public ServiceName Name { get; set; }
     public ServiceCode Code { get; set; }
     public Price DefaultPrice { get; set; } = new Price(0);

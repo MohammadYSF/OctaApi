@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Repositories.Command;
+using MediatR;
 using OctaApi.Application.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace OctaApi.Application.Features.VehicleFeatures.GetAllVehicles
     public sealed record GetAllVehiclesHandler : IRequestHandler<GetAllVehiclesRequest , GetAllVehiclesResponse>
     {
         private readonly IVehicleRepository _vehicleRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerCommandRepository _customerRepository;
 
-        public GetAllVehiclesHandler(IVehicleRepository vehicleRepository, ICustomerRepository customerRepository)
+        public GetAllVehiclesHandler(IVehicleRepository vehicleRepository, ICustomerCommandRepository customerRepository)
         {
             _vehicleRepository = vehicleRepository;
             _customerRepository = customerRepository;

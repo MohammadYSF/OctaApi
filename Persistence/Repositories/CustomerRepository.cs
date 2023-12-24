@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Repositories.Command;
+using Microsoft.EntityFrameworkCore;
 using OctaApi.Application.Features.CustomerFeatures.GetCustomersMinimal;
-using OctaApi.Application.Repositories;
 using OctaApi.Domain.Models;
 using OctaApi.Persistence.Contexts;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Persistence.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : ICustomerCommandRepository
     {
         private readonly ApplicationDbContext _dbContext;
 

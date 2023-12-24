@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Repositories.Command;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OctaApi.Application.Repositories;
@@ -24,7 +25,7 @@ public static class ServiceExtentions
         services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
         services.AddScoped<IServiceRepository, ServiceRepository>();
         services.AddScoped<IServiceHistoryRepository, ServiceHistoryRepository>();
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICustomerCommandRepository, CustomerRepository>();
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IVehicleRepository, VehicleRepository>();
 

@@ -1,6 +1,6 @@
-﻿using Domain.Customer.ValueObjects;
+﻿using Domain.Customer.Events;
+using Domain.Customer.ValueObjects;
 using OctaApi.Domain;
-using OctaApi.Domain.Models;
 namespace Domain.Customer;
 public class CustomerAggregate : AggregateRoot
 {
@@ -20,11 +20,30 @@ public class CustomerAggregate : AggregateRoot
             LastName = new CustomerLastName(lastName),
             PhoneNumber = new CustomerPhoneNumber(phone)
         };
+        customerAggregate.AddDomainEvent(new CustomerCreatedEvent
+        {
+            Code = code,
+            CustomerId = id,
+            EventId = Guid.NewGuid(),
+            FirstName = firstName,
+            LastName = lastName,
+
+        });
         return customerAggregate;
     }
-    public void AddVehicle(Guid vehicleId)
+    public void AddVehicle(Guid vehicleId, string vehicleName, string vehiclePlate, string vehicleColor)
     {
         this.Vehicles.Add(vehicleId);
+        var vehicleCraetedEvent = new VehicleAddedToCustomerEvent
+        {
+            VehicleColor = vehicleColor,
+            VehicleName = vehicleName,
+            VehiclePlate = vehiclePlate,
+            EventId = Guid.NewGuid(),
+            VehicleId = vehicleId,
+            CustomerId = this.Id,
+        };
+        this.AddDomainEvent(vehicleCraetedEvent);
     }
     public void RemoveVehicle(Guid vehicleId)
     {

@@ -1,27 +1,22 @@
-﻿using MediatR;
-using OctaApi.Application.Repositories;
+﻿using Application.Repositories.Command;
+using Application.Repositories.Query;
+using MediatR;
 using OctaApi.Domain.Models;
 namespace OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 
 public sealed class GetCustomersHandler : IRequestHandler<GetCustomersRequest, GetCustomersResponse>
 {
-    private ICustomerRepository _customerRepository;
+    //private ICustomerCommandRepository _customerRepository;
 
-    public GetCustomersHandler(ICustomerRepository customerRepository)
+    private ICustomerQueryRepository _customerQueryRepository;
+    public GetCustomersHandler(ICustomerQueryRepository customerQueryRepository)
     {
-        _customerRepository = customerRepository;
+        _customerQueryRepository = customerQueryRepository;
     }
 
     public async Task<GetCustomersResponse> Handle(GetCustomersRequest request, CancellationToken cancellationToken)
     {
-        var data = (await _customerRepository.GetAllAsync()).Select((a, i) => new GetCustomersResponse_DTO
-        {
-            Code = a.Code.ToString(),
-            FirstName = a.FirstName,
-            LastName = a.LastName,
-            RowNumber = i + 1,
-            CustomerPhoneNumber = a.PhoneNumber
-        }).ToList();
+        var data = await _customerQueryRepository.GetAsync();
         var response = new GetCustomersResponse
         {
             Count = data.Count(),

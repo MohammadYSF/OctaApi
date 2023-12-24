@@ -1,12 +1,12 @@
-﻿using MediatR;
-using OctaApi.Application.Repositories;
+﻿using Application.Repositories.Command;
+using MediatR;
 namespace OctaApi.Application.Features.CustomerFeatures.GetCustomersMinimal;
 
 public sealed class GetCustomersMinimalHandler : IRequestHandler<GetCustomersMinimalRequest, GetCustomersMinimalResponse>
 {
-    private readonly ICustomerRepository _customerRepository;
+    private readonly ICustomerCommandRepository _customerRepository;
 
-    public GetCustomersMinimalHandler(ICustomerRepository customerRepository)
+    public GetCustomersMinimalHandler(ICustomerCommandRepository customerRepository)
     {
         _customerRepository = customerRepository;
     }

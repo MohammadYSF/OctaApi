@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OctaApi.Application.Repositories
+namespace Application.Repositories.Command
 {
-    public interface ICustomerRepository
+    public interface ICustomerCommandRepository
     {
         //Task<List<GetCustomersMinimal_DTO>> Get();
         Task AddAsync(CustomerAggregate customerAggregate);

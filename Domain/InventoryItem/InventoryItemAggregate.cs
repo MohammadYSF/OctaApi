@@ -10,12 +10,21 @@ public class InventoryItemَAggregate : AggregateRoot
 {
     public static InventoryItemَAggregate Create(Guid id, string name, int code)
     {
-        return new InventoryItemَAggregate
+        var inventoryItemAggregate = new InventoryItemَAggregate
         {
             Id = id,
             Name = new InventoryItemName(name),
             Code = new InventoryItemCode(code),
         };
+        inventoryItemAggregate.AddDomainEvent(new InventoryItemCreatedEvent
+        {
+            Code = code,
+            CreateDateTime = DateTime.UtcNow,
+            EventId = Guid.NewGuid(),
+            InventoryItemId = id,
+            Name = name,
+        });
+        return inventoryItemAggregate;
     }
     public void Delete()
     {

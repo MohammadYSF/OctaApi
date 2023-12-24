@@ -15,5 +15,8 @@ public class VehicleAddedToCustomerEvent:DomainEvent
     }
     public Guid CustomerId { get; set; }
     public Guid VehicleId { get; set; }
+    public string? VehiclePlate { get; set; }
+    public string? VehicleColor{ get; set; }
+    public string? VehicleName{ get; set; }
 
 }
