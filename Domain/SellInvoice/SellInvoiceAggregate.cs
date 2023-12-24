@@ -68,6 +68,15 @@ public class SellInvoiceAggregate : AggregateRoot
         });
         return agg;
     }
+    public void Delete()
+    {
+        if (this.IsClosed) return; //todo throw exception
+        this.AddDomainEvent(new SellInvoiceDeletedEvent
+        {
+            EventId = Guid.NewGuid(),
+            SellInvoiceId = this.Id            
+        });
+    }
     public void SetUseBuyPrice(bool useBuyPrice)
     {
         this.UseBuyPrice = useBuyPrice;

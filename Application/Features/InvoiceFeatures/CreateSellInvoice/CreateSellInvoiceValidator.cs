@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice;
 
-namespace OctaApi.Application.Features.InvoiceFeatures.CreateInvoice
+namespace OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
+public class CreateSellInvoiceValidator : AbstractValidator<CreateSellInvoiceRequest>
 {
-    internal class CreateSellInvoiceValidator
+    public CreateSellInvoiceValidator()
     {
+        RuleFor(a => a.VehicleId)
+            .NotNull()
+            .NotEmpty();
+        RuleFor(a => a.CustomerId)
+    .NotNull()
+    .NotEmpty();
     }
 }

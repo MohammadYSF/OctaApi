@@ -15,11 +15,13 @@ namespace OctaApi.Application.Repositories
         Task AddAsync(InventoryItemَAggregate inventoryItemAggregate);
         //void Update(InventoryItem entity);
         Task UpdateAsync(InventoryItemَAggregate inventoryItemAggregate);
+        Task UpdateAsync(List<InventoryItemَAggregate> inventoryItemAggregates);
         void Delete(InventoryItem entity);
         //Task<int> GetNewCode();
         Task<int> GenerateNewCodeAsync();
         //Task<InventoryItem?> GetByIdAsync(Guid id);
         Task<InventoryItemَAggregate?> GetByIdAsync(Guid id);
+        Task<List<InventoryItemَAggregate>> GetByIdsAsync(List<Guid> ids);
         //Task<InventoryItem?> GetByCodeAsync(int code);
         Task<InventoryItemَAggregate?> GetByCodeAsync(int code);
 

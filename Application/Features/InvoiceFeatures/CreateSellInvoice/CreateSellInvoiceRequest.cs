@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Application.Features.InvoiceFeatures.CreateInvoice
 {
-    public sealed record CreateSellInvoiceRequest(Guid VehicleId):IRequest<CreateSellInvoiceResponse>;    
+    public sealed record CreateSellInvoiceRequest(Guid VehicleId,Guid CustomerId):IRequest<CreateSellInvoiceResponse>;    
 }

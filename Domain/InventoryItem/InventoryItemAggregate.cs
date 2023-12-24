@@ -25,7 +25,7 @@ public class InventoryItemَAggregate : AggregateRoot
     {
         this.BuyPrice = new Price(buyPrice);
         this.SellPrice = new Price(sellPrice);
-        this.Count = new InventoryItemCount(count);
+        this.Count = new InventoryItemCount(this.Count.Value + count);
         this.BuyPriceHistory.Add(new PriceHistory(new Price(buyPrice), DateTime.UtcNow));
         this.SellPriceHistory.Add(new PriceHistory(new Price(sellPrice), DateTime.UtcNow));
 

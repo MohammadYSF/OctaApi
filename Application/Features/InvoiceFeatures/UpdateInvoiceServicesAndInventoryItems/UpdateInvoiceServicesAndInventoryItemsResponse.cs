@@ -1,10 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OctaApi.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndInventoryItems
-{
-    public sealed record UpdateInvoiceServicesAndInventoryItemsResponse(Guid InvoiceId);
-}
+﻿namespace OctaApi.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndInventoryItems;
+//public sealed record UpdateInvoiceServicesAndInventoryItemsResponse(Guid InvoiceId);
+public sealed record UpdateInvoiceServicesAndInventoryItemsResponse();

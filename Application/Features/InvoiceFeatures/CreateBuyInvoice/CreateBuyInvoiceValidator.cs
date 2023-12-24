@@ -12,6 +12,9 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice
     {
         public CreateBuyInvoiceValidator()
         {
+            RuleFor(a => a.Dtos)
+                .NotNull()
+                .NotEmpty();
             RuleForEach(a => a.Dtos);
         }
     }
