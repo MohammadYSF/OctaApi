@@ -1,42 +1,44 @@
-﻿using AutoMapper;
+﻿using Application.Repositories;
+using AutoMapper;
 using MediatR;
 using OctaApi.Application.Repositories;
-using OctaApi.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OctaApi.Application.Features.InventoryFeatures.DeleteService
+namespace OctaApi.Application.Features.InventoryFeatures.DeleteService;
+public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest, DeleteServiceResponse>
 {
-    public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest, DeleteServiceResponse>
+    private readonly IServiceRepository _serviceRepository;
+    private readonly IServiceHistoryRepository _serviceHistoryRepository;
+    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IEventBus _eventBus;
+
+
+    public DeleteServiceHandler(IServiceRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
     {
-        private readonly IServiceRepository _serviceRepository;
-        private readonly IServiceHistoryRepository _serviceHistoryRepository;
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public DeleteServiceHandler(IServiceRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper)
-        {
-            _serviceRepository = serviceRepository;
-            _serviceHistoryRepository = serviceHistoryRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<DeleteServiceResponse> Handle(DeleteServiceRequest request, CancellationToken cancellationToken)
-        {
-            var service = await  _serviceRepository.GetByCode(request.Code);
-            if (service == null)
-                throw new Exception(""); //todo
-            service.IsActive = false;
-            var serviceHistory = _mapper.Map<ServiceHistory>(service);            
-            _serviceRepository.Update(service);
-            await _serviceHistoryRepository.AddAsync(serviceHistory);
-            await _unitOfWork.SaveAsync(cancellationToken);
-            var response = new DeleteServiceResponse(service.Id);
-            return response;
-        }
-
+        _serviceRepository = serviceRepository;
+        _serviceHistoryRepository = serviceHistoryRepository;
+        _mapper = mapper;
+        _eventBus = eventBus;
     }
+
+    public async Task<DeleteServiceResponse> Handle(DeleteServiceRequest request, CancellationToken cancellationToken)
+    {
+        var serviceAggregate = await _serviceRepository.GetByCodeAsync(request.Code);
+        if (serviceAggregate == null)
+            throw new Exception(""); //todo
+        //service.IsActive = false;
+        //var serviceHistory = _mapper.Map<ServiceHistory>(service);            
+        //_serviceRepository.Update(service);
+        //await _serviceHistoryRepository.AddAsync(serviceHistory);
+        serviceAggregate.Delete();
+        await _serviceRepository.UpdateAsync(serviceAggregate);
+        await _unitOfWork.SaveAsync(cancellationToken);
+        foreach (var item in serviceAggregate.GetDomainEvents())
+        {
+            await _eventBus.PublishAsync(item);
+        }
+        //var response = new DeleteServiceResponse(service.Id);
+        var response = new DeleteServiceResponse();
+        return response;
+    }
+
 }

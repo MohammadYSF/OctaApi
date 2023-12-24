@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Application.Features.InventoryFeatures.DeleteService
 {
-    public sealed record DeleteServiceResponse(Guid ServiceId);
+    public sealed record DeleteServiceResponse();
  
 }

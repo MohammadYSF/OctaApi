@@ -9,6 +9,10 @@ namespace Domain.Customer.Events;
 
 public class VehicleAddedToCustomerEvent:DomainEvent
 {
+    public VehicleAddedToCustomerEvent() : base(nameof(VehicleAddedToCustomerEvent))
+    {
+
+    }
     public Guid CustomerId { get; set; }
     public Guid VehicleId { get; set; }
 

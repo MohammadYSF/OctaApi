@@ -11,12 +11,13 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddService
     {
         public AddServiceValidator()
         {
-            RuleFor(x => x.Name).
-                NotEmpty().
-                MaximumLength(255);
+            RuleFor(x => x.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(255);
             RuleFor(x => x.DefaultPrice)
                 .NotNull()
-            .GreaterThan(0);
+                .GreaterThan(0);
         }
     }
 }

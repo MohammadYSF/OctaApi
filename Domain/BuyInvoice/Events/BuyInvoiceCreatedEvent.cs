@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace Domain.BuyInvoice.Events;
 
-public class BuyInvoiceCreatedEvent:DomainEvent
+public class BuyInvoiceCreatedEvent : DomainEvent
 {
-    public Guid BuyInvoiced{ get; set; }
-    public DateTime BuyDate{ get; set; }
+    public BuyInvoiceCreatedEvent() : base(nameof(BuyInvoiceCreatedEvent))
+    {
+
+    }
+
+    public Guid BuyInvoiced { get; set; }
+    public DateTime BuyDate { get; set; }
     public string Code { get; set; }
-    public string SellerName{ get; set; }
-    public long TotalPrice{ get; set; }
+    public string SellerName { get; set; }
+    public long TotalPrice { get; set; }
 }

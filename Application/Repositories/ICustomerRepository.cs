@@ -1,4 +1,5 @@
-﻿using OctaApi.Application.Features.CustomerFeatures.GetCustomersMinimal;
+﻿using Domain.Customer;
+using OctaApi.Application.Features.CustomerFeatures.GetCustomersMinimal;
 using OctaApi.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,17 @@ namespace OctaApi.Application.Repositories
     public interface ICustomerRepository
     {
         //Task<List<GetCustomersMinimal_DTO>> Get();
-        Task<Customer?> GetByIdAsync(Guid id);
-        Task AddAsync(Customer entity);
-        Task<List<Customer>> GetAllAsync();
-        void Delete(Customer entity);
-        void Update(Customer entity);
-        Task<int> GetNewVehicleCode();
-        Task<int> GetNewCustomerCode();
+        Task AddAsync(CustomerAggregate customerAggregate);
+        Task<CustomerAggregate?> GetByIdAsync(Guid id);
+
+        //Task<Customer?> GetByIdAsync(Guid id);
+        //Task AddAsync(Customer entity);
+        //Task<List<Customer>> GetAllAsync();
+        Task DeleteAsync(CustomerAggregate customerAggregate);
+        //void Delete(Customer entity);
+        Task UpdateAsync(CustomerAggregate customerAggregate);
+        //void Update(Customer entity);
+        //Task<int> GetNewVehicleCode();
+        Task<int> GenerateNewCustomerCodeAsync();
     }
 }

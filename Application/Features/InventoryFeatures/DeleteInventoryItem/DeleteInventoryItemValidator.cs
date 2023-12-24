@@ -14,6 +14,7 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddService
         {
             RuleFor(x => x.Code)
           .NotNull()
+          .NotEmpty()
           .GreaterThan(0);
         }
     }

@@ -1,50 +1,48 @@
-﻿using AutoMapper;
+﻿using Application.Repositories;
+using AutoMapper;
 using MediatR;
-using OctaApi.Application.Features.InventoryFeatures.UpdateService;
 using OctaApi.Application.Repositories;
-using OctaApi.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OctaApi.Application.Features.InventoryFeatures.UpdateInventoryItem
+namespace OctaApi.Application.Features.InventoryFeatures.UpdateInventoryItem;
+public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemRequest, UpdateInventoryItemResponse>
 {
-    public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemRequest, UpdateInventoryItemResponse>
+    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IInventoryItemRepository _inventoryItemRepository;
+    private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
+    private readonly IEventBus _eventBus;
+    public UpdateInventoryItemHandler(IMapper mapper, IUnitOfWork unitOfWork, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus)
     {
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IInventoryItemRepository _inventoryItemRepository;
-        private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
-
-        public UpdateInventoryItemHandler(IMapper mapper, IUnitOfWork unitOfWork, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository)
+        _mapper = mapper;
+        _unitOfWork = unitOfWork;
+        _inventoryItemRepository = inventoryItemRepository;
+        _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
+        _eventBus = eventBus;
+    }
+    public async Task<UpdateInventoryItemResponse> Handle(UpdateInventoryItemRequest request, CancellationToken cancellationToken)
+    {
+        var inventoryItemAggregate = await _inventoryItemRepository.GetByIdAsync(request.Id);
+        //InventoryItem? inventoryItem = await _inventoryItemRepository.GetByIdAsync(request.Id);
+        if (inventoryItemAggregate == null)
+            throw new Exception("");
+        //var inventoryItemNew = _mapper.Map<InventoryItem>(request);
+        //inventoryItem.Code = inventoryItem.Code;
+        //inventoryItem.SellPrice = request.SellPrice;
+        //inventoryItem.BuyPrice = request.BuyPrice;
+        //inventoryItem.Count = request.Count;
+        //inventoryItem.CountLowerBound = request.CountLowerBound;
+        //inventoryItem.Name = request.Name;
+        inventoryItemAggregate.Update(request.Name, request.BuyPrice, request.SellPrice, request.Count);
+        await _inventoryItemRepository.UpdateAsync(inventoryItemAggregate);
+        //_inventoryItemRepository.Update(inventoryItem);
+        //var inventoryItemHistory = _mapper.Map<InventoryItemHistory>(inventoryItem);
+        //await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistory);            
+        await _unitOfWork.SaveAsync(cancellationToken);
+        foreach (var item in inventoryItemAggregate.GetDomainEvents())
         {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
-            _inventoryItemRepository = inventoryItemRepository;
-            _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
+            await _eventBus.PublishAsync(item);
         }
-
-        public async Task<UpdateInventoryItemResponse> Handle(UpdateInventoryItemRequest request, CancellationToken cancellationToken)
-        {
-            InventoryItem? inventoryItem = await _inventoryItemRepository.GetByIdAsync(request.Id);
-            if (inventoryItem == null)
-                throw new Exception("");
-            //var inventoryItemNew = _mapper.Map<InventoryItem>(request);
-            //inventoryItem.Code = inventoryItem.Code;
-            inventoryItem.SellPrice = request.SellPrice;
-            inventoryItem.BuyPrice = request.BuyPrice;
-            inventoryItem.Count = request.Count;
-            inventoryItem.CountLowerBound = request.CountLowerBound;
-            inventoryItem.Name = request.Name;            
-            _inventoryItemRepository.Update(inventoryItem);
-            var inventoryItemHistory = _mapper.Map<InventoryItemHistory>(inventoryItem);
-            await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistory);
-            await _unitOfWork.SaveAsync(cancellationToken);
-
-            var response = new UpdateInventoryItemResponse(inventoryItem.Id);
-            return response;
-        }
+        //var response = new UpdateInventoryItemResponse(inventoryItem.Id);
+        var response = new UpdateInventoryItemResponse();
+        return response;
     }
 }

@@ -16,6 +16,10 @@ public sealed class ServiceAggregate : AggregateRoot
         };
         return serviceAggregate;
     }
+    public void Delete()
+    {
+        this.IsActive = false;
+    }
     public void Update(string newServiceName, long newDefaultPrice)
     {
         this.Name = new ServiceName(newServiceName);
@@ -27,6 +31,7 @@ public sealed class ServiceAggregate : AggregateRoot
     public ServiceCode Code { get; set; }
     public Price DefaultPrice { get; set; } = new Price(0);
     public List<PriceHistory> DefaultPricecHistory { get; set; } = new();
+    public bool IsActive { get; set; } = true;
 
 
 }

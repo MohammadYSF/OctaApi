@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem
 {
-    public sealed record DeleteInventoryItemResponse(Guid InventoryItemId);
+    public sealed record DeleteInventoryItemResponse();
 
 }

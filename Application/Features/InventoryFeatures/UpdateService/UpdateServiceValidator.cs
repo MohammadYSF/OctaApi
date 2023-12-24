@@ -12,9 +12,10 @@ namespace OctaApi.Application.Features.InventoryFeatures.UpdateService
     {
         public UpdateServiceValidator()
         {
-            RuleFor(x => x.Name).
-                NotEmpty().
-                MaximumLength(255);
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .NotEmpty()
+                .MaximumLength(255);
             RuleFor(x => x.DefaultPrice)
                 .NotNull()
             .GreaterThan(0);

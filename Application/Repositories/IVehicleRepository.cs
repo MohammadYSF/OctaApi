@@ -1,4 +1,5 @@
-﻿using OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;
+﻿using Domain.Vehicle;
+using OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;
 using OctaApi.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,13 @@ namespace OctaApi.Application.Repositories
 {
     public interface IVehicleRepository
     {
-        Task<List<Vehicle>> GetAllAsync();
+        //Task<List<Vehicle>> GetAllAsync();
         //Task<List<GetVehiclesMinimal_DTO>> Get();
-        Task<Vehicle?> GetByIdAsync(Guid id);
+        Task AddAsync(List<VehicleAggregate> vehicleAggregates);
+        Task AddAsync(VehicleAggregate vehicleAggregate);
+        Task<VehicleAggregate> GetByIdAsync(Guid id);
+        Task<int> GenerateNewVehicleCodeAsync();
+        Task<List<int>> GenerateNewVehicleCodesAsync(int count);
+
     }
 }

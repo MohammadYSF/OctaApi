@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Application.Features.InventoryFeatures.AddService
 {
-    public sealed record AddServiceResponse(Guid Id);
+    public sealed record AddServiceResponse();
 }

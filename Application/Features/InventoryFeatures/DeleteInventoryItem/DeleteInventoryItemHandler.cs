@@ -1,41 +1,41 @@
-﻿using AutoMapper;
+﻿using Application.Repositories;
+using AutoMapper;
 using OctaApi.Application.Features.InventoryFeatures.DeleteService;
 using OctaApi.Application.Repositories;
-using OctaApi.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem
+namespace OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem;
+public class DeleteInventoryItemHandler
 {
-    public class DeleteInventoryItemHandler
+    private readonly IInventoryItemRepository _inventoryItemRepository;
+    private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
+    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IEventBus _eventBus;
+    public DeleteInventoryItemHandler(IInventoryItemRepository serviceRepository, IInventoryItemHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
     {
-        private readonly IInventoryItemRepository  _inventoryItemRepository;
-        private readonly IInventoryItemHistoryRepository  _inventoryItemHistoryRepository;
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        _inventoryItemRepository = serviceRepository;
+        _inventoryItemHistoryRepository = serviceHistoryRepository;
+        _mapper = mapper;
+        _eventBus = eventBus;
+    }
 
-        public DeleteInventoryItemHandler(IInventoryItemRepository serviceRepository, IInventoryItemHistoryRepository serviceHistoryRepository, IMapper mapper)
+    public async Task<DeleteInventoryItemResponse> Handle(DeleteServiceRequest request, CancellationToken cancellationToken)
+    {
+        var inventoryItemAggregaet = await _inventoryItemRepository.GetByCodeAsync(request.Code);
+        if (inventoryItemAggregaet == null)
+            throw new Exception(""); //todo
+        //inventoryItem.IsActive = false;
+        //var inventoryItemHistory = _mapper.Map<InventoryItemHistory>(inventoryItem);
+        //_inventoryItemRepository.Update(inventoryItem);
+        //await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistory);
+        inventoryItemAggregaet.Delete();
+        await _inventoryItemRepository.UpdateAsync(inventoryItemAggregaet);
+        await _unitOfWork.SaveAsync(cancellationToken);
+        foreach (var item in inventoryItemAggregaet.GetDomainEvents())
         {
-            _inventoryItemRepository = serviceRepository;
-            _inventoryItemHistoryRepository = serviceHistoryRepository;
-            _mapper = mapper;
+            await _eventBus.PublishAsync(item);
         }
-
-        public async Task<DeleteInventoryItemResponse> Handle(DeleteServiceRequest request, CancellationToken cancellationToken)
-        {
-            var inventoryItem = await _inventoryItemRepository.GetByCodeAsync(request.Code);
-            if (inventoryItem == null)
-                throw new Exception(""); //todo
-            inventoryItem.IsActive = false;
-            var inventoryItemHistory = _mapper.Map<InventoryItemHistory>(inventoryItem);
-            _inventoryItemRepository.Update(inventoryItem);
-            await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistory);
-            await _unitOfWork.SaveAsync(cancellationToken);
-            var response = new DeleteInventoryItemResponse(inventoryItem.Id);
-            return response;
-        }
+        //var response = new DeleteInventoryItemResponse(inventoryItem.Id);
+        var response = new DeleteInventoryItemResponse();
+        return response;
     }
 }

@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using Application.Repositories;
+using AutoMapper;
 using MediatR;
 using OctaApi.Application.Repositories;
+using OctaApi.Domain.InventoryItem;
 using OctaApi.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -16,28 +18,39 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddInventoryItem
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEventBus _eventBus;
 
-        public AddInventoryItemHandler(IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        public AddInventoryItemHandler(IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, IMapper mapper, IUnitOfWork unitOfWork, IEventBus eventBus)
         {
             _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
             _inventoryItemRepository = inventoryItemRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _eventBus = eventBus;
         }
 
         public async Task<AddInventoryItemResponse> Handle(AddInventoryItemRequest request, CancellationToken cancellationToken)
         {
-            var inventoryItemToAdd = _mapper.Map<InventoryItem>(request);
-            int code = await _inventoryItemRepository.GetNewCode();
-            inventoryItemToAdd.Code = code;
-            await _inventoryItemRepository.AddAsync(inventoryItemToAdd);
-            var inventoryItemHistoryToAdd = _mapper.Map<InventoryItemHistory>(request);
-            inventoryItemHistoryToAdd.InventoryItemId = inventoryItemToAdd.Id;
-            inventoryItemHistoryToAdd.Code = code;
-            await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistoryToAdd);
-            var response = new AddInventoryItemResponse(inventoryItemToAdd.Id);
+            int code = await _inventoryItemRepository.GenerateNewCodeAsync();
+            //var inventoryItemToAdd = _mapper.Map<InventoryItem>(request);
+            //int code = await _inventoryItemRepository.GetNewCode();
+            var inventoryItemAggregate = InventoryItemَAggregate.Create(Guid.NewGuid(), request.Name, code);
+
+            //inventoryItemToAdd.Code = code;
+            await _inventoryItemRepository.AddAsync(inventoryItemAggregate);
+            //await _inventoryItemRepository.AddAsync(inventoryItemToAdd);
+            //var inventoryItemHistoryToAdd = _mapper.Map<InventoryItemHistory>(request);
+            //inventoryItemHistoryToAdd.InventoryItemId = inventoryItemToAdd.Id;
+            //inventoryItemHistoryToAdd.Code = code;
+            //await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistoryToAdd);
+            //var response = new AddInventoryItemResponse(inventoryItemToAdd.Id);
             await _unitOfWork.SaveAsync(cancellationToken);
-            return response;
+            foreach (var item in inventoryItemAggregate.GetDomainEvents())
+            {
+                await _eventBus.PublishAsync(item);
+            }
+            //return response;
+            return new AddInventoryItemResponse();
         }
     }
 }

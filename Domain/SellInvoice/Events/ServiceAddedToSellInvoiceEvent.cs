@@ -1,4 +1,5 @@
-﻿using OctaApi.Domain.Common;
+﻿using Domain.InventoryItem.Events;
+using OctaApi.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace Domain.SellInvoice.Events;
 
 public class ServiceAddedToSellInvoiceEvent:DomainEvent
 {
+    public ServiceAddedToSellInvoiceEvent() : base(nameof(ServiceAddedToSellInvoiceEvent))
+    {
+
+    }
     public Guid SellInvoiceServiceId { get; set; }
     public Guid SellInvoiceId { get; set; }
     public Guid ServiceId { get; set; }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OctaApi.Application.Features.InventoryFeatures.UpdateService
+﻿namespace OctaApi.Application.Features.InventoryFeatures.UpdateService
 {
-    public sealed record UpdateServiceResponse(Guid Id);
+    public sealed record UpdateServiceResponse();
 
 }

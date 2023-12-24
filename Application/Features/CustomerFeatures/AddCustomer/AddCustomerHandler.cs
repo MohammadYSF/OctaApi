@@ -1,39 +1,51 @@
-﻿using AutoMapper;
+﻿using Application.Repositories;
+using AutoMapper;
+using Domain.Customer;
+using Domain.Vehicle;
 using MediatR;
 using OctaApi.Application.DomainModels;
 using OctaApi.Application.Repositories;
+using OctaApi.Domain.InventoryItem.ValueObjects;
 using OctaApi.Domain.Models;
 namespace OctaApi.Application.Features.CustomerFeatures.AddCustomer;
 public class AddCustomerHandler : IRequestHandler<AddCustomerRequest, AddCustomerResponse>
 {
     private readonly ICustomerRepository _customerRepository;
+    private readonly IVehicleRepository _vehicleRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IEventBus _eventBus;
 
-    public AddCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public AddCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork, IMapper mapper, IEventBus eventBus)
     {
         _customerRepository = customerRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _eventBus = eventBus;
     }
 
     public async Task<AddCustomerResponse> Handle(AddCustomerRequest request, CancellationToken cancellationToken)
     {
-        var customer = _mapper.Map<Customer>(request);
-        var vehicles = request.VehicleDTOs.Select(dto => _mapper.Map<Vehicle>(dto)).ToList();
-        int i = 0;
-        foreach (var vehicle in vehicles)
+        //var customer = _mapper.Map<Customer>(request);
+        var customerId = Guid.NewGuid();
+        int customerCode = await _customerRepository.GenerateNewCustomerCodeAsync();
+        var customerAggregate = CustomerAggregate.Create(customerId, customerCode, request.FirstName, request.LastName, request.phoneNumber);
+        List<VehicleAggregate> vehicleAggregates = new();
+        List<int> newlyGeneratedVehicleCodes = await _vehicleRepository.GenerateNewVehicleCodesAsync(request.VehicleDTOs.Count);
+        for (int k = 0; k < newlyGeneratedVehicleCodes.Count; k++)
         {
-            vehicle.Id = Guid.NewGuid();
-            vehicle.Code = await _customerRepository.GetNewVehicleCode() + i;
-            vehicle.RegisterDate = DateTime.Now;
-            i++;
+            var vehicleId = Guid.NewGuid();
+            vehicleAggregates.Add(VehicleAggregate.Create(vehicleId, newlyGeneratedVehicleCodes[k], request.VehicleDTOs[k].Name, request.VehicleDTOs[k].Plate, request.VehicleDTOs[k].Color));
+            customerAggregate.AddVehicle(vehicleId);
         }
-        customer.Code = await _customerRepository.GetNewCustomerCode();
-        customer.Vehicles = vehicles;
-        await _customerRepository.AddAsync(customer);
+        await _customerRepository.AddAsync(customerAggregate);
+        await _vehicleRepository.AddAsync(vehicleAggregates);
         await _unitOfWork.SaveAsync(cancellationToken);
-        var response = new AddCustomerResponse(customer.Id, customer.Vehicles.Select(a => new VehicleDTO(a.Name, a.Plate, a.Color, a.Code.ToString())).ToList());
+        foreach (var item in customerAggregate.GetDomainEvents())
+        {
+            await _eventBus.PublishAsync(item);
+        }
+        var response = new AddCustomerResponse();
         return response;
     }
 }

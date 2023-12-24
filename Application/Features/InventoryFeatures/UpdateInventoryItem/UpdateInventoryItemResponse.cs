@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Application.Features.InventoryFeatures.UpdateInventoryItem
 {
-    public sealed record UpdateInventoryItemResponse(Guid Id);
+    public sealed record UpdateInventoryItemResponse();
 
 }

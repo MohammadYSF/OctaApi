@@ -12,9 +12,10 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddInventoryItem
     {
         public AddInventoryItemValidator()
         {
-            RuleFor(x => x.Name).
-                NotEmpty().
-                MaximumLength(255);
+            RuleFor(x => x.Name)
+                .NotNull()
+                .NotEmpty()
+                .MaximumLength(255);
         }
     }
 }

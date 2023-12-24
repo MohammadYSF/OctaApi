@@ -46,7 +46,7 @@ namespace OctaApi.Persistence.Repositories
             return await _dbContext.Customers.FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<int> GetNewCustomerCode()
+        public async Task<int> GenerateNewCustomerCodeAsync()
         {
             if (_dbContext.Customers.Count() == 0)
             {

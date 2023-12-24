@@ -1,4 +1,5 @@
-﻿using OctaApi.Domain.Common;
+﻿using Domain.BuyInvoice.Events;
+using OctaApi.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace Domain.Service.Events;
 
 public class ServiceCreatedEvent:DomainEvent
 {
+    public ServiceCreatedEvent() : base(nameof(ServiceCreatedEvent))
+    {
+
+    }
     public Guid ServiceId { get; set; }
     public string Name{ get; set; }
     public long DefaultPrice{ get; set; }

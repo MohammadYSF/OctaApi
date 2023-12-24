@@ -17,6 +17,10 @@ public class InventoryItemَAggregate : AggregateRoot
             Code = new InventoryItemCode(code),
         };
     }
+    public void Delete()
+    {
+        this.IsActive = false;
+    }
     public void Buy(long buyPrice, long sellPrice, float count)
     {
         this.BuyPrice = new Price(buyPrice);
