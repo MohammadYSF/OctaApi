@@ -18,4 +18,5 @@ public class ServiceAddedToSellInvoiceEvent:DomainEvent
     public Guid SellInvoiceId { get; set; }
     public Guid ServiceId { get; set; }
     public long Price{ get; set; }
+
 }

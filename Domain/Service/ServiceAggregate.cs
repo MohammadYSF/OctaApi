@@ -32,9 +32,19 @@ public sealed class ServiceAggregate : AggregateRoot
     }
     public void Update(string newServiceName, long newDefaultPrice)
     {
+        var dateTimeNow = DateTime.UtcNow;
         this.Name = new ServiceName(newServiceName);
         this.DefaultPrice = new Price(newDefaultPrice);
-        this.DefaultPricecHistory.Add(new PriceHistory(new Price(newDefaultPrice), DateTime.UtcNow));
+        this.DefaultPricecHistory.Add(new PriceHistory(new Price(newDefaultPrice), dateTimeNow));
+        this.AddDomainEvent(new ServiceUpdatedEvent
+        {
+            EventId = Guid.NewGuid(),
+            NewDefaultPrice = newDefaultPrice,
+            NewName = newServiceName,
+            ServiceId = Guid.NewGuid(),
+            UpdateDate = dateTimeNow,
+            Code = this.Code.Value
+        });
 
     }
     public ServiceName Name { get; set; }

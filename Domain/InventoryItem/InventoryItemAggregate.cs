@@ -28,7 +28,7 @@ public class InventoryItemَAggregate : AggregateRoot
     }
     public void Delete()
     {
-        this.IsActive = false;
+        this.IsActive = false;        
     }
     public void Buy(long buyPrice, long sellPrice, float count)
     {
@@ -57,6 +57,18 @@ public class InventoryItemَAggregate : AggregateRoot
         this.Count = new InventoryItemCount(newCount);
         this.BuyPriceHistory.Add(new PriceHistory(new Price(newBuyPrice), DateTime.UtcNow));
         this.SellPriceHistory.Add(new PriceHistory(new Price(newSellPrice), DateTime.UtcNow));
+
+        this.AddDomainEvent(new InventoryItemUpdatedEvent
+        {
+            InventoryItemId = this.Id,
+            EventId = Guid.NewGuid(),
+            NewBuyPrice = newBuyPrice,
+            NewCount = newCount,
+            NewName = name,
+            NewSellPrice = newSellPrice,
+            UpdateDate = DateTime.UtcNow,
+            Code = this.Code.Value
+        });
     }
     public void Use(float count)
     {

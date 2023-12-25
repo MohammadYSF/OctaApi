@@ -10,7 +10,9 @@ public class SellInvoiceRM
     public string? VehicleName { get; set; }
     public string? VehicleCode { get; set; }
     public long TotalPrice { get; set; }
+    public long TotalPriceWhenUsingBuyPrices { get; set; }
     public long Tax { get; set; }
     public long Discount { get; set; }
     public long ToPay { get; set; }
+    public long ToPayWhenUsingBuyPrices { get; set; }
 }

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce
+namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoice
 {
     public sealed class DeleteSellInvoiceHandler : IRequestHandler<DeleteSellInvoiceRequest, DeleteSellInvoiceResponse>
     {
@@ -18,13 +18,15 @@ namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISellInvoiceRepository _sellInvoiceRepository;
-        public DeleteSellInvoiceHandler(IUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, ISellInvoiceRepository sellInvoiceRepository)
+        private readonly IEventBus _eventBus;
+        public DeleteSellInvoiceHandler(IUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, ISellInvoiceRepository sellInvoiceRepository, IEventBus eventBus)
         {
             _unitOfWork = unitOfWork;
             _invoiceRepository = invoiceRepository;
             _inventoryItemRepository = inventoryItemRepository;
             _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
             _sellInvoiceRepository = sellInvoiceRepository;
+            _eventBus = eventBus;
         }
 
         public async Task<DeleteSellInvoiceResponse> Handle(DeleteSellInvoiceRequest request, CancellationToken cancellationToken)
@@ -65,6 +67,10 @@ namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce
             //    throw new Exception("invoice not found");
             //_invoiceRepository.Delete(invoice);
             await _unitOfWork.SaveAsync(cancellationToken);
+            foreach (var item in sellInvoiceAggregate.GetDomainEvents())
+            {
+                await _eventBus.PublishAsync(item);   
+            }
             return new DeleteSellInvoiceResponse(request.Id);
         }
     }

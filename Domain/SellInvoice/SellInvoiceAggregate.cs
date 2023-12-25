@@ -45,6 +45,15 @@ public class SellInvoiceAggregate : AggregateRoot
             Customer = Guid.Empty,
             Vehicle = Guid.Empty,
         };
+        agg.AddDomainEvent(new SellInvoiceCreatedEvent
+        {
+            CreatedDate = createDate,
+            CustomerId = Guid.Empty,
+            EventId = Guid.NewGuid(),
+            SellInvoiceCode = code.ToString(),
+            SellInvoiceId = id,
+            VehicleId = Guid.Empty,
+        });
         return agg;
     }
     public static SellInvoiceAggregate Create(Guid id, DateTime createDate, int code, Guid customer, Guid vehicle)
@@ -74,7 +83,7 @@ public class SellInvoiceAggregate : AggregateRoot
         this.AddDomainEvent(new SellInvoiceDeletedEvent
         {
             EventId = Guid.NewGuid(),
-            SellInvoiceId = this.Id            
+            SellInvoiceId = this.Id
         });
     }
     public void SetUseBuyPrice(bool useBuyPrice)

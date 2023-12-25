@@ -1,15 +1,7 @@
 ﻿using Application.Repositories;
 using Domain.SellInvoice;
 using MediatR;
-using OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
 using OctaApi.Application.Repositories;
-using OctaApi.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellInvoice
 {
     public sealed class CreateMiscellaneousSellInvoiceHandler : IRequestHandler<CreateMiscellaneousSellInvoiceRequest, CreateMiscellaneousSellInvoiceResponse>
@@ -17,11 +9,13 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellIn
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly ISellInvoiceRepository _sellInvoiceRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreateMiscellaneousSellInvoiceHandler(IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork, ISellInvoiceRepository sellInvoiceRepository)
+        private readonly IEventBus _eventBus;
+        public CreateMiscellaneousSellInvoiceHandler(IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork, ISellInvoiceRepository sellInvoiceRepository, IEventBus eventBus)
         {
             _invoiceRepository = invoiceRepository;
             _unitOfWork = unitOfWork;
             _sellInvoiceRepository = sellInvoiceRepository;
+            _eventBus = eventBus;
         }
 
         public async Task<CreateMiscellaneousSellInvoiceResponse> Handle(CreateMiscellaneousSellInvoiceRequest request, CancellationToken cancellationToken)
@@ -39,6 +33,10 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellIn
             //await _invoiceRepository.AddAsync(invoice);
             await _sellInvoiceRepository.UpdateAsync(aggregate);
             await _unitOfWork.SaveAsync(cancellationToken);
+            foreach (var item in aggregate.GetDomainEvents())
+            {
+                await _eventBus.PublishAsync(item);
+            }
             //var response = new CreateMiscellaneousSellInvoiceResponse(invoice.Id, invoice.Code);
             var response = new CreateMiscellaneousSellInvoiceResponse();
             return response;

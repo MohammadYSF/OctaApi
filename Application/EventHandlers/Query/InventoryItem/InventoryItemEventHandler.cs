@@ -3,7 +3,9 @@ using Application.ReadModels;
 using Application.Repositories.Query;
 using Domain.InventoryItem.Events;
 namespace Application.EventHandlers.Query.InventoryItem;
-public class InventoryItemEventHandler : IEventHandler<InventoryItemCreatedEvent>
+public class InventoryItemEventHandler :
+    IEventHandler<InventoryItemCreatedEvent>
+    , IEventHandler<InventoryItemUpdatedEvent>
 {
     private readonly IQueryUnitOfWork _unitOfWork;
     private readonly IInventoryItemQueryRepository _inventoryItemQueryRepository;
@@ -30,5 +32,35 @@ public class InventoryItemEventHandler : IEventHandler<InventoryItemCreatedEvent
         };
         await _inventoryItemQueryRepository.AddAsync(inventoryItemRM);
         await _unitOfWork.SaveAsync(cancellationToken);
+    }
+
+    public async Task HandleAsync(InventoryItemUpdatedEvent @event, CancellationToken cancellationToken)
+    {
+        try
+        {
+            InventoryItemRM? prevRM = (await _inventoryItemQueryRepository.GetByInventoryItemIdAsync(@event.InventoryItemId)).FirstOrDefault(a => !a.ToDate.HasValue);
+            prevRM.ToDate = @event.UpdateDate;
+            var inventoryItemRM = new InventoryItemRM
+            {
+                Id = Guid.NewGuid(),
+                InventoryItemBuyPrice = @event.NewBuyPrice,
+                InventoryItemSellPrice = @event.NewSellPrice,
+                FromDate = @event.UpdateDate,
+                InventoryItemCode = @event.Code.ToString(),
+                InventoryItemCount = @event.NewCount,
+                InventoryItemId = @event.InventoryItemId,
+                InventoryItemName = @event.NewName,
+                IsDeleted = false,
+                ToDate = null
+            };
+            await _inventoryItemQueryRepository.UpdateAsync(prevRM);
+            await _inventoryItemQueryRepository.AddAsync(inventoryItemRM);
+            await _unitOfWork.SaveAsync(cancellationToken);
+        }
+        catch (Exception e)
+        {
+            //todo:handle the errors
+        }
+
     }
 }

@@ -10,4 +10,5 @@ public class InventoryItemRM
     public long InventoryItemSellPrice { get; set; }
     public DateTime FromDate { get; set; }
     public DateTime? ToDate { get; set; }
+    public bool IsDeleted { get; set; } = false;
 }

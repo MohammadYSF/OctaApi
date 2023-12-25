@@ -17,4 +17,6 @@ public class ServiceUpdatedEvent:DomainEvent
     public Guid ServiceId { get; set; }
     public string NewName{ get; set; }
     public long NewDefaultPrice{ get; set; }
+    public DateTime UpdateDate{ get; set; }
+    public int Code { get; set; }
 }
