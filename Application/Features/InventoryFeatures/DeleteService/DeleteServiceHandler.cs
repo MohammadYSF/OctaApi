@@ -5,14 +5,14 @@ using OctaApi.Application.Repositories;
 namespace OctaApi.Application.Features.InventoryFeatures.DeleteService;
 public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest, DeleteServiceResponse>
 {
-    private readonly IServiceRepository _serviceRepository;
+    private readonly IServiceCommandRepository _serviceRepository;
     private readonly IServiceHistoryRepository _serviceHistoryRepository;
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
 
 
-    public DeleteServiceHandler(IServiceRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
+    public DeleteServiceHandler(IServiceCommandRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
     {
         _serviceRepository = serviceRepository;
         _serviceHistoryRepository = serviceHistoryRepository;

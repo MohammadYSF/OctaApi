@@ -19,11 +19,11 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IInventoryItemRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEventBus _eventBus;
-        private readonly IBuyInvoiceRepository _buyInvoiceRepository;
-        public CreateBuyInvoiceHandler(IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork, IMapper mapper, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus, IBuyInvoiceRepository buyInvoiceRepository)
+        private readonly IBuyInvoiceCommandRepository _buyInvoiceRepository;
+        public CreateBuyInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, IMapper mapper, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus, IBuyInvoiceCommandRepository buyInvoiceRepository)
         {
             _invoiceRepository = invoiceRepository;
             _unitOfWork = unitOfWork;

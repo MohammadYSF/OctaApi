@@ -15,13 +15,13 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddService
 {
     public class AddServiceHandler : IRequestHandler<AddServiceRequest, AddServiceResponse>
     {
-        private readonly IServiceRepository _serviceRepository;
+        private readonly IServiceCommandRepository _serviceRepository;
         private readonly IServiceHistoryRepository _serviceHistoryRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
 
-        public AddServiceHandler(IServiceRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, IUnitOfWork unitOfWork, IEventBus eventBus)
+        public AddServiceHandler(IServiceCommandRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
         {
             _serviceRepository = serviceRepository;
             _serviceHistoryRepository = serviceHistoryRepository;

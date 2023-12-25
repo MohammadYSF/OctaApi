@@ -14,9 +14,9 @@ namespace OctaApi.Application.Features.InvoiceFeatures.AddSellInvoicePayment
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IInventoryItemHistoryRepository  _inventoryItemHistoryRepository;
         private readonly IServiceHistoryRepository  _serviceHistoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICommandUnitOfWork _unitOfWork;
 
-        public AddInvoicePaymentHandler(IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IServiceHistoryRepository serviceHistoryRepository)
+        public AddInvoicePaymentHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IServiceHistoryRepository serviceHistoryRepository)
         {
             _invoiceRepository = invoiceRepository;
             _unitOfWork = unitOfWork;

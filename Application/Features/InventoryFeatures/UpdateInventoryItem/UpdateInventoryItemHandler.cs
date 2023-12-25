@@ -6,11 +6,11 @@ namespace OctaApi.Application.Features.InventoryFeatures.UpdateInventoryItem;
 public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemRequest, UpdateInventoryItemResponse>
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IInventoryItemRepository _inventoryItemRepository;
     private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
     private readonly IEventBus _eventBus;
-    public UpdateInventoryItemHandler(IMapper mapper, IUnitOfWork unitOfWork, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus)
+    public UpdateInventoryItemHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;

@@ -8,7 +8,7 @@ public class DeleteInventoryItemHandler
     private readonly IInventoryItemRepository _inventoryItemRepository;
     private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
     public DeleteInventoryItemHandler(IInventoryItemRepository serviceRepository, IInventoryItemHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
     {

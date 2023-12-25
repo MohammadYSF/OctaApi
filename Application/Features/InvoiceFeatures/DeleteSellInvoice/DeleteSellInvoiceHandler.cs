@@ -16,10 +16,10 @@ namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoice
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IInventoryItemRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ISellInvoiceRepository _sellInvoiceRepository;
+        private readonly ICommandUnitOfWork _unitOfWork;
+        private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
         private readonly IEventBus _eventBus;
-        public DeleteSellInvoiceHandler(IUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, ISellInvoiceRepository sellInvoiceRepository, IEventBus eventBus)
+        public DeleteSellInvoiceHandler(ICommandUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
         {
             _unitOfWork = unitOfWork;
             _invoiceRepository = invoiceRepository;

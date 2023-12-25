@@ -17,10 +17,10 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddInventoryItem
         private readonly IInventoryItemRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
 
-        public AddInventoryItemHandler(IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, IMapper mapper, IUnitOfWork unitOfWork, IEventBus eventBus)
+        public AddInventoryItemHandler(IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, IMapper mapper, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
         {
             _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
             _inventoryItemRepository = inventoryItemRepository;

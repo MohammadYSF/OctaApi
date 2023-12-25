@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OctaApi.Persistence.Repositories
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : ICommandUnitOfWork
     {
         private readonly ApplicationDbContext _context;
 

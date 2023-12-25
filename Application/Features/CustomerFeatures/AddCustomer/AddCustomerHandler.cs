@@ -12,11 +12,11 @@ namespace OctaApi.Application.Features.CustomerFeatures.AddCustomer;
 public class AddCustomerHandler : IRequestHandler<AddCustomerRequest, AddCustomerResponse>
 {
     private readonly ICustomerCommandRepository _customerRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IEventBus _eventBus;
 
-    public AddCustomerHandler(ICustomerCommandRepository customerRepository, IUnitOfWork unitOfWork, IMapper mapper, IEventBus eventBus)
+    public AddCustomerHandler(ICustomerCommandRepository customerRepository, ICommandUnitOfWork unitOfWork, IMapper mapper, IEventBus eventBus)
     {
         _customerRepository = customerRepository;
         _unitOfWork = unitOfWork;

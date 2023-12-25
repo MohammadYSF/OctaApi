@@ -7,10 +7,10 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellIn
     public sealed class CreateMiscellaneousSellInvoiceHandler : IRequestHandler<CreateMiscellaneousSellInvoiceRequest, CreateMiscellaneousSellInvoiceResponse>
     {
         private readonly IInvoiceRepository _invoiceRepository;
-        private readonly ISellInvoiceRepository _sellInvoiceRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
+        private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
-        public CreateMiscellaneousSellInvoiceHandler(IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork, ISellInvoiceRepository sellInvoiceRepository, IEventBus eventBus)
+        public CreateMiscellaneousSellInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
         {
             _invoiceRepository = invoiceRepository;
             _unitOfWork = unitOfWork;

@@ -6,9 +6,9 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
 internal class CreateSellInvoiceHandler : IRequestHandler<CreateSellInvoiceRequest, CreateSellInvoiceResponse>
 {
     private readonly IInvoiceRepository _invoiceRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ISellInvoiceRepository _sellInvoiceRepository;
-    public CreateSellInvoiceHandler(IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork, ISellInvoiceRepository sellInvoiceRepository)
+    private readonly ICommandUnitOfWork _unitOfWork;
+    private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
+    public CreateSellInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository)
     {
         _invoiceRepository = invoiceRepository;
         _unitOfWork = unitOfWork;

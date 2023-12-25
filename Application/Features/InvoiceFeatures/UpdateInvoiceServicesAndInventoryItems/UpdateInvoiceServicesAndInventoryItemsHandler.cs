@@ -15,12 +15,12 @@ namespace OctaApi.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndI
     public sealed record class UpdateInvoiceServicesAndInventoryItemsHandler : IRequestHandler<UpdateInvoiceServicesAndInventoryItemsRequest, UpdateInvoiceServicesAndInventoryItemsResponse>
     {
         private readonly IInvoiceRepository _invoiceRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IInventoryItemRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
-        private readonly ISellInvoiceRepository _sellInvoiceRepository;
-        public UpdateInvoiceServicesAndInventoryItemsHandler(IMapper mapper, IUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, ISellInvoiceRepository sellInvoiceRepository)
+        private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
+        public UpdateInvoiceServicesAndInventoryItemsHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, ISellInvoiceCommandRepository sellInvoiceRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
