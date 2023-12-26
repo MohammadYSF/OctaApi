@@ -1,6 +1,7 @@
 ﻿using Command.Core.Application.Repositories;
 using Command.Infrastructure.Persistence.Contexts;
 using Command.Infrastructure.Persistence.Repositories;
+using Command.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,8 @@ public static class ServiceExtentions
         services.AddScoped<IServiceCommandRepository, ServiceCommandRepository>();
         services.AddScoped<IBuyInvoiceCommandRepository, BuyInvoiceCommandRepository>();
         services.AddScoped<ISellInvoiceCommandRepository, SellInvoiceCommandRepository>();
+        services.AddScoped<ISellInvoiceRMRepository, SellInvoiceRMRepository>();
+        services.AddScoped<ISellInvoicePaymentRMRepository, SellInvoicePaymentRMRepository>();
         services.AddScoped<ICommandUnitOfWork, CommandUnitOfWork>();
     }
 }

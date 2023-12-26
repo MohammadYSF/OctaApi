@@ -77,7 +77,7 @@ public sealed class RabbitMQBus : IEventBus
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.HostName = _rabbitMqConfig.HostName;
         connectionFactory.UserName = _rabbitMqConfig.UserName;
-        connectionFactory.Password = _rabbitMqConfig.Password;
+        connectionFactory.Password = _rabbitMqConfig.Password;        
 
         IConnection connection = connectionFactory.CreateConnection();
         IModel model = connection.CreateModel();
