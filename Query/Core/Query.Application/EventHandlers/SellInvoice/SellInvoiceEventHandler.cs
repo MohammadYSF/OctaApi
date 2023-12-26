@@ -1,6 +1,7 @@
-﻿using Application.ReadModels;
-using Query.Application.Core;
+﻿using Query.Application.Core;
+using Query.Application.Events;
 using Query.Application.Events.SellInvoice;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.SellInvoice;
 public class SellInvoiceEventHandler :
@@ -8,8 +9,9 @@ public class SellInvoiceEventHandler :
     , IEventHandler<SellInvoiceDeletedEvent>
     , IEventHandler<ServiceAddedToSellInvoiceEvent>
     , IEventHandler<InventoryItemAddedToSellInvoiceEvent>
-    , IEventHandler<ServiceRemovedFromSellInvoiceEvent>,
-    IEventHandler<InventoryItemRemovedFromSellInvoicecEvent>
+    , IEventHandler<ServiceRemovedFromSellInvoiceEvent>
+    , IEventHandler<InventoryItemRemovedFromSellInvoicecEvent>
+    , IEventHandler<SellInvoicePaymentCreatedEvent>
 {
     private readonly IInventoryItemQueryRepository _inventoryItemQueryRepository;
     private readonly IServiceQueryRepository _serviceQueryRepository;
@@ -30,6 +32,7 @@ public class SellInvoiceEventHandler :
     {
         var customerRM = await _customerQueryRepository.GetByCustomerIdAsync(@event.CustomerId);
         VehicleRM? vehicleRM = await _vehicleQueryRepository.GetByVehicleIdAsync(@event.VehicleId);
+
         var sellInvoiceRM = new SellInvoiceRM
         {
             Id = Guid.NewGuid(),
@@ -54,6 +57,8 @@ public class SellInvoiceEventHandler :
     public async Task HandleAsync(SellInvoiceDeletedEvent @event, CancellationToken cancellationToken)
     {
         SellInvoiceRM? sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(@event.SellInvoiceId);
+        List<SellInvoicePaymentRM> sellInvoicePaymentRMs = await _sellInvoiceQueryRepository.GetSellInvoicePaymentRMsBySellInvoiceIdAsync(@event.SellInvoiceId);
+        await _sellInvoiceQueryRepository.DeleteAsync(sellInvoicePaymentRMs);
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(cancellationToken);
     }
@@ -131,5 +136,17 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.UpdateAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(cancellationToken);
         throw new NotImplementedException();
+    }
+
+    public async Task HandleAsync(SellInvoicePaymentCreatedEvent @event, CancellationToken cancellationToken)
+    {
+        var sellInvoicePaymentRM = new SellInvoicePaymentRM
+        {
+            Id = Guid.NewGuid(),
+            PaidAmount = @event.Amount,
+            SellInvoiceId = @event.SellInvoiceId
+        };
+        await _sellInvoiceQueryRepository.AddAsync(sellInvoicePaymentRM);
+        await _queryUnitOfWork.SaveAsync(cancellationToken);
     }
 }

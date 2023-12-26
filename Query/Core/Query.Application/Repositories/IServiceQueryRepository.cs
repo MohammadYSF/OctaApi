@@ -1,4 +1,5 @@
-﻿using Application.ReadModels;
+﻿using Query.Application.ReadModels;
+
 namespace Query.Application.Repositories;
 public interface IServiceQueryRepository
 {

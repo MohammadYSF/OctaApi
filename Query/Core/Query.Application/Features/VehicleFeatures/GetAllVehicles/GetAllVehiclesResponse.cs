@@ -1,5 +1,5 @@
-﻿using Application.ReadModels;
-namespace OctaApi.Application.Features.VehicleFeatures.GetAllVehicles;
+﻿using Query.Application.ReadModels;
+namespace Query.Application.Features.VehicleFeatures.GetAllVehicles;
 public sealed record GetAllVehiclesResponse
 {
     public int Count { get; set; }

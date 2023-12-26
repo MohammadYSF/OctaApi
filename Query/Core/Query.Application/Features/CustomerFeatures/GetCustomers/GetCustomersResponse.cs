@@ -1,4 +1,4 @@
-﻿using Application.ReadModels;
+﻿using Query.Application.ReadModels;
 
 namespace OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 

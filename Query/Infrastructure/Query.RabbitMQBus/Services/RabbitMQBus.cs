@@ -1,12 +1,11 @@
-﻿using Application.Repositories;
-using Microsoft.Extensions.DependencyInjection;
-using OctaApi.Domain.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using System.Text;
 using Newtonsoft.Json;
-using Application.Common;
 using RabbitMQ.Client.Events;
 using Microsoft.Extensions.Options;
+using Query.Application.Repositories;
+using Query.Application.Core;
 
 namespace Query.Infrastructure.RabbitMqBus.Services;
 

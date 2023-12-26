@@ -1,5 +1,5 @@
-﻿using Application.ReadModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 using Query.Persistence.Contexts;
 namespace Query.Persistence.Repositories;
@@ -25,6 +25,11 @@ public class CustomerQueryRepository : ICustomerQueryRepository
     public async Task<List<CustomerRM>> GetAsync()
     {
         return await _queryDbContext.CustomerRMs.ToListAsync();
+    }
+
+    public Task<CustomerRM?> GetByCustomerCodeAsync(string customerCode)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<CustomerRM?> GetByCustomerIdAsync(Guid customerId)

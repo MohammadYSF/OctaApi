@@ -1,6 +1,6 @@
-﻿using Application.Common;
-using Application.ReadModels;
-using Domain.Service.Events;
+﻿using Query.Application.Core;
+using Query.Application.Events.Services;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 
 namespace Query.Application.EventHandlers.Service;

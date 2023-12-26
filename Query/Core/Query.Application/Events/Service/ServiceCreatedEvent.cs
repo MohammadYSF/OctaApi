@@ -1,5 +1,6 @@
-﻿using OctaApi.Domain.Common;
-namespace Domain.Service.Events;
+﻿using Query.Application.Core;
+
+namespace Query.Application.Events.Services;
 public class ServiceCreatedEvent:DomainEvent
 {
     public ServiceCreatedEvent() : base(nameof(ServiceCreatedEvent))

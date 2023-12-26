@@ -1,12 +1,9 @@
 ﻿using Application.Repositories;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OctaApi.Infrastructure.RabbitMqBus.Services;
 using RabbitMqBus;
-
 namespace OctaApi.Infrastructure.RabbitMqBus;
-
 public static class ServiceExtentions
 {
     public static void ConfigureBus(this IServiceCollection services, IConfiguration configuration)

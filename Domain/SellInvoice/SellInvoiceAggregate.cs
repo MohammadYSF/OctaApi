@@ -34,7 +34,24 @@ public class SellInvoiceAggregate : AggregateRoot
     public bool UseBuyPrice { get; set; } = false;
     public Price Discount { get; set; }
     public SellInvoicecDescription Description { get; set; }
-    public List<SellInvoicePayment> Payments { get; set; }
+    public List<SellInvoicePayment> Payments { get; set; } = new();
+    public void Pay(long amount, DateTime payDate, string trackCode, long paidSoFar, long total)
+    {
+        if (paidSoFar + amount > total) throw new Exception(""); //todo
+        var id = Guid.NewGuid();
+        SellInvoicePaymentDate pdate = new(payDate);
+        SellInvoicePaymentTrackCode pTrackCode = new(trackCode);
+        SellInvoicePaidAmount pAmount = new(amount);
+        Payments.Add(new SellInvoicePayment(id, this.Id, pdate, pTrackCode, pAmount));
+        this.AddDomainEvent(new SellInvoicePaymentCreatedEvent
+        {
+            Amount = amount,
+            EventId = Guid.NewGuid(),
+            PayDate = payDate,
+            SellInvoiceId = this.Id,
+            TrackCode = trackCode,
+        });
+    }
     public static SellInvoiceAggregate CreateMiscellaneous(Guid id, DateTime createDate, int code)
     {
         var agg = new SellInvoiceAggregate

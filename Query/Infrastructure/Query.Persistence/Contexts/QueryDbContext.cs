@@ -1,6 +1,5 @@
-﻿using Application.ReadModels;
-using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.EntityFrameworkCore;
+using Query.Application.ReadModels;
 namespace Query.Persistence.Contexts;
 public class QueryDbContext : DbContext
 {
@@ -18,4 +17,5 @@ public class QueryDbContext : DbContext
     public virtual DbSet<SellInvoiceInventoryItemRM> SellInvoiceInventoryItemRMs { get; set; }
     public virtual DbSet<SellInvoiceDescriptionRM> SellInvoiceDescriptionRMs { get; set; }
     public virtual DbSet<BuyInvoiceRM> BuyInvoiceRMs { get; set; }
+    public virtual DbSet<SellInvoicePaymentRM> SellInvoicePaymentRMs { get; set; }
 }

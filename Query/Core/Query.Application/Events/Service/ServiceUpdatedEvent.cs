@@ -1,12 +1,6 @@
-﻿using Domain.BuyInvoice.Events;
-using OctaApi.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Query.Application.Core;
 
-namespace Domain.Service.Events;
+namespace Query.Application.Events.Services;
 
 public class ServiceUpdatedEvent:DomainEvent
 {

@@ -1,4 +1,5 @@
-﻿namespace Application.ReadModels;
+﻿namespace Query.Application.ReadModels;
+
 public class SellInvoiceInventoryItemRM
 {
     public Guid Id { get; set; }

@@ -1,7 +1,5 @@
-﻿using Application.ReadModels;
-using OctaApi.Application.Features.InvoiceFeatures.GetSellInvoices;
+﻿
+using Query.Application.ReadModels;
+namespace Query.Application.Features.InvoiceFeatures.GetDailySellInvoices;
 
-namespace OctaApi.Application.Features.InvoiceFeatures.GetDailySellInvoices
-{
-    public sealed record GetDailySellInvoicesResponse(List<SellInvoiceRM> Data);
-}
+public sealed record GetDailySellInvoicesResponse(List<SellInvoiceRM> Data);

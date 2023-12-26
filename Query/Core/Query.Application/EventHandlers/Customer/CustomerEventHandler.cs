@@ -1,7 +1,7 @@
-﻿using Application.Common;
-using Application.ReadModels;
-using Domain.Vehicle.Events;
+﻿using Query.Application.Core;
 using Query.Application.Events.Customer;
+using Query.Application.Events.Vehicles;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.Customer;
 public class CustomerEventHandler :

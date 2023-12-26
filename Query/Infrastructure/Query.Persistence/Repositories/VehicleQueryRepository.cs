@@ -1,5 +1,5 @@
-﻿using Application.ReadModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 using Query.Persistence.Contexts;
 
@@ -15,6 +15,11 @@ public class VehicleQueryRepository : IVehicleQueryRepository
     public async Task<List<VehicleRM>> GetAsync()
     {
         return await _queryDbContext.VehicleRMs.ToListAsync();
+    }
+
+    public Task<VehicleRM?> GetByVehicleCodeAsync(string code)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<VehicleRM?> GetByVehicleIdAsync(Guid vehicleId)

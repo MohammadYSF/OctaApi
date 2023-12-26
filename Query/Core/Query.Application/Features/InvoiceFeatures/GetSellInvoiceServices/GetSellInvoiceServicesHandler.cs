@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Query.Application.Repositories;
-namespace OctaApi.Application.Features.InvoiceFeatures.GetSellInvoiceServices;
+namespace Query.Application.Features.InvoiceFeatures.GetSellInvoiceServices;
 public sealed class GetSellInvoiceServicesHandler : IRequestHandler<GetSellInvoicecServicesRequest, GetSellInvoiceServicesResponse>
 {
     private readonly ISellInvoiceQueryRepository _sellInvoiceQueryRepository;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Query.Application.Repositories;
-namespace OctaApi.Application.Features.VehicleFeatures.GetAllVehicles;
+namespace Query.Application.Features.VehicleFeatures.GetAllVehicles;
 public sealed record GetAllVehiclesHandler : IRequestHandler<GetAllVehiclesRequest, GetAllVehiclesResponse>
 {
     private readonly IVehicleQueryRepository _vehicleQueryRepository;

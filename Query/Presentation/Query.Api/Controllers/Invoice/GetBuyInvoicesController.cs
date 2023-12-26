@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.GetBuyInvoices;
-namespace OctaApi.Controllers;
+using Query.Application.Features.InvoiceFeatures.GetBuyInvoices;
+namespace Query.Presentation.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]

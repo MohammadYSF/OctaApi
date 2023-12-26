@@ -1,6 +1,6 @@
-﻿using Application.Repositories;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Query.Application.Repositories;
 using Query.Infrastructure.RabbitMqBus.Services;
 namespace Query.Infrastructure.RabbitMqBus;
 public static class ServiceExtentions

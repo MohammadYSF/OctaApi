@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce;
-namespace OctaApi.Controllers;
+//using OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoiuce;
+namespace Query.Presentation.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]
@@ -16,21 +16,21 @@ public class DeleteSellInvoiceController : ControllerBase
         _mediator = mediator;
         _logger = logger;
     }
-    [HttpDelete]
-    public async Task<IActionResult> Index([FromQuery]DeleteSellInvoiceRequest request)
-    {
-        try
-        {
-            var response = await _mediator.Send(request);
-            return Ok(response);
+    //[HttpDelete]
+    //public async Task<IActionResult> Index([FromQuery]DeleteSellInvoiceRequest request)
+    //{
+    //    try
+    //    {
+    //        var response = await _mediator.Send(request);
+    //        return Ok(response);
 
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "");
-            return BadRequest();
-        }
-    }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        _logger.LogError(e, "");
+    //        return BadRequest();
+    //    }
+    //}
          
 
 }

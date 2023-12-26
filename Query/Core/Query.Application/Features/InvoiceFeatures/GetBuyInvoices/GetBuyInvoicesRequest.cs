@@ -1,12 +1,5 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Query.Application.Features.InvoiceFeatures.GetBuyInvoices;
 
-namespace OctaApi.Application.Features.InvoiceFeatures.GetBuyInvoices
-{
-    public sealed record GetBuyInvoicesRequest():IRequest<GetBuyInvoicesResponse>;
-    
-}
+public sealed record GetBuyInvoicesRequest():IRequest<GetBuyInvoicesResponse>;
+

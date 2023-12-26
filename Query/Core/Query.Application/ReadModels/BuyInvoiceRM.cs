@@ -1,5 +1,4 @@
-﻿namespace Application.ReadModels;
-
+﻿namespace Query.Application.ReadModels;
 public class BuyInvoiceRM
 {
     public Guid Id { get; set; }

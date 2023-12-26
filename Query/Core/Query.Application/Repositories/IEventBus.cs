@@ -1,6 +1,5 @@
-﻿using Application.Common;
-using OctaApi.Domain.Common;
-namespace Application.Repositories;
+﻿using Query.Application.Core;
+namespace Query.Application.Repositories;
 public interface IEventBus
 {
     void Publish<T>(T @event) where T : DomainEvent;

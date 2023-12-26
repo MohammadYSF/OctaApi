@@ -1,5 +1,5 @@
-﻿using Application.ReadModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 using Query.Persistence.Contexts;
 namespace Query.Persistence.Repositories;

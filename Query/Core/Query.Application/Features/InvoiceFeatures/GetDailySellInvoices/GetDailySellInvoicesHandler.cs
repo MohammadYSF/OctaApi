@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Query.Application.Repositories;
-namespace OctaApi.Application.Features.InvoiceFeatures.GetDailySellInvoices;
+namespace Query.Application.Features.InvoiceFeatures.GetDailySellInvoices;
 
 public sealed record GetDailySellInvoicesHandler : IRequestHandler<GetDailySellInvoicesRequest, GetDailySellInvoicesResponse>
 {
