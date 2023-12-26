@@ -2,8 +2,8 @@
 namespace Query.Application.Repositories;
 public interface IServiceQueryRepository
 {
-    Task<List<ServicecRM>> GetByServiceIdAsync(Guid serviceId);
-    Task<List<ServicecRM>> GetAsync();
-    Task AddAsync(ServicecRM service);
-    Task UpdateAsync(ServicecRM service);
+    Task<List<ServiceRM>> GetByServiceIdAsync(Guid serviceId);
+    Task<List<ServiceRM>> GetAsync();
+    Task AddAsync(ServiceRM service);
+    Task UpdateAsync(ServiceRM service);
 }

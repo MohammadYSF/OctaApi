@@ -60,13 +60,13 @@ public class SellInvoiceEventHandler :
 
     public async Task HandleAsync(ServiceAddedToSellInvoiceEvent @event, CancellationToken cancellationToken)
     {
-        ServicecRM? serviceRM = (await _serviceQueryRepository.GetByServiceIdAsync(@event.ServiceId)).FirstOrDefault(a => !a.ToDate.HasValue);
+        ServiceRM? serviceRM = (await _serviceQueryRepository.GetByServiceIdAsync(@event.ServiceId)).FirstOrDefault(a => !a.ToDate.HasValue);
         string serviceCode = serviceRM.ServiceCode;
         SellInvoiceServiceRM? sellInvoiceServiceRM = new()
         {
             DefaultPrice = serviceRM.ServiceDefaultPrice,
             Price = @event.Price,
-            Id = Guid.NewGuid(),
+            Id = @event.SellInvoiceServiceId,
             SellInvoiceId = @event.SellInvoiceId,
             ServiceCode = serviceCode,
             ServiceId = @event.ServiceId,
@@ -89,7 +89,7 @@ public class SellInvoiceEventHandler :
         long sellPrice = inventoryItemRM.InventoryItemSellPrice;
         SellInvoiceInventoryItemRM? sellInvoiceInventoryRM = new()
         {
-            Id = Guid.NewGuid(),
+            Id = @event.SellInvoiceInventoryItemId,
             BuyPrice = buyPrice,
             SellPrice = sellPrice,
             Count = @event.Count,

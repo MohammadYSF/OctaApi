@@ -14,13 +14,13 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddInventoryItem
 {
     public class AddInventoryItemHandler : IRequestHandler<AddInventoryItemRequest, AddInventoryItemResponse>
     {
-        private readonly IInventoryItemRepository _inventoryItemRepository;
+        private readonly IInventoryItemCommandRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly IMapper _mapper;
         private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
 
-        public AddInventoryItemHandler(IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, IMapper mapper, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
+        public AddInventoryItemHandler(IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemCommandRepository inventoryItemRepository, IMapper mapper, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
         {
             _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
             _inventoryItemRepository = inventoryItemRepository;

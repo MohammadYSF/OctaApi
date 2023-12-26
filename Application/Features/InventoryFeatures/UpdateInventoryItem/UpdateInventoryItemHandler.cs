@@ -7,10 +7,10 @@ public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemReq
 {
     private readonly IMapper _mapper;
     private readonly ICommandUnitOfWork _unitOfWork;
-    private readonly IInventoryItemRepository _inventoryItemRepository;
+    private readonly IInventoryItemCommandRepository _inventoryItemRepository;
     private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
     private readonly IEventBus _eventBus;
-    public UpdateInventoryItemHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus)
+    public UpdateInventoryItemHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInventoryItemCommandRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus)
     {
         _mapper = mapper;
         _unitOfWork = unitOfWork;

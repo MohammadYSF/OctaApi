@@ -17,13 +17,13 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateBuyInvoice
     public sealed class CreateBuyInvoiceHandler : IRequestHandler<CreateBuyInvoiceRequest, CreateBuyInvoiceResponse>
     {
         private readonly IInvoiceRepository _invoiceRepository;
-        private readonly IInventoryItemRepository _inventoryItemRepository;
+        private readonly IInventoryItemCommandRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEventBus _eventBus;
         private readonly IBuyInvoiceCommandRepository _buyInvoiceRepository;
-        public CreateBuyInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, IMapper mapper, IInventoryItemRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus, IBuyInvoiceCommandRepository buyInvoiceRepository)
+        public CreateBuyInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, IMapper mapper, IInventoryItemCommandRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus, IBuyInvoiceCommandRepository buyInvoiceRepository)
         {
             _invoiceRepository = invoiceRepository;
             _unitOfWork = unitOfWork;

@@ -21,7 +21,7 @@ public class ServiceEventHandler :
 
     public async Task HandleAsync(ServiceCreatedEvent @event, CancellationToken cancellationToken)
     {
-        var serviceRM = new ServicecRM
+        var serviceRM = new ServiceRM
         {
             FromDate = @event.CreateDateTime,
             Id = Guid.NewGuid(),
@@ -41,7 +41,7 @@ public class ServiceEventHandler :
         {
             var prevRM = (await _serviceQueryRepository.GetByServiceIdAsync(@event.ServiceId)).FirstOrDefault(a => !a.ToDate.HasValue);
             prevRM.ToDate = @event.UpdateDate;
-            var newServiceRM = new ServicecRM
+            var newServiceRM = new ServiceRM
             {
                 FromDate = @event.UpdateDate,
                 ToDate = null,

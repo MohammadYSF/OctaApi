@@ -17,10 +17,10 @@ namespace OctaApi.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndI
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IInventoryItemRepository _inventoryItemRepository;
+        private readonly IInventoryItemCommandRepository _inventoryItemRepository;
         private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
-        public UpdateInvoiceServicesAndInventoryItemsHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemRepository inventoryItemRepository, ISellInvoiceCommandRepository sellInvoiceRepository)
+        public UpdateInvoiceServicesAndInventoryItemsHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IInventoryItemCommandRepository inventoryItemRepository, ISellInvoiceCommandRepository sellInvoiceRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;

@@ -1,5 +1,5 @@
 ﻿namespace Application.ReadModels;
-public class ServicecRM
+public class ServiceRM
 {
     public Guid Id { get; set; }
     public Guid ServiceId { get; set; }

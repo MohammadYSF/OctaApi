@@ -1,5 +1,4 @@
 ﻿using Application.Repositories;
-using Application.Repositories.Command;
 using AutoMapper;
 using Domain.Customer;
 using Domain.Vehicle;

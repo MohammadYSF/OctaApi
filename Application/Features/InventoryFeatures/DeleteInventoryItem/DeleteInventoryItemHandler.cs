@@ -5,12 +5,12 @@ using OctaApi.Application.Repositories;
 namespace OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem;
 public class DeleteInventoryItemHandler
 {
-    private readonly IInventoryItemRepository _inventoryItemRepository;
+    private readonly IInventoryItemCommandRepository _inventoryItemRepository;
     private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
     private readonly IMapper _mapper;
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
-    public DeleteInventoryItemHandler(IInventoryItemRepository serviceRepository, IInventoryItemHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
+    public DeleteInventoryItemHandler(IInventoryItemCommandRepository serviceRepository, IInventoryItemHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
     {
         _inventoryItemRepository = serviceRepository;
         _inventoryItemHistoryRepository = serviceHistoryRepository;
