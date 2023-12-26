@@ -1,14 +1,11 @@
-﻿using Application.Repositories.Command;
-using Application.Repositories.Query;
-using MediatR;
-using OctaApi.Domain.Models;
+﻿using MediatR;
+using Query.Application.Repositories;
 namespace OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 
 public sealed class GetCustomersHandler : IRequestHandler<GetCustomersRequest, GetCustomersResponse>
 {
     //private ICustomerCommandRepository _customerRepository;
-
-    private ICustomerQueryRepository _customerQueryRepository;
+    private readonly ICustomerQueryRepository _customerQueryRepository;
     public GetCustomersHandler(ICustomerQueryRepository customerQueryRepository)
     {
         _customerQueryRepository = customerQueryRepository;

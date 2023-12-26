@@ -1,4 +1,4 @@
-namespace OctaApi.Domain.Common;
+namespace Query.Application.Core;
 public abstract class DomainEvent
 {
     public string Type { get;private set; }

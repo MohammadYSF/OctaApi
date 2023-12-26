@@ -1,5 +1,5 @@
-﻿using Domain.SellInvoice.Events;
-using OctaApi.Domain.Common;
+﻿using OctaApi.Domain.Common;
+using Query.Application.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

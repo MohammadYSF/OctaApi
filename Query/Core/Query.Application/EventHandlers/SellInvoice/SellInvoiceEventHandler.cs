@@ -1,5 +1,5 @@
-﻿using Application.Common;
-using Application.ReadModels;
+﻿using Application.ReadModels;
+using Query.Application.Core;
 using Query.Application.Events.SellInvoice;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.SellInvoice;
@@ -119,7 +119,6 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.UpdateAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(cancellationToken);
     }
-
     public async Task HandleAsync(InventoryItemRemovedFromSellInvoicecEvent @event, CancellationToken cancellationToken)
     {
         SellInvoiceInventoryItemRM? sellInvoiceInventoryItemRM = await _sellInvoiceQueryRepository.GetSellInvoiceInventoryItemRMBySellInviceInventoryItemId(@event.SellInvoiceInventoryItemId);

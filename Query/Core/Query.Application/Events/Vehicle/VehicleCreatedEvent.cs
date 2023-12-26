@@ -1,24 +1,17 @@
-﻿using Domain.Customer.Events;
-using OctaApi.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Query.Application.Core;
 
-namespace Domain.Vehicle.Events
+namespace Query.Application.Events.Vehicles;
+
+public class VehicleCreatedEvent:DomainEvent
 {
-    public class VehicleCreatedEvent:DomainEvent
+    public VehicleCreatedEvent() : base(nameof(VehicleCreatedEvent))
     {
-        public VehicleCreatedEvent() : base(nameof(VehicleCreatedEvent))
-        {
 
-        }
-        public Guid VehicleId { get; set; }
-        public Guid CustomerId { get; set; }
-        public int Code { get; set; }
-        public string Name{ get; set; }
-        public string Color{ get; set; }
-        public string Plate{ get; set; }
     }
+    public Guid VehicleId { get; set; }
+    public Guid CustomerId { get; set; }
+    public int Code { get; set; }
+    public string Name{ get; set; }
+    public string Color{ get; set; }
+    public string Plate{ get; set; }
 }

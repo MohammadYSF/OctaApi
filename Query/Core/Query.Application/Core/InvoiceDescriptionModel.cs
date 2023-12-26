@@ -1,4 +1,5 @@
-﻿namespace OctaApi.Application.DomainModels;
+﻿namespace Query.Application.Core;
+
 public class InvoiceDescriptionModel
 {
     public string CurrentMileage { get; set; } = "";

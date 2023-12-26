@@ -6,17 +6,13 @@ namespace OctaApi.Application.Features.InventoryFeatures.DeleteService;
 public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest, DeleteServiceResponse>
 {
     private readonly IServiceCommandRepository _serviceRepository;
-    private readonly IServiceHistoryRepository _serviceHistoryRepository;
-    private readonly IMapper _mapper;
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
 
 
-    public DeleteServiceHandler(IServiceCommandRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
+    public DeleteServiceHandler(IServiceCommandRepository serviceRepository,  IEventBus eventBus)
     {
         _serviceRepository = serviceRepository;
-        _serviceHistoryRepository = serviceHistoryRepository;
-        _mapper = mapper;
         _eventBus = eventBus;
     }
 
@@ -34,7 +30,7 @@ public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest,
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in serviceAggregate.GetDomainEvents())
         {
-            await _eventBus.Publish(item);
+             _eventBus.Publish(item);
         }
         //var response = new DeleteServiceResponse(service.Id);
         var response = new DeleteServiceResponse();

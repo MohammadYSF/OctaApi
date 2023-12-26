@@ -1,6 +1,5 @@
-﻿using OctaApi.Domain.Common;
+﻿namespace Query.Application.Core;
 
-namespace Application.Common;
 
 public interface IEventHandler<T> where T : DomainEvent
 {

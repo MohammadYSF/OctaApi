@@ -1,5 +1,4 @@
 ﻿using OctaApi.Domain.Common;
-
 namespace Query.Application.Events.InventoryItem;
 public class InventoryItemCreatedEvent : DomainEvent
 {

@@ -1,26 +1,23 @@
 ﻿using MediatR;
-using OctaApi.Application.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Query.Application.Repositories;
+namespace OctaApi.Application.Features.InvoiceFeatures.GetInvoiceReportInfo;
 
-namespace OctaApi.Application.Features.InvoiceFeatures.GetInvoiceReportInfo
+public sealed class GetInvoiceReportInfoHandler : IRequestHandler<GetInvoiceReportInfoRequest, GetInvoiceReportInfoResponse>
 {
-    public sealed class GetInvoiceReportInfoHandler : IRequestHandler<GetInvoiceReportInfoRequest, GetInvoiceReportInfoResponse>
+    private readonly ISellInvoiceQueryRepository _sellInvoiceQueryRepository;
+
+    public GetInvoiceReportInfoHandler(ISellInvoiceQueryRepository sellInvoiceQueryRepository)
     {
-        private readonly IInvoiceRepository _invoiceRepository;
+        _sellInvoiceQueryRepository = sellInvoiceQueryRepository;
+    }
 
-        public GetInvoiceReportInfoHandler(IInvoiceRepository invoiceRepository)
-        {
-            _invoiceRepository = invoiceRepository;
-        }
-
-        public async Task<GetInvoiceReportInfoResponse> Handle(GetInvoiceReportInfoRequest request, CancellationToken cancellationToken)
-        {
-            var data = await _invoiceRepository.GetInvoiceReportInfoAsync(request.InvoiceId);
-            return data;
-        }
+    public async Task<GetInvoiceReportInfoResponse> Handle(GetInvoiceReportInfoRequest request, CancellationToken cancellationToken)
+    {
+        var sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(request.InvoiceId);
+        var sellInvoiceDescriptionRM = await _sellInvoiceQueryRepository.GetSellInvoiceDescriptionRMBySellInvoiceId(request.InvoiceId);
+        var sellInvoiceServices = await _sellInvoiceQueryRepository.GetSellInvoiceServiceRMsBySellInvoiceId(request.InvoiceId);
+        var sellInvoiceInventoryItems = await _sellInvoiceQueryRepository.GetSellInvoiceInventoryItemRMsBySellInvoiceId(request.InvoiceId);
+        var response = new GetInvoiceReportInfoResponse(sellInvoiceRM, sellInvoiceDescriptionRM, sellInvoiceServices, sellInvoiceInventoryItems);
+        return response;
     }
 }

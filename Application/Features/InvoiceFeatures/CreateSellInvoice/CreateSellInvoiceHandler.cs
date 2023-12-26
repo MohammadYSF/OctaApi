@@ -5,12 +5,10 @@ using OctaApi.Application.Repositories;
 namespace OctaApi.Application.Features.InvoiceFeatures.CreateInvoice;
 internal class CreateSellInvoiceHandler : IRequestHandler<CreateSellInvoiceRequest, CreateSellInvoiceResponse>
 {
-    private readonly IInvoiceRepository _invoiceRepository;
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
-    public CreateSellInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository)
+    public CreateSellInvoiceHandler( ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository)
     {
-        _invoiceRepository = invoiceRepository;
         _unitOfWork = unitOfWork;
         _sellInvoiceRepository = sellInvoiceRepository;
     }

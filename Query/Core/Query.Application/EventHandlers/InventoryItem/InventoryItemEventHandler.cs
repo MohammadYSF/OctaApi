@@ -1,5 +1,5 @@
-﻿using Application.Common;
-using Application.ReadModels;
+﻿using Application.ReadModels;
+using Query.Application.Core;
 using Query.Application.Events.InventoryItem;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.InventoryItem;

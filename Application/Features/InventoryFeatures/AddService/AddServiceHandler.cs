@@ -2,30 +2,19 @@
 using AutoMapper;
 using Domain.Service;
 using MediatR;
-using OctaApi.Application.Features.InventoryFeatures.AddInventoryItem;
 using OctaApi.Application.Repositories;
-using OctaApi.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OctaApi.Application.Features.InventoryFeatures.AddService
 {
     public class AddServiceHandler : IRequestHandler<AddServiceRequest, AddServiceResponse>
     {
         private readonly IServiceCommandRepository _serviceRepository;
-        private readonly IServiceHistoryRepository _serviceHistoryRepository;
-        private readonly IMapper _mapper;
         private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
 
-        public AddServiceHandler(IServiceCommandRepository serviceRepository, IServiceHistoryRepository serviceHistoryRepository, IMapper mapper, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
+        public AddServiceHandler(IServiceCommandRepository serviceRepository,  ICommandUnitOfWork unitOfWork, IEventBus eventBus)
         {
             _serviceRepository = serviceRepository;
-            _serviceHistoryRepository = serviceHistoryRepository;
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
             _eventBus = eventBus;
         }
@@ -47,7 +36,7 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddService
             var response = new AddServiceResponse();
             foreach (var item in serviceAggregate.GetDomainEvents())
             {
-                await _eventBus.Publish(item);
+                 _eventBus.Publish(item);
             }
             return response;
         }

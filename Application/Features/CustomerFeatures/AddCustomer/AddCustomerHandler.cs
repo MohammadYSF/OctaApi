@@ -1,31 +1,23 @@
 ﻿using Application.Repositories;
-using AutoMapper;
 using Domain.Customer;
-using Domain.Vehicle;
 using MediatR;
-using OctaApi.Application.DomainModels;
 using OctaApi.Application.Repositories;
-using OctaApi.Domain.InventoryItem.ValueObjects;
-using OctaApi.Domain.Models;
 namespace OctaApi.Application.Features.CustomerFeatures.AddCustomer;
 public class AddCustomerHandler : IRequestHandler<AddCustomerRequest, AddCustomerResponse>
 {
     private readonly ICustomerCommandRepository _customerRepository;
     private readonly ICommandUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
     private readonly IEventBus _eventBus;
 
-    public AddCustomerHandler(ICustomerCommandRepository customerRepository, ICommandUnitOfWork unitOfWork, IMapper mapper, IEventBus eventBus)
+    public AddCustomerHandler(ICustomerCommandRepository customerRepository, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
     {
         _customerRepository = customerRepository;
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
         _eventBus = eventBus;
     }
 
     public async Task<AddCustomerResponse> Handle(AddCustomerRequest request, CancellationToken cancellationToken)
     {
-        //var customer = _mapper.Map<Customer>(request);
         var customerId = Guid.NewGuid();
         int customerCode = await _customerRepository.GenerateNewCustomerCodeAsync();
         var customerAggregate = CustomerAggregate.Create(customerId, customerCode, request.FirstName, request.LastName, request.phoneNumber);
@@ -38,7 +30,7 @@ public class AddCustomerHandler : IRequestHandler<AddCustomerRequest, AddCustome
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in customerAggregate.GetDomainEvents())
         {
-            await _eventBus.Publish(item);
+             _eventBus.Publish(item);
         }
         var response = new AddCustomerResponse();
         return response;

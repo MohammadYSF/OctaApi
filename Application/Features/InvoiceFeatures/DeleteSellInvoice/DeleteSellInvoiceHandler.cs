@@ -13,18 +13,12 @@ namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoice
 {
     public sealed class DeleteSellInvoiceHandler : IRequestHandler<DeleteSellInvoiceRequest, DeleteSellInvoiceResponse>
     {
-        private readonly IInvoiceRepository _invoiceRepository;
-        private readonly IInventoryItemCommandRepository _inventoryItemRepository;
-        private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
         private readonly ICommandUnitOfWork _unitOfWork;
         private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
         private readonly IEventBus _eventBus;
-        public DeleteSellInvoiceHandler(ICommandUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository, IInventoryItemCommandRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
+        public DeleteSellInvoiceHandler(ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
         {
             _unitOfWork = unitOfWork;
-            _invoiceRepository = invoiceRepository;
-            _inventoryItemRepository = inventoryItemRepository;
-            _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
             _sellInvoiceRepository = sellInvoiceRepository;
             _eventBus = eventBus;
         }
@@ -69,7 +63,7 @@ namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoice
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in sellInvoiceAggregate.GetDomainEvents())
             {
-                await _eventBus.Publish(item);   
+                 _eventBus.Publish(item);   
             }
             return new DeleteSellInvoiceResponse(request.Id);
         }

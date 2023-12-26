@@ -1,38 +1,17 @@
-﻿using OctaApi.Application.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
-using OctaApi.Application.DomainModels;
-
-namespace OctaApi.Application.Features.Inventory.GetServices
+﻿using MediatR;
+using Query.Application.Repositories;
+namespace OctaApi.Application.Features.Inventory.GetServices;
+public sealed class GetServicesHandler : IRequestHandler<GetServicesRequest, GetServicesResponse>
 {
-    public sealed class GetServicesHandler : IRequestHandler<GetServicesRequest, GetServicesResponse>
+    private readonly IServiceQueryRepository _serviceQueryRepository;
+    public GetServicesHandler(IServiceQueryRepository serviceQueryRepository)
     {
-        private readonly IServiceRepository  _serviceRepository;
-
-        public GetServicesHandler(IServiceRepository serviceRepository)
-        {
-            _serviceRepository = serviceRepository;
-        }
-
-        public async Task<GetServicesResponse> Handle(GetServicesRequest request, CancellationToken cancellationToken)
-        {
-            var services = await _serviceRepository.GetAllAsync();
-            var serviceDTOs = services.OrderBy(a=> a.Code).Select((item, index) =>
-            {
-                return new ServiceDTO(
-                    RowNumber: index + 1,
-                    Code: item.Code.ToString(),
-                    Title: item.Name,
-                    Price: item.DefaultPrice,
-                    Id:item.Id
-                    );
-            }).ToList();
-            var response = new GetServicesResponse(serviceDTOs);
-            return response;
-        }
+        _serviceQueryRepository = serviceQueryRepository;
+    }
+    public async Task<GetServicesResponse> Handle(GetServicesRequest request, CancellationToken cancellationToken)
+    {
+        var data = await _serviceQueryRepository.GetAsync();
+        var response = new GetServicesResponse(data);
+        return response;
     }
 }

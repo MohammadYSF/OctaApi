@@ -6,13 +6,11 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellIn
 {
     public sealed class CreateMiscellaneousSellInvoiceHandler : IRequestHandler<CreateMiscellaneousSellInvoiceRequest, CreateMiscellaneousSellInvoiceResponse>
     {
-        private readonly IInvoiceRepository _invoiceRepository;
         private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
         private readonly ICommandUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
-        public CreateMiscellaneousSellInvoiceHandler(IInvoiceRepository invoiceRepository, ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
+        public CreateMiscellaneousSellInvoiceHandler(ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
         {
-            _invoiceRepository = invoiceRepository;
             _unitOfWork = unitOfWork;
             _sellInvoiceRepository = sellInvoiceRepository;
             _eventBus = eventBus;
@@ -35,7 +33,7 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellIn
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in aggregate.GetDomainEvents())
             {
-                await _eventBus.Publish(item);
+                 _eventBus.Publish(item);
             }
             //var response = new CreateMiscellaneousSellInvoiceResponse(invoice.Id, invoice.Code);
             var response = new CreateMiscellaneousSellInvoiceResponse();

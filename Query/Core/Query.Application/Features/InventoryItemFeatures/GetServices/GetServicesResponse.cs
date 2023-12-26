@@ -1,11 +1,4 @@
-﻿using OctaApi.Application.DomainModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.ReadModels;
+namespace OctaApi.Application.Features.Inventory.GetServices;
 
-namespace OctaApi.Application.Features.Inventory.GetServices
-{
-    public sealed record GetServicesResponse(List<ServiceDTO> ServiceDTOs);
-}
+public sealed record GetServicesResponse(List<ServiceRM> ServiceDTOs);

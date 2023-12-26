@@ -1,5 +1,5 @@
 ﻿namespace Application.ReadModels;
-public class OpenInvoiceDescriptionRM
+public class SellInvoiceDescriptionRM
 {
     public Guid Id { get; set; }
     public Guid SellInvoiceId { get; set; }

@@ -1,10 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal
-{
-    public sealed  record GetVehiclesMinimalResponse(List<GetVehiclesMinimal_DTO> Data);   
-}
+﻿using Application.ReadModels;
+namespace OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;
+public sealed  record GetVehiclesMinimalResponse(List<VehicleRM> Data);   

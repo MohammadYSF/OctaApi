@@ -1,21 +1,16 @@
 ﻿using Application.Repositories;
-using AutoMapper;
 using MediatR;
 using OctaApi.Application.Repositories;
 namespace OctaApi.Application.Features.InventoryFeatures.UpdateInventoryItem;
 public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemRequest, UpdateInventoryItemResponse>
 {
-    private readonly IMapper _mapper;
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IInventoryItemCommandRepository _inventoryItemRepository;
-    private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
     private readonly IEventBus _eventBus;
-    public UpdateInventoryItemHandler(IMapper mapper, ICommandUnitOfWork unitOfWork, IInventoryItemCommandRepository inventoryItemRepository, IInventoryItemHistoryRepository inventoryItemHistoryRepository, IEventBus eventBus)
+    public UpdateInventoryItemHandler(ICommandUnitOfWork unitOfWork, IInventoryItemCommandRepository inventoryItemRepository, IEventBus eventBus)
     {
-        _mapper = mapper;
         _unitOfWork = unitOfWork;
         _inventoryItemRepository = inventoryItemRepository;
-        _inventoryItemHistoryRepository = inventoryItemHistoryRepository;
         _eventBus = eventBus;
     }
     public async Task<UpdateInventoryItemResponse> Handle(UpdateInventoryItemRequest request, CancellationToken cancellationToken)
@@ -39,7 +34,7 @@ public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemReq
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregate.GetDomainEvents())
         {
-            await _eventBus.Publish(item);
+             _eventBus.Publish(item);
         }
         //var response = new UpdateInventoryItemResponse(inventoryItem.Id);
         var response = new UpdateInventoryItemResponse();

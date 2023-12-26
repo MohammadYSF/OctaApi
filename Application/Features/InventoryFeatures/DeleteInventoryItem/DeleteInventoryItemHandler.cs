@@ -6,15 +6,11 @@ namespace OctaApi.Application.Features.InventoryFeatures.DeleteInventoryItem;
 public class DeleteInventoryItemHandler
 {
     private readonly IInventoryItemCommandRepository _inventoryItemRepository;
-    private readonly IInventoryItemHistoryRepository _inventoryItemHistoryRepository;
-    private readonly IMapper _mapper;
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
-    public DeleteInventoryItemHandler(IInventoryItemCommandRepository serviceRepository, IInventoryItemHistoryRepository serviceHistoryRepository, IMapper mapper, IEventBus eventBus)
+    public DeleteInventoryItemHandler(IInventoryItemCommandRepository serviceRepository, IEventBus eventBus)
     {
         _inventoryItemRepository = serviceRepository;
-        _inventoryItemHistoryRepository = serviceHistoryRepository;
-        _mapper = mapper;
         _eventBus = eventBus;
     }
 
@@ -32,7 +28,7 @@ public class DeleteInventoryItemHandler
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregaet.GetDomainEvents())
         {
-            await _eventBus.Publish(item);
+             _eventBus.Publish(item);
         }
         //var response = new DeleteInventoryItemResponse(inventoryItem.Id);
         var response = new DeleteInventoryItemResponse();

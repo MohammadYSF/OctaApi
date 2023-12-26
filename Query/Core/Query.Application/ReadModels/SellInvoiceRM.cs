@@ -15,4 +15,5 @@ public class SellInvoiceRM
     public long Discount { get; set; }
     public long ToPay { get; set; }
     public long ToPayWhenUsingBuyPrices { get; set; }
+    public bool UseBuyPrice { get; set; }
 }
