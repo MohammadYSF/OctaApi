@@ -35,7 +35,7 @@ namespace OctaApi.Application.Features.InvoiceFeatures.CreateMiscellaneousSellIn
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in aggregate.GetDomainEvents())
             {
-                await _eventBus.PublishAsync(item);
+                await _eventBus.Publish(item);
             }
             //var response = new CreateMiscellaneousSellInvoiceResponse(invoice.Id, invoice.Code);
             var response = new CreateMiscellaneousSellInvoiceResponse();

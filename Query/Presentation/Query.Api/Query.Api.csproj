@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Query.Application\Query.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Query.Persistence\Query.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Query.RabbitMQBus\Query.RabbitMQBus.csproj" />
+  </ItemGroup>
+
 </Project>

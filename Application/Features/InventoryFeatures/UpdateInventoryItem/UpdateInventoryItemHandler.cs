@@ -39,7 +39,7 @@ public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemReq
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregate.GetDomainEvents())
         {
-            await _eventBus.PublishAsync(item);
+            await _eventBus.Publish(item);
         }
         //var response = new UpdateInventoryItemResponse(inventoryItem.Id);
         var response = new UpdateInventoryItemResponse();

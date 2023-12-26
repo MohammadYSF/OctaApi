@@ -47,7 +47,7 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddService
             var response = new AddServiceResponse();
             foreach (var item in serviceAggregate.GetDomainEvents())
             {
-                await _eventBus.PublishAsync(item);
+                await _eventBus.Publish(item);
             }
             return response;
         }

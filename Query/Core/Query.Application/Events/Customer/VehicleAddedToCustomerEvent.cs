@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Customer.Events;
+namespace Query.Application.Events.Customer;
 
 public class VehicleAddedToCustomerEvent:DomainEvent
 {

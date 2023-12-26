@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.InventoryItem.Events;
+namespace Query.Application.Events.InventoryItem;
 
 public class InventoryItemUpdatedEvent : DomainEvent
 {

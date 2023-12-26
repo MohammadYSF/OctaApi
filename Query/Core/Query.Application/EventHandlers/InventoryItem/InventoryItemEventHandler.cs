@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.ReadModels;
-using Domain.InventoryItem.Events;
+using Query.Application.Events.InventoryItem;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.InventoryItem;
 public class InventoryItemEventHandler :

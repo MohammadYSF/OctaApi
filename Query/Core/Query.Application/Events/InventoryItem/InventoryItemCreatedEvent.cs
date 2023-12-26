@@ -1,6 +1,6 @@
 ﻿using OctaApi.Domain.Common;
 
-namespace Domain.InventoryItem.Events;
+namespace Query.Application.Events.InventoryItem;
 public class InventoryItemCreatedEvent : DomainEvent
 {
     public InventoryItemCreatedEvent() : base(nameof(InventoryItemCreatedEvent))

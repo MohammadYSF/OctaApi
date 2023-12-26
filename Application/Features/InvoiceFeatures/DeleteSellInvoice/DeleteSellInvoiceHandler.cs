@@ -69,7 +69,7 @@ namespace OctaApi.Application.Features.InvoiceFeatures.DeleteSellInvoice
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in sellInvoiceAggregate.GetDomainEvents())
             {
-                await _eventBus.PublishAsync(item);   
+                await _eventBus.Publish(item);   
             }
             return new DeleteSellInvoiceResponse(request.Id);
         }

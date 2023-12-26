@@ -34,7 +34,7 @@ public class UpdateServiceHandler : IRequestHandler<UpdateServiceRequest, Update
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in serviceAggregate.GetDomainEvents())
         {
-            await _eventBus.PublishAsync(item);
+            await _eventBus.Publish(item);
         }
         //var response = new UpdateServiceResponse(service.Id);
         var response = new UpdateServiceResponse();

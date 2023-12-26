@@ -1,10 +1,9 @@
 ﻿using OctaApi.Domain.Common;
-namespace Domain.SellInvoice.Events;
+namespace Query.Application.Events.SellInvoice;
 public class InventoryItemAddedToSellInvoiceEvent:DomainEvent
 {
     public InventoryItemAddedToSellInvoiceEvent() : base(nameof(InventoryItemAddedToSellInvoiceEvent))
     {
-
     }
     //TODO
     public Guid SellInvoiceInventoryItemId { get; set; }

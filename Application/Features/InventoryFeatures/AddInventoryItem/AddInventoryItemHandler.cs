@@ -47,7 +47,7 @@ namespace OctaApi.Application.Features.InventoryFeatures.AddInventoryItem
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in inventoryItemAggregate.GetDomainEvents())
             {
-                await _eventBus.PublishAsync(item);
+                await _eventBus.Publish(item);
             }
             //return response;
             return new AddInventoryItemResponse();

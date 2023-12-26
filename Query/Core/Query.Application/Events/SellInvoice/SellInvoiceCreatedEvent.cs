@@ -1,10 +1,9 @@
 ﻿using OctaApi.Domain.Common;
-namespace Domain.SellInvoice.Events;
+namespace Query.Application.Events.SellInvoice;
 public class SellInvoiceCreatedEvent : DomainEvent
 {
     public SellInvoiceCreatedEvent() : base(nameof(SellInvoiceCreatedEvent))
     {
-
     }
     public Guid SellInvoiceId { get; set; }
     public Guid CustomerId { get; set; }

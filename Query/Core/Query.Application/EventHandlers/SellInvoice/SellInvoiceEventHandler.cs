@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.ReadModels;
-using Domain.SellInvoice.Events;
+using Query.Application.Events.SellInvoice;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.SellInvoice;
 public class SellInvoiceEventHandler :

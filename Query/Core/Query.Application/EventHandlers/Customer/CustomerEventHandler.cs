@@ -1,7 +1,6 @@
 ﻿using Application.Common;
 using Application.ReadModels;
 using Domain.Vehicle.Events;
-using OctaApi.Domain.Models;
 using Query.Application.Events.Customer;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.Customer;

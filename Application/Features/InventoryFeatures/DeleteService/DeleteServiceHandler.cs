@@ -34,7 +34,7 @@ public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest,
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in serviceAggregate.GetDomainEvents())
         {
-            await _eventBus.PublishAsync(item);
+            await _eventBus.Publish(item);
         }
         //var response = new DeleteServiceResponse(service.Id);
         var response = new DeleteServiceResponse();

@@ -32,7 +32,7 @@ public class DeleteInventoryItemHandler
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregaet.GetDomainEvents())
         {
-            await _eventBus.PublishAsync(item);
+            await _eventBus.Publish(item);
         }
         //var response = new DeleteInventoryItemResponse(inventoryItem.Id);
         var response = new DeleteInventoryItemResponse();
