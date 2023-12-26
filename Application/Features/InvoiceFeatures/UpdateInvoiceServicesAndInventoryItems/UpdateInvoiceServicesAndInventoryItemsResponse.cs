@@ -1,3 +1,0 @@
-﻿namespace OctaApi.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndInventoryItems;
-//public sealed record UpdateInvoiceServicesAndInventoryItemsResponse(Guid InvoiceId);
-public sealed record UpdateInvoiceServicesAndInventoryItemsResponse();

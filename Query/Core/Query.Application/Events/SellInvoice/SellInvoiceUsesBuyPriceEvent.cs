@@ -1,5 +1,4 @@
-﻿using OctaApi.Domain.Common;
-namespace Query.Application.Events.Vehicles;
+﻿using Query.Application.Core;
 public class SellInvoiceUsesBuyPriceEvent : DomainEvent
 {
     public SellInvoiceUsesBuyPriceEvent() : base(nameof(SellInvoiceUsesBuyPriceEvent))

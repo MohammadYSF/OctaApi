@@ -1,5 +1,4 @@
 using Query.Application;
-using Query.Application.Core;
 using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;

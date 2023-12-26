@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;
