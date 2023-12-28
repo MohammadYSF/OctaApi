@@ -10,6 +10,7 @@ using Query.Application.Events.SellInvoice;
 using Query.Application.Events.Vehicles;
 using Query.Application.Repositories;
 using Query.Infrastructure.RabbitMqBus;
+using Query.Infrastructure.RedisDistributedCache;
 using Query.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureApplication();
 builder.Services.ConfigurePersistence(builder.Configuration);
 builder.Services.ConfigureBus(builder.Configuration);
+builder.Services.ConfigureCache(builder.Configuration);
 
 string authUrl = builder.Configuration.GetSection("AuthUrl").Value;
 builder.Services.AddAuthentication("Bearer")

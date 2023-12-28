@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Utility", "Command\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Api", "Command\Presentation\OctaApi\Command.Api.csproj", "{1FCB63D0-C5ED-4AE1-B9B2-2E163E15B910}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Query.RedisDistributedCache", "Query.ReddisDistributedCache\Query.RedisDistributedCache.csproj", "{E6BA4B8C-E6C2-4DCD-81D3-685CF76AFCFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{1FCB63D0-C5ED-4AE1-B9B2-2E163E15B910}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FCB63D0-C5ED-4AE1-B9B2-2E163E15B910}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FCB63D0-C5ED-4AE1-B9B2-2E163E15B910}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6BA4B8C-E6C2-4DCD-81D3-685CF76AFCFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6BA4B8C-E6C2-4DCD-81D3-685CF76AFCFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6BA4B8C-E6C2-4DCD-81D3-685CF76AFCFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6BA4B8C-E6C2-4DCD-81D3-685CF76AFCFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +118,7 @@ Global
 		{72CFDD4B-C7D5-4032-A750-3FCC44D6D995} = {70511E38-9CDD-4E8C-B4A2-FB4B1DB09AE3}
 		{EC5CE569-C1D8-45B0-9A2B-F92640B69503} = {70511E38-9CDD-4E8C-B4A2-FB4B1DB09AE3}
 		{1FCB63D0-C5ED-4AE1-B9B2-2E163E15B910} = {C9C600F0-F68C-4CF0-A6EE-FFAE4511F7EA}
+		{E6BA4B8C-E6C2-4DCD-81D3-685CF76AFCFA} = {E065966D-A09D-45A8-8477-CE087BD34AC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {79305810-C939-41D0-91BA-DF42E970092B}

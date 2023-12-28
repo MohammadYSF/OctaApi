@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 namespace OctaApi.Controllers.Customer;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetCustomersController : ControllerBase

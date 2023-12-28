@@ -10,11 +10,13 @@ public class CustomerEventHandler :
 {
     private readonly ICustomerQueryRepository _customerQueryRepository;
     private readonly IQueryUnitOfWork _queryUnitOfWork;
+    private readonly IDistributedCacheService<CustomerRM> _customerRMCacheService;
 
-    public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork)
+    public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<CustomerRM> customerRMCacheService)
     {
         _customerQueryRepository = customerQueryRepository;
         _queryUnitOfWork = queryUnitOfWork;
+        _customerRMCacheService = customerRMCacheService;
     }
 
     public async Task HandleAsync(CustomerCreatedEvent @event)
@@ -30,6 +32,7 @@ public class CustomerEventHandler :
         };
         await _customerQueryRepository.AddAsync(customerRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _customerRMCacheService.Dirty();
 
     }
 

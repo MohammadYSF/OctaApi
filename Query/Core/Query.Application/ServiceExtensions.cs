@@ -11,12 +11,15 @@ using Query.Application.Events.InventoryItem;
 using Query.Application.Events.SellInvoice;
 using Query.Application.Events.Services;
 using Query.Application.Events.Vehicles;
+using System.Reflection;
 
 namespace Query.Application;
 public static class ServiceExtensions
 {
     public static void ConfigureApplication(this IServiceCollection services)
     {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
         services.AddTransient<BuyInvoiceEventHandler>();
         services.AddTransient<IEventHandler<BuyInvoiceCreatedEvent>, BuyInvoiceEventHandler>();
         services.AddTransient<CustomerEventHandler>();
