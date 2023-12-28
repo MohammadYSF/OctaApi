@@ -21,20 +21,13 @@ namespace Command.Core.Application.Features.InvoiceFeatures.CreateMiscellaneousS
             DateTime createDate = DateTime.Now;
             int code = await _sellInvoiceRepository.GenerateNewCodeAsync();
             var aggregate = SellInvoiceAggregate.CreateMiscellaneous(id, createDate, code);
-            //Invoice invoice = new();
-            //invoice.Id = Guid.NewGuid();
-            //invoice.CustomerId= Guid.Parse("e7ee7b39-c393-4c5a-85f9-35568138943b");
-            //invoice.RegisterDate = DateTime.Now;
-            //invoice.Code = await _invoiceRepository.GetNewInvoiceCode();
-            //invoice.Type = Domain.Enums.InvoiceType.Sell;
-            //await _invoiceRepository.AddAsync(invoice);
             await _sellInvoiceRepository.UpdateAsync(aggregate);
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in aggregate.GetDomainEvents())
             {
-                 _eventBus.Publish(item);
+                _eventBus.Publish(item);
             }
-            //var response = new CreateMiscellaneousSellInvoiceResponse(invoice.Id, invoice.Code);
+
             var response = new CreateMiscellaneousSellInvoiceResponse();
             return response;
         }

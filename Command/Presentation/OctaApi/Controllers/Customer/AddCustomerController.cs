@@ -1,10 +1,9 @@
 ﻿using Command.Core.Application.Features.CustomerFeatures.AddCustomer;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace Command.Presentation.Api.Controllers.Customer;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class AddCustomerController : ControllerBase
@@ -18,7 +17,7 @@ public class AddCustomerController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index([FromBody]AddCustomerRequest request)
+    public async Task<IActionResult> Index([FromBody] AddCustomerRequest request)
     {
         try
         {
@@ -28,7 +27,7 @@ public class AddCustomerController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

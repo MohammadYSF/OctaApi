@@ -11,7 +11,7 @@ public sealed class GetInvoiceByIdHandler : IRequestHandler<GetInvoiceByIdReques
     public async Task<GetInvoiceByIdResponse> Handle(GetInvoiceByIdRequest request, CancellationToken cancellationToken)
     {
         var sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(request.InvoiceId);
-        var sellInvoiceDescriptionRM =await  _sellInvoiceQueryRepository.GetSellInvoiceDescriptionRMBySellInvoiceId(request.InvoiceId);
+        var sellInvoiceDescriptionRM = await _sellInvoiceQueryRepository.GetSellInvoiceDescriptionRMBySellInvoiceId(request.InvoiceId);
 
         var response = new GetInvoiceByIdResponse(sellInvoiceRM, sellInvoiceDescriptionRM);
         return response;

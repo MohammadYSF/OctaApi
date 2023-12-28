@@ -1,4 +1,6 @@
-﻿using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Common.Exceptions;
+using Command.Core.Application.Repositories;
+using Command.Core.Domain.SellInvoice;
 using MediatR;
 namespace Command.Core.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
 public sealed class AddInvoicePaymentHandler : IRequestHandler<AddInvoicePaymentRequest, AddInvoicePaymentResponse>
@@ -20,6 +22,8 @@ public sealed class AddInvoicePaymentHandler : IRequestHandler<AddInvoicePayment
     public async Task<AddInvoicePaymentResponse> Handle(AddInvoicePaymentRequest request, CancellationToken cancellationToken)
     {
         var sellInvoiceAggregate = await _sellInvoiceCommandRepository.GetByIdAsync(request.InvoiceId);
+        if (sellInvoiceAggregate == null)
+            throw new AggregateNotFoundException<SellInvoiceAggregate>($"{nameof(SellInvoiceAggregate)} with id {request.InvoiceId} not found !");
         var sellInvoicePaymentRMs = await _sellInvoicePaymentRMRepository.GetBySellInvoiceIdAsync(request.InvoiceId);
         var sellInvoiceRM = await _sellInvoiceRMRepository.GetBySellInvoiceId(request.InvoiceId);
         var total = sellInvoiceAggregate.UseBuyPrice ? sellInvoiceRM.TotalPriceWhenUsingBuyPrices : sellInvoiceRM.TotalPrice;
@@ -27,7 +31,7 @@ public sealed class AddInvoicePaymentHandler : IRequestHandler<AddInvoicePayment
         var dateTimeNow = DateTime.UtcNow;
         foreach (var item in request.TrackCodeAndAmountList)
         {
-            sellInvoiceAggregate.Pay(item.Item2, dateTimeNow, item.Item1, paidSoFar , total);
+            sellInvoiceAggregate.Pay(item.Item2, dateTimeNow, item.Item1, paidSoFar, total);
             //todo:handle the exception here
         }
         foreach (var item in sellInvoiceAggregate.GetDomainEvents())

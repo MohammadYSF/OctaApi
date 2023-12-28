@@ -1,8 +1,8 @@
+using Command.Core.Application;
 using Command.Core.Application.EventHandlers.Vehicle;
 using Command.Core.Application.Repositories;
 using Command.Core.Domain.Customer.Events;
 using Command.Infrastructure.Persistence.Persistence;
-using Command.Core.Application;
 using Command.Infrastructure.RabbitMqBus;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigurePersistence(builder.Configuration);
-builder.Services.ConfigureBus(builder.Configuration);
 builder.Services.ConfigureApplication();
+builder.Services.ConfigureBus(builder.Configuration);
 string authUrl = builder.Configuration.GetSection("AuthUrl").Value;
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
@@ -52,9 +52,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 var eventBus = app.Services.GetRequiredService<IEventBus>();
 eventBus.Subscribe<VehicleAddedToCustomerEvent, VehicleAggregateEventHandler>();
-//app.MapControllers();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
+
 app.Run();

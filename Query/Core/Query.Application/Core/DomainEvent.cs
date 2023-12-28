@@ -1,7 +1,7 @@
 namespace Query.Application.Core;
-public abstract class DomainEvent
+public class DomainEvent
 {
-    public string Type { get;private set; }
+    public string Type { get; set; }
     public DomainEvent(string type)
     {
         this.Type = type;

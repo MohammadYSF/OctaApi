@@ -18,7 +18,7 @@ public class DeleteInventoryItemController : ControllerBase
         _logger = logger;
     }
     [HttpDelete]
-    public async Task<IActionResult> Index([FromQuery]DeleteInventoryItemRequest request)
+    public async Task<IActionResult> Index([FromQuery] DeleteInventoryItemRequest request)
     {
         try
         {
@@ -28,7 +28,7 @@ public class DeleteInventoryItemController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

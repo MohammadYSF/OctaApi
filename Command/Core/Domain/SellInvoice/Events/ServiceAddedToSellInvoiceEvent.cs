@@ -2,7 +2,7 @@
 
 namespace Command.Core.Domain.SellInvoice.Events;
 
-public class ServiceAddedToSellInvoiceEvent:DomainEvent
+public class ServiceAddedToSellInvoiceEvent : DomainEvent
 {
     public ServiceAddedToSellInvoiceEvent() : base(nameof(ServiceAddedToSellInvoiceEvent))
     {
@@ -11,6 +11,6 @@ public class ServiceAddedToSellInvoiceEvent:DomainEvent
     public Guid SellInvoiceServiceId { get; set; }
     public Guid SellInvoiceId { get; set; }
     public Guid ServiceId { get; set; }
-    public long Price{ get; set; }
+    public long Price { get; set; }
 
 }

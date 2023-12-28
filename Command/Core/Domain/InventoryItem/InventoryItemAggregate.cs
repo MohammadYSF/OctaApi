@@ -26,7 +26,7 @@ public class InventoryItemَAggregate : AggregateRoot
     }
     public void Delete()
     {
-        this.IsActive = false;        
+        this.IsActive = false;
     }
     public void Buy(long buyPrice, long sellPrice, float count)
     {

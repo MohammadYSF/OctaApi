@@ -31,6 +31,6 @@ public class CreateSellInvoiceController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

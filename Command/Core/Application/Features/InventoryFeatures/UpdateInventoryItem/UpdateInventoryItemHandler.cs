@@ -1,4 +1,6 @@
-﻿using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Common.Exceptions;
+using Command.Core.Application.Repositories;
+using Command.Core.Domain.InventoryItem;
 using MediatR;
 namespace Command.Core.Application.Features.InventoryFeatures.UpdateInventoryItem;
 public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemRequest, UpdateInventoryItemResponse>
@@ -16,16 +18,15 @@ public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemReq
     {
         var inventoryItemAggregate = await _inventoryItemRepository.GetByIdAsync(request.Id);
         if (inventoryItemAggregate == null)
-            throw new Exception("");
+            throw new AggregateNotFoundException<InventoryItemَAggregate>($"{nameof(InventoryItemَAggregate)} with id {request.Id} not found !");
         inventoryItemAggregate.Update(request.Name, request.BuyPrice, request.SellPrice, request.Count);
         await _inventoryItemRepository.UpdateAsync(inventoryItemAggregate);
-       
+
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
-        //var response = new UpdateInventoryItemResponse(inventoryItem.Id);
         var response = new UpdateInventoryItemResponse();
         return response;
     }

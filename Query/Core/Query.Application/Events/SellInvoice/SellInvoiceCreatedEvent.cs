@@ -7,7 +7,7 @@ public class SellInvoiceCreatedEvent : DomainEvent
     }
     public Guid SellInvoiceId { get; set; }
     public Guid CustomerId { get; set; }
-    public Guid VehicleId{ get; set; }
+    public Guid VehicleId { get; set; }
     public string SellInvoiceCode { get; set; }
     public DateTime CreatedDate { get; set; }
 }

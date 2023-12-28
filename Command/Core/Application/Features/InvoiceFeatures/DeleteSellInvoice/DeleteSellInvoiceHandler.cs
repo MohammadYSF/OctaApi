@@ -1,4 +1,5 @@
-﻿using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Common.Exceptions;
+using Command.Core.Application.Repositories;
 using Command.Core.Domain.SellInvoice;
 using MediatR;
 namespace Command.Core.Application.Features.InvoiceFeatures.DeleteSellInvoice;
@@ -17,13 +18,15 @@ public sealed class DeleteSellInvoiceHandler : IRequestHandler<DeleteSellInvoice
     public async Task<DeleteSellInvoiceResponse> Handle(DeleteSellInvoiceRequest request, CancellationToken cancellationToken)
     {
         SellInvoiceAggregate? sellInvoiceAggregate = await _sellInvoiceRepository.GetByIdAsync(request.Id);
+        if (sellInvoiceAggregate == null)
+            throw new AggregateNotFoundException<SellInvoiceAggregate>($"{nameof(SellInvoiceAggregate)} with id {request.Id} not found !");
         sellInvoiceAggregate?.Delete();
         await _sellInvoiceRepository.DeleteAsync(sellInvoiceAggregate!);
-      
+
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in sellInvoiceAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);   
+            _eventBus.Publish(item);
         }
         return new DeleteSellInvoiceResponse(request.Id);
     }

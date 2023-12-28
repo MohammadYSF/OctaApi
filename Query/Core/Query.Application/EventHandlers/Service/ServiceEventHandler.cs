@@ -19,7 +19,7 @@ public class ServiceEventHandler :
         _queryUnitOfWork = queryUnitOfWork;
     }
 
-    public async Task HandleAsync(ServiceCreatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(ServiceCreatedEvent @event)
     {
         var serviceRM = new ServiceRM
         {
@@ -32,10 +32,10 @@ public class ServiceEventHandler :
             ToDate = null,
         };
         await _serviceQueryRepository.AddAsync(serviceRM);
-        await _queryUnitOfWork.SaveAsync(cancellationToken);
+        await _queryUnitOfWork.SaveAsync(default);
     }
 
-    public async Task HandleAsync(ServiceUpdatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(ServiceUpdatedEvent @event)
     {
         try
         {
@@ -54,7 +54,7 @@ public class ServiceEventHandler :
             };
             await _serviceQueryRepository.UpdateAsync(prevRM);
             await _serviceQueryRepository.AddAsync(newServiceRM);
-            await _queryUnitOfWork.SaveAsync(cancellationToken);
+            await _queryUnitOfWork.SaveAsync(default);
         }
         catch (Exception e)
         {

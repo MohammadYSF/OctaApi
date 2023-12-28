@@ -1,4 +1,5 @@
-﻿using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Common.Exceptions;
+using Command.Core.Application.Repositories;
 using Command.Core.Domain.SellInvoice;
 using MediatR;
 namespace Command.Core.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndInventoryItems;
@@ -6,16 +7,19 @@ public sealed record class UpdateInvoiceServicesAndInventoryItemsHandler : IRequ
 {
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
-    public UpdateInvoiceServicesAndInventoryItemsHandler(ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository)
+    private readonly IEventBus _eventBus;
+    public UpdateInvoiceServicesAndInventoryItemsHandler(ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
     {
         _unitOfWork = unitOfWork;
         _sellInvoiceRepository = sellInvoiceRepository;
+        _eventBus = eventBus;
     }
     public async Task<UpdateInvoiceServicesAndInventoryItemsResponse> Handle(UpdateInvoiceServicesAndInventoryItemsRequest request, CancellationToken cancellationToken)
     {
         var datetimeNow = DateTime.Now;
         SellInvoiceAggregate? sellInvoiceAggregate = await _sellInvoiceRepository.GetByIdAsync(request.InvoiceId);
-
+        if (sellInvoiceAggregate == null)
+            throw new AggregateNotFoundException<SellInvoiceAggregate>($"{nameof(SellInvoiceAggregate)} with id {request.InvoiceId} not found !");
         sellInvoiceAggregate?.UpdateDescription(request.Description);
         sellInvoiceAggregate?.SetUseBuyPrice(request.UseBuyPrice);
         foreach (var item in request.ServiceIdsAndPrices)
@@ -43,8 +47,12 @@ public sealed record class UpdateInvoiceServicesAndInventoryItemsHandler : IRequ
 
         await _sellInvoiceRepository.UpdateAsync(sellInvoiceAggregate);
 
-       
+
         await _unitOfWork.SaveAsync(cancellationToken);
+        foreach (var item in sellInvoiceAggregate.GetDomainEvents())
+        {
+            _eventBus.Publish(item);
+        }
         var response = new UpdateInvoiceServicesAndInventoryItemsResponse();
         return response;
     }

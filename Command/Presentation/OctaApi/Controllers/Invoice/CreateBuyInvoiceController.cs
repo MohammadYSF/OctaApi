@@ -17,7 +17,7 @@ public class CreateBuyInvoiceController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index([FromBody]CreateBuyInvoiceRequest request)
+    public async Task<IActionResult> Index([FromBody] CreateBuyInvoiceRequest request)
     {
         try
         {
@@ -31,6 +31,6 @@ public class CreateBuyInvoiceController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

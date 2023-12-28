@@ -2,5 +2,5 @@
 
 namespace OctaApi.Application.Features.InvoiceFeatures.GetSellInvoiceInventoryItems
 {
-    public sealed record GetSellInvoiceInventoryItemsResponse(List<SellInvoiceInventoryItemRM> Data);    
+    public sealed record GetSellInvoiceInventoryItemsResponse(List<SellInvoiceInventoryItemRM> Data);
 }

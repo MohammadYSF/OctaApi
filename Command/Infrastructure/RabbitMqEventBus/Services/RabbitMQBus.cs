@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client;
-using System.Text;
-using Newtonsoft.Json;
-using RabbitMQ.Client.Events;
-using Microsoft.Extensions.Options;
-using Command.Core.Domain.Core;
-using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Repositories;
 using Command.Core.Common;
+using Command.Core.Domain.Core;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
+using System.Threading.Channels;
 namespace Command.Infrastructure.RabbitMqBus.Services;
 public sealed class RabbitMQBus : IEventBus
 {
@@ -36,15 +37,14 @@ public sealed class RabbitMQBus : IEventBus
         connectionFactory.Password = _rabbitMqConfig.Password;
 
         using IConnection connection = connectionFactory.CreateConnection();
-        IModel model = connection.CreateModel();
-        IBasicProperties basicProperties = model.CreateBasicProperties();
+        using IModel channel = connection.CreateModel();
+        IBasicProperties basicProperties = channel.CreateBasicProperties();
         basicProperties.Persistent = true;
-        using IModel model2 = connection.CreateModel();
         string name = @event.GetType().Name;
-        model2.QueueDeclare(name, durable: true, exclusive: false, autoDelete: false, null);
+        channel.QueueDeclare(name, durable: true, exclusive: false, autoDelete: false, null);
         string s = JsonConvert.SerializeObject(@event, Formatting.Indented);
         byte[] bytes = Encoding.UTF8.GetBytes(s);
-        model2.BasicPublish("", name, mandatory: true, basicProperties, bytes);
+        channel.BasicPublish("", name, mandatory: true, basicProperties, bytes);
     }
 
     public void Subscribe<T, TH>() where T : DomainEvent where TH : IEventHandler<T>
@@ -72,18 +72,23 @@ public sealed class RabbitMQBus : IEventBus
 
     private void StartBasicConsume<T>() where T : DomainEvent
     {
+
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.HostName = _rabbitMqConfig.HostName;
         connectionFactory.UserName = _rabbitMqConfig.UserName;
         connectionFactory.Password = _rabbitMqConfig.Password;
 
         IConnection connection = connectionFactory.CreateConnection();
-        IModel model = connection.CreateModel();
+        IModel channel = connection.CreateModel();
         string name = typeof(T).Name;
-        model.QueueDeclare(name, durable: true, exclusive: false, autoDelete: false, null);
-        var asyncEventingBasicConsumer = new AsyncEventingBasicConsumer(model);
-        asyncEventingBasicConsumer.Received += Consumer_Received;
-        model.BasicConsume(name, autoAck: true, asyncEventingBasicConsumer);
+        channel.QueueDeclare(name, durable: true, exclusive: false, autoDelete: false, null);
+        var asyncEventingBasicConsumer = new EventingBasicConsumer(channel);
+        asyncEventingBasicConsumer.Received += async (sender, e) =>
+        {
+            await Consumer_Received(sender, e);
+        };
+        channel.BasicConsume(name, autoAck: true, asyncEventingBasicConsumer);
+
     }
 
     private async Task Consumer_Received(object sender, BasicDeliverEventArgs e)
@@ -117,7 +122,7 @@ public sealed class RabbitMQBus : IEventBus
                 Type eventType = _eventTypes.SingleOrDefault((Type t) => t.Name == eventName2);
                 object @event = JsonConvert.DeserializeObject(message, eventType);
                 Type conreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
-                await (Task)conreteType.GetMethod("Handle").Invoke(handler, new object[1] { @event });
+                await (Task)conreteType.GetMethod("HandleAsync").Invoke(handler, new object[1] { @event });
             }
         }
     }

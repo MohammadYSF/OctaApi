@@ -16,7 +16,8 @@ public class CustomerCommandRepository : ICustomerCommandRepository
     }
     public async Task<int> GenerateNewCustomerCodeAsync()
     {
-        List<int> usedCodes = await _writeDbContext.Vehicles.Select(a => a.Code.Value).ToListAsync();
+        List<int> usedCodes = await _writeDbContext.Customers.Select(a => a.Code.Value).ToListAsync();
+        if (usedCodes.Count == 0) return 1;
         int min = usedCodes.Min();
         int max = usedCodes.Max();
         List<int> unUsedCodes = Enumerable.Range(min, max).Where(a => !usedCodes.Contains(a)).ToList();

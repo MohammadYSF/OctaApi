@@ -1,4 +1,6 @@
-﻿using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Common.Exceptions;
+using Command.Core.Application.Repositories;
+using Command.Core.Domain.Service;
 using MediatR;
 namespace Command.Core.Application.Features.InventoryFeatures.DeleteService;
 public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest, DeleteServiceResponse>
@@ -8,7 +10,7 @@ public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest,
     private readonly IEventBus _eventBus;
 
 
-    public DeleteServiceHandler(IServiceCommandRepository serviceRepository,  IEventBus eventBus)
+    public DeleteServiceHandler(IServiceCommandRepository serviceRepository, IEventBus eventBus)
     {
         _serviceRepository = serviceRepository;
         _eventBus = eventBus;
@@ -18,15 +20,14 @@ public sealed class DeleteServiceHandler : IRequestHandler<DeleteServiceRequest,
     {
         var serviceAggregate = await _serviceRepository.GetByCodeAsync(request.Code);
         if (serviceAggregate == null)
-            throw new Exception(""); //todo
+            throw new AggregateNotFoundException<ServiceAggregate>($"{nameof(ServiceAggregate)} with code {request.Code} not found !");
         serviceAggregate.Delete();
         await _serviceRepository.UpdateAsync(serviceAggregate);
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in serviceAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
-        //var response = new DeleteServiceResponse(service.Id);
         var response = new DeleteServiceResponse();
         return response;
     }

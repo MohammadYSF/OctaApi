@@ -17,7 +17,7 @@ public class UpdateInventoryItemController : ControllerBase
         _logger = logger;
     }
     [HttpPut]
-    public async Task<IActionResult> Index([FromBody]UpdateInventoryItemRequest request)
+    public async Task<IActionResult> Index([FromBody] UpdateInventoryItemRequest request)
     {
         try
         {
@@ -27,7 +27,7 @@ public class UpdateInventoryItemController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

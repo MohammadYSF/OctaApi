@@ -17,7 +17,7 @@ public class CreateMiscellaneousSellInvoiceController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index([FromBody]CreateMiscellaneousSellInvoiceRequest request)
+    public async Task<IActionResult> Index([FromBody] CreateMiscellaneousSellInvoiceRequest request)
     {
         try
         {
@@ -31,6 +31,6 @@ public class CreateMiscellaneousSellInvoiceController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

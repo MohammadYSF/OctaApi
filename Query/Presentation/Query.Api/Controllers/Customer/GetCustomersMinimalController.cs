@@ -29,7 +29,7 @@ public class GetCustomersMinimalController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

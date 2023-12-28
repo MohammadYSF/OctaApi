@@ -2,6 +2,6 @@
 
 namespace OctaApi.Application.Features.InvoiceFeatures.GetSellInvoices
 {
-    public sealed record GetSellInvoicesRequest():IRequest<GetSellInvoicesResponse>;
- 
+    public sealed record GetSellInvoicesRequest() : IRequest<GetSellInvoicesResponse>;
+
 }

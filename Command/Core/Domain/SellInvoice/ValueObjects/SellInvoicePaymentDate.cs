@@ -1,7 +1,7 @@
 ﻿using Command.Core.Domain.Core;
 
 namespace Command.Core.Domain.SellInvoice.ValueObjects;
-public class SellInvoicePaymentDate:ValueObject<SellInvoicePaymentDate>
+public class SellInvoicePaymentDate : ValueObject<SellInvoicePaymentDate>
 {
     public SellInvoicePaymentDate(DateTime value)
     {

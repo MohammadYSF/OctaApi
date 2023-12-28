@@ -22,15 +22,15 @@ public class GetCustomersController : ControllerBase
     {
         var request = new GetCustomersRequest();
         try
-        {  
-                                     
+        {
+
             var response = await _mediator.Send(request);
             return Ok(response);
 
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

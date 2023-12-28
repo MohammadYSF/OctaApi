@@ -32,6 +32,6 @@ public class GetDailySellInvoicesController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

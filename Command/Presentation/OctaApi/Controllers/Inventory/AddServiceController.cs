@@ -18,7 +18,7 @@ public class AddServiceController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index([FromBody]AddServiceRequest request)
+    public async Task<IActionResult> Index([FromBody] AddServiceRequest request)
     {
         try
         {
@@ -28,7 +28,7 @@ public class AddServiceController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

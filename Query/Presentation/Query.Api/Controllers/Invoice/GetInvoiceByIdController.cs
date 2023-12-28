@@ -31,6 +31,6 @@ public class GetInvoiceByIdController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

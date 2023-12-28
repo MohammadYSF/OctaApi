@@ -17,7 +17,7 @@ public class DeleteServiceController : ControllerBase
         _logger = logger;
     }
     [HttpDelete]
-    public async Task<IActionResult> Index([FromQuery]DeleteServiceRequest request)
+    public async Task<IActionResult> Index([FromQuery] DeleteServiceRequest request)
     {
         try
         {
@@ -27,7 +27,7 @@ public class DeleteServiceController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

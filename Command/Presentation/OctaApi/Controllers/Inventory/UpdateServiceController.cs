@@ -17,7 +17,7 @@ public class UpdateServiceController : ControllerBase
         _logger = logger;
     }
     [HttpPut]
-    public async Task<IActionResult> Index([FromBody]UpdateServiceRequest request)
+    public async Task<IActionResult> Index([FromBody] UpdateServiceRequest request)
     {
         try
         {
@@ -27,7 +27,7 @@ public class UpdateServiceController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

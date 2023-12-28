@@ -1,8 +1,11 @@
-﻿using System.Reflection;
-using Command.Core.Application.Common.Behavior;
+﻿using Command.Core.Application.Common.Behavior;
+using Command.Core.Application.EventHandlers.Vehicle;
+using Command.Core.Common;
+using Command.Core.Domain.Customer.Events;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Command.Core.Application;
 
@@ -16,5 +19,8 @@ public static class ServiceExtensions
         //services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddTransient<VehicleAggregateEventHandler>();
+        services.AddTransient<IEventHandler<VehicleAddedToCustomerEvent>, VehicleAggregateEventHandler>();
+
     }
 }

@@ -43,7 +43,7 @@ public class SellInvoiceAggregateConfig : IEntityTypeConfiguration<SellInvoiceAg
             {
                 d.Property(e => e.Value).HasColumnName("PaidDate").IsRequired(true);
             });
-    
+
         });
         builder.OwnsMany(a => a.Services, b =>
         {

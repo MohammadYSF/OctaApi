@@ -16,7 +16,7 @@ public class InventoryItemEventHandler :
         _inventoryItemQueryRepository = inventoryItemQueryRepository;
     }
 
-    public async Task HandleAsync(InventoryItemCreatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(InventoryItemCreatedEvent @event)
     {
         var inventoryItemRM = new InventoryItemRM
         {
@@ -31,10 +31,10 @@ public class InventoryItemEventHandler :
             ToDate = null
         };
         await _inventoryItemQueryRepository.AddAsync(inventoryItemRM);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await _unitOfWork.SaveAsync(default);
     }
 
-    public async Task HandleAsync(InventoryItemUpdatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(InventoryItemUpdatedEvent @event)
     {
         try
         {
@@ -55,7 +55,7 @@ public class InventoryItemEventHandler :
             };
             await _inventoryItemQueryRepository.UpdateAsync(prevRM);
             await _inventoryItemQueryRepository.AddAsync(inventoryItemRM);
-            await _unitOfWork.SaveAsync(cancellationToken);
+            await _unitOfWork.SaveAsync(default);
         }
         catch (Exception e)
         {

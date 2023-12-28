@@ -3,5 +3,5 @@
 
 public interface IEventHandler<T> where T : DomainEvent
 {
-    Task HandleAsync(T @event,CancellationToken cancellationToken);
+    Task HandleAsync(T @event);
 }

@@ -9,5 +9,5 @@ public class InventoryItemCreatedEvent : DomainEvent
     public Guid InventoryItemId { get; set; }
     public DateTime CreateDateTime { get; set; }
     public int Code { get; set; }
-    public string Name{ get; set; }
+    public string Name { get; set; }
 }

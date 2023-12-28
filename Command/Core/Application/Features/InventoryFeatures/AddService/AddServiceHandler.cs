@@ -7,8 +7,7 @@ public class AddServiceHandler : IRequestHandler<AddServiceRequest, AddServiceRe
     private readonly IServiceCommandRepository _serviceRepository;
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
-
-    public AddServiceHandler(IServiceCommandRepository serviceRepository,  ICommandUnitOfWork unitOfWork, IEventBus eventBus)
+    public AddServiceHandler(IServiceCommandRepository serviceRepository, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
     {
         _serviceRepository = serviceRepository;
         _unitOfWork = unitOfWork;
@@ -24,7 +23,7 @@ public class AddServiceHandler : IRequestHandler<AddServiceRequest, AddServiceRe
         var response = new AddServiceResponse();
         foreach (var item in serviceAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
         return response;
     }

@@ -1,5 +1,6 @@
-﻿using Command.Core.Application.Features.InventoryFeatures.DeleteService;
+﻿using Command.Core.Application.Common.Exceptions;
 using Command.Core.Application.Repositories;
+using Command.Core.Domain.InventoryItem;
 namespace Command.Core.Application.Features.InventoryFeatures.DeleteInventoryItem;
 public class DeleteInventoryItemHandler
 {
@@ -12,23 +13,18 @@ public class DeleteInventoryItemHandler
         _eventBus = eventBus;
     }
 
-    public async Task<DeleteInventoryItemResponse> Handle(DeleteServiceRequest request, CancellationToken cancellationToken)
+    public async Task<DeleteInventoryItemResponse> Handle(DeleteInventoryItemRequest request, CancellationToken cancellationToken)
     {
         var inventoryItemAggregaet = await _inventoryItemRepository.GetByCodeAsync(request.Code);
         if (inventoryItemAggregaet == null)
-            throw new Exception(""); //todo
-        //inventoryItem.IsActive = false;
-        //var inventoryItemHistory = _mapper.Map<InventoryItemHistory>(inventoryItem);
-        //_inventoryItemRepository.Update(inventoryItem);
-        //await _inventoryItemHistoryRepository.AddAsync(inventoryItemHistory);
+            throw new AggregateNotFoundException<InventoryItemَAggregate>($"{nameof(InventoryItemَAggregate)} with code {request.Code} not found !");
         inventoryItemAggregaet.Delete();
         await _inventoryItemRepository.UpdateAsync(inventoryItemAggregaet);
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregaet.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
-        //var response = new DeleteInventoryItemResponse(inventoryItem.Id);
         var response = new DeleteInventoryItemResponse();
         return response;
     }

@@ -17,7 +17,7 @@ public class UpdateInvoiceServicesAndInventoryItemsController : ControllerBase
         _logger = logger;
     }
     [HttpPut]
-    public async Task<IActionResult> Index([FromBody]UpdateInvoiceServicesAndInventoryItemsRequest request)
+    public async Task<IActionResult> Index([FromBody] UpdateInvoiceServicesAndInventoryItemsRequest request)
     {
         try
         {
@@ -31,6 +31,6 @@ public class UpdateInvoiceServicesAndInventoryItemsController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

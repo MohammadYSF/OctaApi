@@ -1,7 +1,6 @@
 ﻿using Command.Core.Application.Repositories;
 using Command.Core.Domain.InventoryItem;
 using MediatR;
-
 namespace Command.Core.Application.Features.InventoryFeatures.AddInventoryItem;
 public class AddInventoryItemHandler : IRequestHandler<AddInventoryItemRequest, AddInventoryItemResponse>
 {
@@ -9,7 +8,7 @@ public class AddInventoryItemHandler : IRequestHandler<AddInventoryItemRequest, 
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
 
-    public AddInventoryItemHandler( IInventoryItemCommandRepository inventoryItemRepository,ICommandUnitOfWork unitOfWork, IEventBus eventBus)
+    public AddInventoryItemHandler(IInventoryItemCommandRepository inventoryItemRepository, ICommandUnitOfWork unitOfWork, IEventBus eventBus)
     {
         _inventoryItemRepository = inventoryItemRepository;
         _unitOfWork = unitOfWork;
@@ -26,9 +25,8 @@ public class AddInventoryItemHandler : IRequestHandler<AddInventoryItemRequest, 
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in inventoryItemAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
-        //return response;
         return new AddInventoryItemResponse();
     }
 }

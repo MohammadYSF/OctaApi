@@ -14,11 +14,12 @@ public class VehicleAggregateEventHandler : IEventHandler<VehicleAddedToCustomer
         _unitOfWork = unitOfWork;
     }
 
-    public async Task HandleAsync(VehicleAddedToCustomerEvent @event, CancellationToken cancellationToken)
+
+    public async Task HandleAsync(VehicleAddedToCustomerEvent @event)
     {
         int code = await _vehicleRepository.GenerateNewVehicleCodeAsync();
         VehicleAggregate vehicleAggregate = VehicleAggregate.Create(@event.VehicleId, code, @event.VehicleName, @event.VehiclePlate, @event.VehicleColor);
         await _vehicleRepository.AddAsync(vehicleAggregate);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await _unitOfWork.SaveAsync(default);
     }
 }

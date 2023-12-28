@@ -17,7 +17,7 @@ public class GetBuyInvoicesController : ControllerBase
         _logger = logger;
     }
     [HttpGet]
-    public async Task<IActionResult> Index([FromQuery]GetBuyInvoicesRequest request)
+    public async Task<IActionResult> Index([FromQuery] GetBuyInvoicesRequest request)
     {
         try
         {
@@ -31,6 +31,6 @@ public class GetBuyInvoicesController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

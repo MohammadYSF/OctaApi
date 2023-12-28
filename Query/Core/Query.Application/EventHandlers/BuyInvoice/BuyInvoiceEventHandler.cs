@@ -15,7 +15,7 @@ public class BuyInvoiceEventHandler :
         _queryUnitOfWork = queryUnitOfWork;
     }
 
-    public async Task HandleAsync(BuyInvoiceCreatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(BuyInvoiceCreatedEvent @event)
     {
         BuyInvoiceRM buyInvoiceRM = new()
         {
@@ -26,6 +26,6 @@ public class BuyInvoiceEventHandler :
             TotalPrice = 0
         };
         await _buyInvoiceQueryRepository.AddAsync(buyInvoiceRM);
-        await _queryUnitOfWork.SaveAsync(cancellationToken);
+        await _queryUnitOfWork.SaveAsync(default);
     }
 }

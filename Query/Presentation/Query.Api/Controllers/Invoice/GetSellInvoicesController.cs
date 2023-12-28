@@ -31,6 +31,6 @@ public class GetSellInvoicesController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

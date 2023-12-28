@@ -8,5 +8,5 @@ public interface ISellInvoiceCommandRepository
     Task<SellInvoiceAggregate?> GetByIdAsync(Guid id);
     Task UpdateAsync(SellInvoiceAggregate sellInvoiceAggregate);
     Task AddAsync(SellInvoiceAggregate sellInvoiceAggregate);
-    
+
 }

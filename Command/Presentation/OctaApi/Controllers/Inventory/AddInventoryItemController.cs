@@ -18,7 +18,7 @@ public class AddInventoryItemController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index([FromBody]AddInventoryItemRequest request)
+    public async Task<IActionResult> Index([FromBody] AddInventoryItemRequest request)
     {
         try
         {
@@ -28,7 +28,7 @@ public class AddInventoryItemController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e,"");
+            _logger.LogError(e, "");
             return BadRequest();
         }
     }

@@ -2,6 +2,6 @@
 
 namespace OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal
 {
-    public sealed record GetVehiclesMinimalRequest():IRequest<GetVehiclesMinimalResponse>;
- 
+    public sealed record GetVehiclesMinimalRequest() : IRequest<GetVehiclesMinimalResponse>;
+
 }

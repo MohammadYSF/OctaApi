@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- namespace Command.Presentation.Api.Controllers;
+namespace Command.Presentation.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]
@@ -17,7 +17,7 @@ public class AddInvoicePaymentController : ControllerBase
         _logger = logger;
     }
     [HttpPost]
-    public async Task<IActionResult> Index([FromBody]AddInvoicePaymentRequest request)
+    public async Task<IActionResult> Index([FromBody] AddInvoicePaymentRequest request)
     {
         try
         {
@@ -31,6 +31,6 @@ public class AddInvoicePaymentController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

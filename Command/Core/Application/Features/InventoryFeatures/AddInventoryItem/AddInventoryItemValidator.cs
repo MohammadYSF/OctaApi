@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
-
 namespace Command.Core.Application.Features.InventoryFeatures.AddInventoryItem;
-
 public class AddInventoryItemValidator : AbstractValidator<AddInventoryItemRequest>
 {
     public AddInventoryItemValidator()

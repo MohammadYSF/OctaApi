@@ -2,8 +2,8 @@
 
 namespace OctaApi.Application.Features.Inventory.GetServices
 {
-    public record GetServicesRequest:IRequest<GetServicesResponse>
+    public record GetServicesRequest : IRequest<GetServicesResponse>
     {
-        
+
     }
 }

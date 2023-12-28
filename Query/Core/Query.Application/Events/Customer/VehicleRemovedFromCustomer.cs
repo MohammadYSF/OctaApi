@@ -1,7 +1,7 @@
 ﻿using Query.Application.Core;
 
 namespace Query.Application.Events.Customer;
-public class VehicleRemovedFromCustomer:DomainEvent
+public class VehicleRemovedFromCustomer : DomainEvent
 {
     public VehicleRemovedFromCustomer() : base(nameof(VehicleRemovedFromCustomer))
     {

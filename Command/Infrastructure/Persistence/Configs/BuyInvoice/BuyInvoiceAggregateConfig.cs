@@ -28,7 +28,7 @@ public class BuyInvoiceAggregateConfig : IEntityTypeConfiguration<BuyInvoiceAggr
             b.Property(c => c.Id)
             .ValueGeneratedNever()
             ;
-            b.HasKey("Id", "SellInvoiceId");
+            b.HasKey("Id", "BuyInvoiceId");
         });
     }
 }

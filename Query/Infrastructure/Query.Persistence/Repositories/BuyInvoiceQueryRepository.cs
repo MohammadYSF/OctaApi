@@ -26,6 +26,6 @@ public class BuyInvoiceQueryRepository : IBuyInvoiceQueryRepository
 
     public async Task<BuyInvoiceRM?> GetByBuyInvoiceId(Guid buyInvoiceId)
     {
-        return await _queryDbContext.BuyInvoiceRMs.FirstOrDefaultAsync(a=> a.BuyInvoiceId == buyInvoiceId);
+        return await _queryDbContext.BuyInvoiceRMs.FirstOrDefaultAsync(a => a.BuyInvoiceId == buyInvoiceId);
     }
 }

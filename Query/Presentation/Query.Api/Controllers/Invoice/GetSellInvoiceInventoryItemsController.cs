@@ -17,7 +17,7 @@ public class GetSellInvoiceInventoryItemsController : ControllerBase
         _logger = logger;
     }
     [HttpGet]
-    public async Task<IActionResult> Index([FromQuery]GetSellInvoiceInventoryItemsRequest request)
+    public async Task<IActionResult> Index([FromQuery] GetSellInvoiceInventoryItemsRequest request)
     {
         try
         {
@@ -31,6 +31,6 @@ public class GetSellInvoiceInventoryItemsController : ControllerBase
             return BadRequest();
         }
     }
-         
+
 
 }

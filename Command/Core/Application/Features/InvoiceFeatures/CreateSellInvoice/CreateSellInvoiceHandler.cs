@@ -6,10 +6,12 @@ internal class CreateSellInvoiceHandler : IRequestHandler<CreateSellInvoiceReque
 {
     private readonly ICommandUnitOfWork _unitOfWork;
     private readonly ISellInvoiceCommandRepository _sellInvoiceRepository;
-    public CreateSellInvoiceHandler( ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository)
+    private readonly IEventBus _eventBus;
+    public CreateSellInvoiceHandler(ICommandUnitOfWork unitOfWork, ISellInvoiceCommandRepository sellInvoiceRepository, IEventBus eventBus)
     {
         _unitOfWork = unitOfWork;
         _sellInvoiceRepository = sellInvoiceRepository;
+        _eventBus = eventBus;
     }
 
     public async Task<CreateSellInvoiceResponse> Handle(CreateSellInvoiceRequest request, CancellationToken cancellationToken)
@@ -19,15 +21,11 @@ internal class CreateSellInvoiceHandler : IRequestHandler<CreateSellInvoiceReque
         int code = await _sellInvoiceRepository.GenerateNewCodeAsync();
         var aggregate = SellInvoiceAggregate.Create(id, createDate, code, request.CustomerId, request.VehicleId);
         await _sellInvoiceRepository.AddAsync(aggregate);
-        //Invoice invoice = new();
-        //invoice.Id = Guid.NewGuid();
-        //invoice.VehicleId = request.VehicleId;
-        //invoice.RegisterDate = DateTime.Now;
-        //invoice.Code = await _invoiceRepository.GetNewInvoiceCode();
-        //invoice.Type = Domain.Enums.InvoiceType.Sell;
-        //await _invoiceRepository.AddAsync(invoice);
         await _unitOfWork.SaveAsync(cancellationToken);
-        //var response = new CreateSellInvoiceResponse(invoice.Id, invoice.Code);
+        foreach (var item in aggregate.GetDomainEvents())
+        {
+            _eventBus.Publish(item);
+        }
         var response = new CreateSellInvoiceResponse();
         return response;
     }

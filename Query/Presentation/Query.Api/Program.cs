@@ -3,7 +3,6 @@ using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;
 using Query.Application.EventHandlers.SellInvoice;
-using Query.Application.Events;
 using Query.Application.Events.BuyInvoice;
 using Query.Application.Events.Customer;
 using Query.Application.Events.InventoryItem;
@@ -20,9 +19,28 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureApplication();
 builder.Services.ConfigurePersistence(builder.Configuration);
 builder.Services.ConfigureBus(builder.Configuration);
-builder.Services.ConfigureApplication();
+
+string authUrl = builder.Configuration.GetSection("AuthUrl").Value;
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.Authority = authUrl;
+        options.RequireHttpsMetadata = false;
+        options.Audience = "api1";
+        options.TokenValidationParameters.ValidateAudience = false;
+        options.TokenValidationParameters.ValidateIssuer = false;
+        options.TokenValidationParameters.ValidateIssuerSigningKey = false;
+    });
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("ApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "api1");
+    })
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,6 +1,6 @@
 ﻿using Query.Application.Core;
 
-namespace Query.Application.Events;
+namespace Query.Application.Events.SellInvoice;
 public class SellInvoicePaymentCreatedEvent : DomainEvent
 {
     public SellInvoicePaymentCreatedEvent() : base(nameof(SellInvoicePaymentCreatedEvent))

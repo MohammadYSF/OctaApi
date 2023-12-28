@@ -9,7 +9,7 @@ public sealed class InventoryItemCount : ValueObject<InventoryItemCount>
     {
         Value = value;
     }
-      
+
     protected override bool EqualsCore(InventoryItemCount other)
     {
         return other.Value == Value;

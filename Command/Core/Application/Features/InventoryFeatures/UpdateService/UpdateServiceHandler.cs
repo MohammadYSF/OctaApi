@@ -1,4 +1,6 @@
-﻿using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Common.Exceptions;
+using Command.Core.Application.Repositories;
+using Command.Core.Domain.Service;
 using MediatR;
 namespace Command.Core.Application.Features.InventoryFeatures.UpdateService;
 public class UpdateServiceHandler : IRequestHandler<UpdateServiceRequest, UpdateServiceResponse>
@@ -14,23 +16,16 @@ public class UpdateServiceHandler : IRequestHandler<UpdateServiceRequest, Update
     }
     public async Task<UpdateServiceResponse> Handle(UpdateServiceRequest request, CancellationToken cancellationToken)
     {
-        //Service? service = await _serviceRepository.GetByIdAsync(request.Id);
         var serviceAggregate = await _serviceRepository.GetByIdAsync(request.Id);
         if (serviceAggregate == null)
-            throw new Exception("");
-        //service.DefaultPrice = request.DefaultPrice;
-        //service.Name = request.Name;
-        //_serviceRepository.Update(service);
-        //var serviceHistory = _mapper.Map<ServiceHistory>(service);
-        //await _serviceHistoryRepository.AddAsync(serviceHistory);
+            throw new AggregateNotFoundException<ServiceAggregate>($"{nameof(ServiceAggregate)} with id {request.Id} not found !");
         serviceAggregate.Update(request.Name, request.DefaultPrice);
         await _serviceRepository.UpdateAsync(serviceAggregate);
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in serviceAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
-        //var response = new UpdateServiceResponse(service.Id);
         var response = new UpdateServiceResponse();
         return response;
     }

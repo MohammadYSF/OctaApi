@@ -17,7 +17,7 @@ public class CustomerEventHandler :
         _queryUnitOfWork = queryUnitOfWork;
     }
 
-    public async Task HandleAsync(CustomerCreatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(CustomerCreatedEvent @event)
     {
         var customerRM = new CustomerRM
         {
@@ -29,11 +29,11 @@ public class CustomerEventHandler :
             CustomerLastName = @event.LastName,
         };
         await _customerQueryRepository.AddAsync(customerRM);
-        await _queryUnitOfWork.SaveAsync(cancellationToken);
+        await _queryUnitOfWork.SaveAsync(default);
 
     }
 
-    public async Task HandleAsync(VehicleCreatedEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(VehicleCreatedEvent @event)
     {
         var customerVehicleRM = new CustomerVehicleRM
         {
@@ -45,6 +45,6 @@ public class CustomerEventHandler :
             VehiclePlate = @event.Plate
         };
         await _customerQueryRepository.AddAsync(customerVehicleRM);
-        await _queryUnitOfWork.SaveAsync(cancellationToken);
+        await _queryUnitOfWork.SaveAsync(default);
     }
 }

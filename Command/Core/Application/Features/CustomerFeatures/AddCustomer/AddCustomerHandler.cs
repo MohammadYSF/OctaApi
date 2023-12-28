@@ -29,7 +29,7 @@ public class AddCustomerHandler : IRequestHandler<AddCustomerRequest, AddCustome
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in customerAggregate.GetDomainEvents())
         {
-             _eventBus.Publish(item);
+            _eventBus.Publish(item);
         }
         var response = new AddCustomerResponse();
         return response;

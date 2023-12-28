@@ -1,6 +1,6 @@
-﻿using Command.Core.Domain.Core;
-using Command.Core.Domain.BuyInvoice.Entities;
+﻿using Command.Core.Domain.BuyInvoice.Entities;
 using Command.Core.Domain.BuyInvoice.ValueObjects;
+using Command.Core.Domain.Core;
 
 namespace Command.Core.Domain.Invoice;
 public class BuyInvoiceAggregate : AggregateRoot

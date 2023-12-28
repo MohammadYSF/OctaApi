@@ -2,13 +2,13 @@
 
 namespace Command.Core.Domain.SellInvoice.Entities;
 
-public class SellInvoiceService:Entity
+public class SellInvoiceService : Entity
 {
     public SellInvoiceService()
     {
-        
+
     }
-    public SellInvoiceService(Guid id , Guid sellInvoiceId , Guid serviceId , Price servicePrice)
+    public SellInvoiceService(Guid id, Guid sellInvoiceId, Guid serviceId, Price servicePrice)
     {
         this.Id = id;
         this.ServicePrice = servicePrice;
