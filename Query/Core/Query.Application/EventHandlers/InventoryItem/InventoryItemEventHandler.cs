@@ -1,4 +1,5 @@
-﻿using Query.Application.Core;
+﻿using Query.Application.Common.Exceptions;
+using Query.Application.Core;
 using Query.Application.Events.InventoryItem;
 using Query.Application.ReadModels;
 using Query.Application.Repositories;
@@ -39,6 +40,7 @@ public class InventoryItemEventHandler :
         try
         {
             InventoryItemRM? prevRM = (await _inventoryItemQueryRepository.GetByInventoryItemIdAsync(@event.InventoryItemId)).FirstOrDefault(a => !a.ToDate.HasValue);
+            if (prevRM == null) throw new ReadModelNotFoundException<InventoryItemRM>();
             prevRM.ToDate = @event.UpdateDate;
             var inventoryItemRM = new InventoryItemRM
             {

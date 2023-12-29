@@ -1,4 +1,5 @@
-﻿using Query.Application.Core;
+﻿using Query.Application.Common.Exceptions;
+using Query.Application.Core;
 using Query.Application.Events.SellInvoice;
 using Query.Application.ReadModels;
 using Query.Application.Repositories;
@@ -30,7 +31,9 @@ public class SellInvoiceEventHandler :
     public async Task HandleAsync(SellInvoiceCreatedEvent @event)
     {
         var customerRM = await _customerQueryRepository.GetByCustomerIdAsync(@event.CustomerId);
+        if (customerRM == null) throw new ReadModelNotFoundException<CustomerRM>();
         VehicleRM? vehicleRM = await _vehicleQueryRepository.GetByVehicleIdAsync(@event.VehicleId);
+        if (vehicleRM == null) throw new ReadModelNotFoundException<VehicleRM>();
 
         var sellInvoiceRM = new SellInvoiceRM
         {
@@ -56,6 +59,8 @@ public class SellInvoiceEventHandler :
     public async Task HandleAsync(SellInvoiceDeletedEvent @event)
     {
         SellInvoiceRM? sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(@event.SellInvoiceId);
+        if (sellInvoiceRM == null) throw new ReadModelNotFoundException<SellInvoiceRM>();
+
         List<SellInvoicePaymentRM> sellInvoicePaymentRMs = await _sellInvoiceQueryRepository.GetSellInvoicePaymentRMsBySellInvoiceIdAsync(@event.SellInvoiceId);
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoicePaymentRMs);
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoiceRM);
@@ -77,6 +82,8 @@ public class SellInvoiceEventHandler :
 
         };
         SellInvoiceRM? sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(@event.SellInvoiceId);
+        if (sellInvoiceRM == null) throw new ReadModelNotFoundException<SellInvoiceRM>();
+
         sellInvoiceRM.TotalPrice += @event.Price;
         sellInvoiceRM.ToPay += @event.Price;
         sellInvoiceRM.TotalPriceWhenUsingBuyPrices += @event.Price;
@@ -89,6 +96,8 @@ public class SellInvoiceEventHandler :
     public async Task HandleAsync(InventoryItemAddedToSellInvoiceEvent @event)
     {
         InventoryItemRM? inventoryItemRM = (await _inventoryItemQueryRepository.GetByInventoryItemIdAsync(@event.InventoryItemId)).FirstOrDefault(a => !a.ToDate.HasValue);
+        if (inventoryItemRM == null) throw new ReadModelNotFoundException<InventoryItemRM>();
+
         long buyPrice = inventoryItemRM.InventoryItemBuyPrice;
         long sellPrice = inventoryItemRM.InventoryItemSellPrice;
         SellInvoiceInventoryItemRM? sellInvoiceInventoryRM = new()
@@ -114,7 +123,11 @@ public class SellInvoiceEventHandler :
     public async Task HandleAsync(ServiceRemovedFromSellInvoiceEvent @event)
     {
         SellInvoiceServiceRM? sellInvoiceServiceRM = await _sellInvoiceQueryRepository.GetSellInvoiceServiceRMBySellInvoicecServiceId(@event.SellInvoiceServiceId);
+        if (sellInvoiceServiceRM == null) throw new ReadModelNotFoundException<SellInvoiceServiceRM>();
+
         SellInvoiceRM? sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(@event.SellInvoiceId);
+        if (sellInvoiceRM == null) throw new ReadModelNotFoundException<SellInvoiceRM>();
+
         sellInvoiceRM.TotalPrice -= sellInvoiceServiceRM.Price;
         sellInvoiceRM.TotalPriceWhenUsingBuyPrices -= sellInvoiceServiceRM.Price;
         sellInvoiceRM.ToPay -= sellInvoiceServiceRM.Price;
@@ -126,7 +139,11 @@ public class SellInvoiceEventHandler :
     public async Task HandleAsync(InventoryItemRemovedFromSellInvoicecEvent @event)
     {
         SellInvoiceInventoryItemRM? sellInvoiceInventoryItemRM = await _sellInvoiceQueryRepository.GetSellInvoiceInventoryItemRMBySellInviceInventoryItemId(@event.SellInvoiceInventoryItemId);
+        if (sellInvoiceInventoryItemRM == null) throw new ReadModelNotFoundException<SellInvoiceInventoryItemRM>();
+
         SellInvoiceRM? sellInvoiceRM = await _sellInvoiceQueryRepository.GetBySellInvoiceIdAsync(@event.SellInvoiceId);
+        if (sellInvoiceRM == null) throw new ReadModelNotFoundException<SellInvoiceRM>();
+
         sellInvoiceRM.TotalPrice -= sellInvoiceInventoryItemRM.SellPrice;
         sellInvoiceRM.TotalPriceWhenUsingBuyPrices -= sellInvoiceInventoryItemRM.BuyPrice;
         sellInvoiceRM.ToPay -= sellInvoiceInventoryItemRM.SellPrice;

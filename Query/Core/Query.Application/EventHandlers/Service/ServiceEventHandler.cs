@@ -1,4 +1,5 @@
-﻿using Query.Application.Core;
+﻿using Query.Application.Common.Exceptions;
+using Query.Application.Core;
 using Query.Application.Events.Services;
 using Query.Application.ReadModels;
 using Query.Application.Repositories;
@@ -39,7 +40,9 @@ public class ServiceEventHandler :
     {
         try
         {
-            var prevRM = (await _serviceQueryRepository.GetByServiceIdAsync(@event.ServiceId)).FirstOrDefault(a => !a.ToDate.HasValue);
+            ServiceRM? prevRM = (await _serviceQueryRepository.GetByServiceIdAsync(@event.ServiceId)).FirstOrDefault(a => !a.ToDate.HasValue);
+            if (prevRM == null) throw new ReadModelNotFoundException<ServiceRM>();
+
             prevRM.ToDate = @event.UpdateDate;
             var newServiceRM = new ServiceRM
             {
