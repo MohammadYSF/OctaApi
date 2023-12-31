@@ -13,8 +13,8 @@ public class CustomerQueryRepository : ICustomerQueryRepository
     {
         _queryDbContext = queryDbContext;
         _customerRMCache = customerRMCache;
-        if (_customerRMCache.Exists($"ids:{nameof(CustomerRM)}") == 0)
-            _ = InitCache();
+        //if (_customerRMCache.Exists($"ids:{nameof(CustomerRM)}") == 0)
+        //    _ = InitCache();
     }
 
     private async Task InitCache()
@@ -42,9 +42,9 @@ public class CustomerQueryRepository : ICustomerQueryRepository
         await _queryDbContext.CustomerRMs.AddAsync(customerRM);
     }
 
-    public Task<List<CustomerRM>> GetAsync()
+    public async Task<List<CustomerRM>> GetAsync()
     {
-        return Task.FromResult(_customerRMCache.GetAll().ToList());
+        return await _queryDbContext.CustomerRMs.AsNoTracking().ToListAsync();
     }
 
     public Task<CustomerRM?> GetByCustomerCodeAsync(string customerCode)

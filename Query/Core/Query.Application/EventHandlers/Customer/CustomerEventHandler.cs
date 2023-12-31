@@ -11,6 +11,8 @@ public class CustomerEventHandler :
     private readonly ICustomerQueryRepository _customerQueryRepository;
     private readonly IQueryUnitOfWork _queryUnitOfWork;
     private readonly IDistributedCacheService<CustomerRM> _customerRMCacheService;
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
+
 
     public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<CustomerRM> customerRMCacheService)
     {
@@ -18,7 +20,21 @@ public class CustomerEventHandler :
         _queryUnitOfWork = queryUnitOfWork;
         _customerRMCacheService = customerRMCacheService;
     }
-
+    private async Task InitCache()
+    {
+        var exist = _customerRMCacheService.Exists($"ids:{nameof(CustomerRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _customerQueryRepository.GetAsync();
+            _customerRMCacheService.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
     public async Task HandleAsync(CustomerCreatedEvent @event)
     {
         var customerRM = new CustomerRM
@@ -33,6 +49,8 @@ public class CustomerEventHandler :
         await _customerQueryRepository.AddAsync(customerRM);
         await _queryUnitOfWork.SaveAsync(default);
         _customerRMCacheService.Dirty();
+        _ = InitCache();
+
 
     }
 
@@ -49,5 +67,7 @@ public class CustomerEventHandler :
         };
         await _customerQueryRepository.AddAsync(customerVehicleRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _customerRMCacheService.Dirty();
+        _ = InitCache();
     }
 }
