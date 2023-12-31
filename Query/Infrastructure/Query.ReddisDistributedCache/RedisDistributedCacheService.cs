@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Query.Application.Repositories;
 using ServiceStack.Data;
 using ServiceStack.Redis;
+using StackExchange.Redis;
 namespace Query.Infrastructure.RedisDistributedCache;
 public class RedisDistributedCacheService<T> : IDistributedCacheService<T> where T : class
 {
@@ -112,7 +113,19 @@ public class RedisDistributedCacheService<T> : IDistributedCacheService<T> where
     }
     public void Dirty()
     {
-        _cache.Remove(typeof(T));
+        IRedisClient client = _pooledRedisClientManager.GetClient();
+        try
+        {
+            client.DeleteAll<T>();
+        }
+        catch (Exception e)
+        {
+
+        }
+        finally
+        {
+            ((System.IDisposable)client)?.Dispose();
+        }
     }
 
     public long Next()

@@ -1,4 +1,5 @@
 namespace Query.Application.Core;
+[Serializable]
 public class DomainEvent
 {
     public string Type { get;private set; }

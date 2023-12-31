@@ -24,7 +24,7 @@ public class CustomerEventHandler :
         var customerRM = new CustomerRM
         {
             Id = Guid.NewGuid(),
-            CustomerCode = @event.CustomerId.ToString(),
+            CustomerCode = @event.Code.ToString(),
             CustomerId = @event.CustomerId,
             CustomerPhoneNumber = @event.PhoneNumber,
             CustomerFirstName = @event.FirstName,

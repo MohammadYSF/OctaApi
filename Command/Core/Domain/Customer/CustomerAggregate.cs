@@ -27,6 +27,7 @@ public class CustomerAggregate : AggregateRoot
             EventId = Guid.NewGuid(),
             FirstName = firstName,
             LastName = lastName,
+            PhoneNumber= phone
 
         });
         return customerAggregate;
@@ -41,7 +42,7 @@ public class CustomerAggregate : AggregateRoot
             VehiclePlate = vehiclePlate,
             EventId = Guid.NewGuid(),
             VehicleId = vehicleId,
-            CustomerId = this.Id,
+            CustomerId = this.Id            
         };
         this.AddDomainEvent(vehicleCraetedEvent);
     }
