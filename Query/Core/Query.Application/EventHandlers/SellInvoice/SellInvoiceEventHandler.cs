@@ -19,7 +19,17 @@ public class SellInvoiceEventHandler :
     private readonly IVehicleQueryRepository _vehicleQueryRepository;
     private readonly ISellInvoiceQueryRepository _sellInvoiceQueryRepository;
     private readonly IQueryUnitOfWork _queryUnitOfWork;
-    public SellInvoiceEventHandler(ICustomerQueryRepository customerQueryRepository, IVehicleQueryRepository vehicleQueryRepository, ISellInvoiceQueryRepository sellInvoiceQueryRepository, IQueryUnitOfWork queryUnitOfWork, IServiceQueryRepository serviceQueryRepository, IInventoryItemQueryRepository inventoryItemQueryRepository)
+
+    private readonly IDistributedCacheService<CustomerRM> _customerRMCacheService;
+    private readonly IDistributedCacheService<VehicleRM> _vehicleRMCacheService;
+    private readonly IDistributedCacheService<CustomerVehicleRM> _customerVehicleRMCacheService;
+    private readonly IDistributedCacheService<ServiceRM> _serviceRMCacheService;
+    private readonly IDistributedCacheService<InventoryItemRM> _inventoryItemRMCacheService;
+    private readonly IDistributedCacheService<SellInvoiceRM> _SellInvoiceRMCacheService;
+    private readonly IDistributedCacheService<SellInvoicePaymentRM> _sellInvoicePaymentRMCacheService;
+    private readonly IDistributedCacheService<SellInvoiceServiceRM> _sellInvoiceServiceRMCacheService;
+    private readonly IDistributedCacheService<SellInvoiceInventoryItemRM> _sellInvoiceInventoryItemRMCacheService;
+    public SellInvoiceEventHandler(ICustomerQueryRepository customerQueryRepository, IVehicleQueryRepository vehicleQueryRepository, ISellInvoiceQueryRepository sellInvoiceQueryRepository, IQueryUnitOfWork queryUnitOfWork, IServiceQueryRepository serviceQueryRepository, IInventoryItemQueryRepository inventoryItemQueryRepository, IDistributedCacheService<CustomerRM> customerRMCacheService, IDistributedCacheService<VehicleRM> vehicleRMCacheService, IDistributedCacheService<CustomerVehicleRM> customerVehicleRMCacheService, IDistributedCacheService<ServiceRM> serviceRMCacheService, IDistributedCacheService<InventoryItemRM> inventoryItemRMCacheService, IDistributedCacheService<SellInvoiceRM> sellInvoiceRMCacheService, IDistributedCacheService<SellInvoicePaymentRM> sellInvoicePaymentRMCacheService, IDistributedCacheService<SellInvoiceServiceRM> sellInvoiceServiceRMCacheService, IDistributedCacheService<SellInvoiceInventoryItemRM> sellInvoiceInventoryItemRMCacheService)
     {
         _customerQueryRepository = customerQueryRepository;
         _vehicleQueryRepository = vehicleQueryRepository;
@@ -27,6 +37,15 @@ public class SellInvoiceEventHandler :
         _queryUnitOfWork = queryUnitOfWork;
         _serviceQueryRepository = serviceQueryRepository;
         _inventoryItemQueryRepository = inventoryItemQueryRepository;
+        _customerRMCacheService = customerRMCacheService;
+        _vehicleRMCacheService = vehicleRMCacheService;
+        _customerVehicleRMCacheService = customerVehicleRMCacheService;
+        _serviceRMCacheService = serviceRMCacheService;
+        _inventoryItemRMCacheService = inventoryItemRMCacheService;
+        _SellInvoiceRMCacheService = sellInvoiceRMCacheService;
+        _sellInvoicePaymentRMCacheService = sellInvoicePaymentRMCacheService;
+        _sellInvoiceServiceRMCacheService = sellInvoiceServiceRMCacheService;
+        _sellInvoiceInventoryItemRMCacheService = sellInvoiceInventoryItemRMCacheService;
     }
     public async Task HandleAsync(SellInvoiceCreatedEvent @event)
     {
@@ -54,6 +73,7 @@ public class SellInvoiceEventHandler :
         };
         await _sellInvoiceQueryRepository.AddAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _SellInvoiceRMCacheService.Dirty();
     }
 
     public async Task HandleAsync(SellInvoiceDeletedEvent @event)
@@ -65,6 +85,8 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoicePaymentRMs);
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _SellInvoiceRMCacheService.Dirty();
+        _sellInvoicePaymentRMCacheService.Dirty();
     }
 
     public async Task HandleAsync(ServiceAddedToSellInvoiceEvent @event)
@@ -91,6 +113,8 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.UpdateAsync(sellInvoiceRM);
         await _sellInvoiceQueryRepository.AddAsync(sellInvoiceServiceRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _SellInvoiceRMCacheService.Dirty();
+        _sellInvoiceServiceRMCacheService.Dirty();
     }
 
     public async Task HandleAsync(InventoryItemAddedToSellInvoiceEvent @event)
@@ -118,6 +142,8 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.UpdateAsync(sellInvoiceRM);
         await _sellInvoiceQueryRepository.AddAsync(sellInvoiceInventoryRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _SellInvoiceRMCacheService.Dirty();
+        _sellInvoiceInventoryItemRMCacheService.Dirty();
     }
 
     public async Task HandleAsync(ServiceRemovedFromSellInvoiceEvent @event)
@@ -135,6 +161,10 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoiceServiceRM);
         await _sellInvoiceQueryRepository.UpdateAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _SellInvoiceRMCacheService.Dirty();
+        _sellInvoiceServiceRMCacheService.Dirty();
+
+
     }
     public async Task HandleAsync(InventoryItemRemovedFromSellInvoicecEvent @event)
     {
@@ -151,7 +181,9 @@ public class SellInvoiceEventHandler :
         await _sellInvoiceQueryRepository.DeleteAsync(sellInvoiceInventoryItemRM);
         await _sellInvoiceQueryRepository.UpdateAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(default);
-        throw new NotImplementedException();
+        _SellInvoiceRMCacheService.Dirty();
+        _sellInvoiceInventoryItemRMCacheService.Dirty();
+
     }
 
     public async Task HandleAsync(SellInvoicePaymentCreatedEvent @event)
@@ -164,5 +196,7 @@ public class SellInvoiceEventHandler :
         };
         await _sellInvoiceQueryRepository.AddAsync(sellInvoicePaymentRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _sellInvoicePaymentRMCacheService.Dirty();
+
     }
 }

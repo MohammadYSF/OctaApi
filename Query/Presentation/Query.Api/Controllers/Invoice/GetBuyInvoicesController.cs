@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Query.Application.Features.InvoiceFeatures.GetBuyInvoices;
 namespace Query.Presentation.Api.Controllers;
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetBuyInvoicesController : ControllerBase

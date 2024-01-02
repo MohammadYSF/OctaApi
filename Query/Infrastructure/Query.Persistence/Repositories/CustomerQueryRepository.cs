@@ -9,15 +9,36 @@ public class CustomerQueryRepository : ICustomerQueryRepository
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
     private readonly IDistributedCacheService<CustomerRM> _customerRMCache;
-    public CustomerQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<CustomerRM> customerRMCache)
+    private readonly IDistributedCacheService<CustomerVehicleRM> _customerVehicleRMCache;
+    public CustomerQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<CustomerRM> customerRMCache, IDistributedCacheService<CustomerVehicleRM> customerVehicleRMCache)
     {
         _queryDbContext = queryDbContext;
         _customerRMCache = customerRMCache;
-        //if (_customerRMCache.Exists($"ids:{nameof(CustomerRM)}") == 0)
-        //    _ = InitCache();
+        _customerVehicleRMCache = customerVehicleRMCache;
     }
-
-    private async Task InitCache()
+    public async Task CheckCacheAsync()
+    {
+        if (_customerRMCache.Exists($"ids:{nameof(CustomerRM)}") == 0)
+            await InitCacheAsync1();
+        if (_customerVehicleRMCache.Exists($"ids:{nameof(CustomerVehicleRM)}") == 0)
+            await InitCacheAsync2();
+    }
+    private async Task InitCacheAsync2()
+    {
+        var exist = _customerVehicleRMCache.Exists($"ids:{nameof(CustomerVehicleRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.CustomerVehicleRMs.AsNoTracking().ToListAsync();
+            _customerVehicleRMCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
+    private async Task InitCacheAsync1()
     {
         var exist = _customerRMCache.Exists($"ids:{nameof(CustomerRM)}");
         if (exist == 1) return;

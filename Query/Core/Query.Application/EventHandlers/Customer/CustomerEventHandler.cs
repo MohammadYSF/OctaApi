@@ -11,30 +11,32 @@ public class CustomerEventHandler :
     private readonly ICustomerQueryRepository _customerQueryRepository;
     private readonly IQueryUnitOfWork _queryUnitOfWork;
     private readonly IDistributedCacheService<CustomerRM> _customerRMCacheService;
+    private readonly IDistributedCacheService<CustomerVehicleRM> _customerVehicleRMCacheService;
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
 
-    public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<CustomerRM> customerRMCacheService)
+    public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<CustomerRM> customerRMCacheService, IDistributedCacheService<CustomerVehicleRM> customerVehicleRMCacheService)
     {
         _customerQueryRepository = customerQueryRepository;
         _queryUnitOfWork = queryUnitOfWork;
         _customerRMCacheService = customerRMCacheService;
+        _customerVehicleRMCacheService = customerVehicleRMCacheService;
     }
-    private async Task InitCache()
-    {
-        var exist = _customerRMCacheService.Exists($"ids:{nameof(CustomerRM)}");
-        if (exist == 1) return;
-        await Semaphore.WaitAsync();
-        try
-        {
-            var result = await _customerQueryRepository.GetAsync();
-            _customerRMCacheService.Creates(result);
-        }
-        finally
-        {
-            Semaphore.Release();
-        }
-    }
+    //private async Task InitCache()
+    //{
+    //    var exist = _customerRMCacheService.Exists($"ids:{nameof(CustomerRM)}");
+    //    if (exist == 1) return;
+    //    await Semaphore.WaitAsync();
+    //    try
+    //    {
+    //        var result = await _customerQueryRepository.GetAsync();
+    //        _customerRMCacheService.Creates(result);
+    //    }
+    //    finally
+    //    {
+    //        Semaphore.Release();
+    //    }
+    //}
     public async Task HandleAsync(CustomerCreatedEvent @event)
     {
         var customerRM = new CustomerRM
@@ -49,7 +51,8 @@ public class CustomerEventHandler :
         await _customerQueryRepository.AddAsync(customerRM);
         await _queryUnitOfWork.SaveAsync(default);
         _customerRMCacheService.Dirty();
-        _ = InitCache();
+        _customerVehicleRMCacheService.Dirty();
+        //_ = InitCache();
 
 
     }
@@ -68,6 +71,7 @@ public class CustomerEventHandler :
         await _customerQueryRepository.AddAsync(customerVehicleRM);
         await _queryUnitOfWork.SaveAsync(default);
         _customerRMCacheService.Dirty();
-        _ = InitCache();
+        _customerVehicleRMCacheService.Dirty();
+        //_ = InitCache();
     }
 }

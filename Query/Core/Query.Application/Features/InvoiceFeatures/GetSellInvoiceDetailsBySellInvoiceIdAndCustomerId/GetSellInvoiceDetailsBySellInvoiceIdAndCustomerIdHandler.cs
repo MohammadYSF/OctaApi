@@ -12,20 +12,26 @@ namespace Query.Application.Features.InvoiceFeatures.GetSellInvoiceDetailsBySell
 
 public class GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdHandler : IRequestHandler<GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdRequest, GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdResponse>
 {
+    private readonly ISellInvoiceQueryRepository _sellInvoiceQueryRepository;
+
     private readonly IDistributedCacheService<SellInvoiceRM> _sellInvoiceRMCache;
     private readonly IDistributedCacheService<SellInvoiceServiceRM> _sellInvoiceServiceRMCache;
     private readonly IDistributedCacheService<SellInvoiceInventoryItemRM> _sellInvoiceInventoryItemRMCache;
 
-    public GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdHandler(IDistributedCacheService<SellInvoiceRM> sellInvoiceRMCache, IDistributedCacheService<SellInvoiceServiceRM> sellInvoiceServiceRMCache, IDistributedCacheService<SellInvoiceInventoryItemRM> sellInvoiceInventoryItemRMCache)
+    public GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdHandler(IDistributedCacheService<SellInvoiceRM> sellInvoiceRMCache, IDistributedCacheService<SellInvoiceServiceRM> sellInvoiceServiceRMCache, IDistributedCacheService<SellInvoiceInventoryItemRM> sellInvoiceInventoryItemRMCache, ISellInvoiceQueryRepository sellInvoiceQueryRepository)
     {
+
         _sellInvoiceRMCache = sellInvoiceRMCache;
         _sellInvoiceServiceRMCache = sellInvoiceServiceRMCache;
         _sellInvoiceInventoryItemRMCache = sellInvoiceInventoryItemRMCache;
+        _sellInvoiceQueryRepository = sellInvoiceQueryRepository;
     }
 
 
-    public Task<GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdResponse> Handle(GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdRequest request, CancellationToken cancellationToken)
+    public async Task<GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdResponse> Handle(GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdRequest request, CancellationToken cancellationToken)
     {
+        await _sellInvoiceQueryRepository.CheckCacheAsync();
+
         var sellInvoiceRM = _sellInvoiceRMCache.FindBy(a => a.SellInvoiceId == request.SellInvoiceId);
         if (sellInvoiceRM == null || sellInvoiceRM.Count == 0)
             throw new ReadModelNotFoundException<SellInvoiceRM>();
@@ -37,6 +43,6 @@ public class GetSellInvoiceDetailsBySellInvoiceIdAndCustomerIdHandler : IRequest
             sellInvoiceInventoryItemRMs = sellInvoiceInventoryItemRMs,
             sellInvoiceServiceRMs = sellInvoiceServiceRMs
         };
-        return Task.FromResult(response);
+        return response;
     }
 }

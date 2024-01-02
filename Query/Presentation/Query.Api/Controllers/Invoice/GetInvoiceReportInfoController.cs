@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.InvoiceFeatures.GetInvoiceReportInfo;
 namespace Query.Presentation.Api.Controllers;
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetInvoiceReportInfoController : ControllerBase

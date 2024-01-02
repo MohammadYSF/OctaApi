@@ -1,16 +1,22 @@
 ﻿using MediatR;
+using Query.Application.ReadModels;
 using Query.Application.Repositories;
 namespace Query.Application.Features.InvoiceFeatures.GetBuyInvoices;
 public sealed class GetBuyInvoicesHandler : IRequestHandler<GetBuyInvoicesRequest, GetBuyInvoicesResponse>
 {
     private readonly IBuyInvoiceQueryRepository _buyInvoiceQueryRepository;
-    public GetBuyInvoicesHandler(IBuyInvoiceQueryRepository buyInvoiceQueryRepository)
+    private readonly IDistributedCacheService<BuyInvoiceRM> _buyInvoiceRMCacheService;
+
+    public GetBuyInvoicesHandler(IBuyInvoiceQueryRepository buyInvoiceQueryRepository, IDistributedCacheService<BuyInvoiceRM> buyInvoiceRMCacheService)
     {
         _buyInvoiceQueryRepository = buyInvoiceQueryRepository;
+        _buyInvoiceRMCacheService = buyInvoiceRMCacheService;
     }
     public async Task<GetBuyInvoicesResponse> Handle(GetBuyInvoicesRequest request, CancellationToken cancellationToken)
     {
-        var data = await _buyInvoiceQueryRepository.GetAsync();
+        await _buyInvoiceQueryRepository.CheckCacheAsync();
+        var data = _buyInvoiceRMCacheService.GetAll().ToList();
+        //var data = await _buyInvoiceQueryRepository.GetAsync();
         var response = new GetBuyInvoicesResponse(Data: data);
         return response;
     }

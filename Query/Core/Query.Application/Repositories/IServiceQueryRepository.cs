@@ -7,4 +7,6 @@ public interface IServiceQueryRepository
     Task<List<ServiceRM>> GetAsync();
     Task AddAsync(ServiceRM service);
     Task UpdateAsync(ServiceRM service);
+    Task CheckCacheAsync();
+
 }

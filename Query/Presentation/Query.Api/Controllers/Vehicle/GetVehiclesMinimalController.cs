@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;
 namespace OctaApi.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetVehiclesMinimalController : ControllerBase

@@ -7,11 +7,34 @@ namespace Query.Persistence.Repositories;
 public class VehicleQueryRepository : IVehicleQueryRepository
 {
     private readonly QueryDbContext _queryDbContext;
-    public VehicleQueryRepository(QueryDbContext queryDbContext)
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
+
+    private readonly IDistributedCacheService<VehicleRM> _vehicleRMCache;
+    public VehicleQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<VehicleRM> vehicleRMCache)
     {
         _queryDbContext = queryDbContext;
+        _vehicleRMCache = vehicleRMCache;
     }
-
+    public async Task CheckCacheAsync()
+    {
+        if (_vehicleRMCache.Exists($"ids:{nameof(VehicleRM)}") == 0)
+            await InitCacheAsync();
+    }
+    private async Task InitCacheAsync()
+    {
+        var exist = _vehicleRMCache.Exists($"ids:{nameof(VehicleRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.VehicleRMs.AsNoTracking().ToListAsync();
+            _vehicleRMCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
     public async Task<List<VehicleRM>> GetAsync()
     {
         return await _queryDbContext.VehicleRMs.ToListAsync();

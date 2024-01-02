@@ -10,11 +10,12 @@ public class InventoryItemEventHandler :
 {
     private readonly IQueryUnitOfWork _unitOfWork;
     private readonly IInventoryItemQueryRepository _inventoryItemQueryRepository;
-
-    public InventoryItemEventHandler(IQueryUnitOfWork unitOfWork, IInventoryItemQueryRepository inventoryItemQueryRepository)
+    private readonly IDistributedCacheService<InventoryItemRM> _inventoryItemRMCacheService;
+    public InventoryItemEventHandler(IQueryUnitOfWork unitOfWork, IInventoryItemQueryRepository inventoryItemQueryRepository, IDistributedCacheService<InventoryItemRM> inventoryItemRMCacheService)
     {
         _unitOfWork = unitOfWork;
         _inventoryItemQueryRepository = inventoryItemQueryRepository;
+        _inventoryItemRMCacheService = inventoryItemRMCacheService;
     }
 
     public async Task HandleAsync(InventoryItemCreatedEvent @event)
@@ -33,6 +34,7 @@ public class InventoryItemEventHandler :
         };
         await _inventoryItemQueryRepository.AddAsync(inventoryItemRM);
         await _unitOfWork.SaveAsync(default);
+        _inventoryItemRMCacheService.Dirty();
     }
 
     public async Task HandleAsync(InventoryItemUpdatedEvent @event)
@@ -58,6 +60,8 @@ public class InventoryItemEventHandler :
             await _inventoryItemQueryRepository.UpdateAsync(prevRM);
             await _inventoryItemQueryRepository.AddAsync(inventoryItemRM);
             await _unitOfWork.SaveAsync(default);
+            _inventoryItemRMCacheService.Dirty();
+
         }
         catch (Exception e)
         {

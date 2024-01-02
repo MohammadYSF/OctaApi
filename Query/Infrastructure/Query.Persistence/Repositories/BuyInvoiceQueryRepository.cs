@@ -8,12 +8,34 @@ namespace Query.Persistence.Repositories;
 public class BuyInvoiceQueryRepository : IBuyInvoiceQueryRepository
 {
     private readonly QueryDbContext _queryDbContext;
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
-    public BuyInvoiceQueryRepository(QueryDbContext queryDbContext)
+    private readonly IDistributedCacheService<BuyInvoiceRM> _buyInvoiceRMCache;
+    public BuyInvoiceQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<BuyInvoiceRM> buyInvoiceRMCache)
     {
         _queryDbContext = queryDbContext;
+        _buyInvoiceRMCache = buyInvoiceRMCache;
     }
-
+    public async Task CheckCacheAsync()
+    {
+        if (_buyInvoiceRMCache.Exists($"ids:{nameof(BuyInvoiceRM)}") == 0)
+            await InitCacheAsync();
+    }
+    private async Task InitCacheAsync()
+    {
+        var exist = _buyInvoiceRMCache.Exists($"ids:{nameof(BuyInvoiceRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.BuyInvoiceRMs.AsNoTracking().ToListAsync();
+            _buyInvoiceRMCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
     public async Task AddAsync(BuyInvoiceRM buyInvoiceRM)
     {
         await _queryDbContext.BuyInvoiceRMs.AddAsync(buyInvoiceRM);

@@ -7,10 +7,14 @@ namespace Query.Persistence.Repositories;
 public class InventoryItemQueryRepository : IInventoryItemQueryRepository
 {
     private QueryDbContext _queryDbContext;
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
-    public InventoryItemQueryRepository(QueryDbContext queryDbContext)
+    private readonly IDistributedCacheService<InventoryItemRM> _inventoryItemRMCache;
+
+    public InventoryItemQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<InventoryItemRM> inventoryItemRMCache)
     {
         _queryDbContext = queryDbContext;
+        _inventoryItemRMCache = inventoryItemRMCache;
     }
 
     public async Task AddAsync(InventoryItemRM inventoryItemRM)
@@ -32,5 +36,25 @@ public class InventoryItemQueryRepository : IInventoryItemQueryRepository
     {
         _queryDbContext.InventoryItemRMs.Update(inventoryItemRM);
         return Task.CompletedTask;
+    }
+    public async Task CheckCacheAsync()
+    {
+        if (_inventoryItemRMCache.Exists($"ids:{nameof(InventoryItemRM)}") == 0)
+            await InitCacheAsync();
+    }
+    private async Task InitCacheAsync()
+    {
+        var exist = _inventoryItemRMCache.Exists($"ids:{nameof(InventoryItemRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.InventoryItemRMs.AsNoTracking().ToListAsync();
+            _inventoryItemRMCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
     }
 }

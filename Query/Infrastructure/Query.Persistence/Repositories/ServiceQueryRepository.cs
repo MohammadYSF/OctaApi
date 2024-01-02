@@ -6,10 +6,33 @@ namespace Query.Persistence.Repositories;
 public class ServiceQueryRepository : IServiceQueryRepository
 {
     private readonly QueryDbContext _queryDbContext;
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
-    public ServiceQueryRepository(QueryDbContext queryDbContext)
+    private readonly IDistributedCacheService<ServiceRM> _serviceRMCache;
+    public ServiceQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<ServiceRM> serviceRMCache)
     {
         _queryDbContext = queryDbContext;
+        _serviceRMCache = serviceRMCache;
+    }
+    public async Task CheckCacheAsync()
+    {
+        if (_serviceRMCache.Exists($"ids:{nameof(ServiceRM)}") == 0)
+            await InitCacheAsync();
+    }
+    private async Task InitCacheAsync()
+    {
+        var exist = _serviceRMCache.Exists($"ids:{nameof(ServiceRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.ServiceRMs.AsNoTracking().ToListAsync();
+            _serviceRMCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
     }
 
     public async Task AddAsync(ServiceRM service)

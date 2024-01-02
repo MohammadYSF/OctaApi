@@ -13,11 +13,13 @@ public class ServiceEventHandler :
 {
     private readonly IServiceQueryRepository _serviceQueryRepository;
     private readonly IQueryUnitOfWork _queryUnitOfWork;
+    private readonly IDistributedCacheService<ServiceRM> _serviceRMCacheService;
 
-    public ServiceEventHandler(IServiceQueryRepository serviceQueryRepository, IQueryUnitOfWork queryUnitOfWork)
+    public ServiceEventHandler(IServiceQueryRepository serviceQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<ServiceRM> serviceRMCacheService)
     {
         _serviceQueryRepository = serviceQueryRepository;
         _queryUnitOfWork = queryUnitOfWork;
+        _serviceRMCacheService = serviceRMCacheService;
     }
 
     public async Task HandleAsync(ServiceCreatedEvent @event)
@@ -34,6 +36,7 @@ public class ServiceEventHandler :
         };
         await _serviceQueryRepository.AddAsync(serviceRM);
         await _queryUnitOfWork.SaveAsync(default);
+        _serviceRMCacheService.Dirty();
     }
 
     public async Task HandleAsync(ServiceUpdatedEvent @event)
@@ -58,6 +61,8 @@ public class ServiceEventHandler :
             await _serviceQueryRepository.UpdateAsync(prevRM);
             await _serviceQueryRepository.AddAsync(newServiceRM);
             await _queryUnitOfWork.SaveAsync(default);
+            _serviceRMCacheService.Dirty();
+
         }
         catch (Exception e)
         {

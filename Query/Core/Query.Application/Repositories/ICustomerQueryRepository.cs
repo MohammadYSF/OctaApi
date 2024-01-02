@@ -8,4 +8,5 @@ public interface ICustomerQueryRepository
     Task<List<CustomerRM>> GetAsync();
     Task<CustomerRM?> GetByCustomerIdAsync(Guid customerId);
     Task<CustomerRM?> GetByCustomerCodeAsync(string customerCode);
+    Task CheckCacheAsync();
 }

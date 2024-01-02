@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.CustomerFeatures.GetCustomersMinimal;
 namespace OctaApi.Controllers.Customer;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetCustomersMinimalController : ControllerBase

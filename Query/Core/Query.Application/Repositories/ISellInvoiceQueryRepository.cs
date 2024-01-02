@@ -19,4 +19,6 @@ public interface ISellInvoiceQueryRepository
     Task DeleteAsync(SellInvoiceRM sellInvoiceRM);
     Task DeleteAsync(List<SellInvoicePaymentRM> sellInvoicePaymentRMs);
     Task<List<SellInvoiceRM>> GetAsync();
+    Task CheckCacheAsync();
+
 }

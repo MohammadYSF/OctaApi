@@ -6,12 +6,92 @@ namespace Query.Persistence.Repositories;
 public class SellInvoiceQueryRepository : ISellInvoiceQueryRepository
 {
     private readonly QueryDbContext _queryDbContext;
+    private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
-    public SellInvoiceQueryRepository(QueryDbContext queryDbContext)
+    private readonly IDistributedCacheService<SellInvoiceRM> _sellInvoiceCache;
+    private readonly IDistributedCacheService<SellInvoiceInventoryItemRM> _sellInvoiceInventoryItemCache;
+    private readonly IDistributedCacheService<SellInvoiceServiceRM> _sellInvoiceServiceCache;
+    private readonly IDistributedCacheService<SellInvoiceDescriptionRM> _sellInvoiceDescriptionCache;
+    public SellInvoiceQueryRepository(QueryDbContext queryDbContext, IDistributedCacheService<SellInvoiceRM> sellInvoiceCache, IDistributedCacheService<SellInvoiceInventoryItemRM> sellInvoiceInventoryItemCache, IDistributedCacheService<SellInvoiceServiceRM> sellInvoiceServiceCache, IDistributedCacheService<SellInvoiceDescriptionRM> sellInvoiceDescriptionCache)
     {
         _queryDbContext = queryDbContext;
+        _sellInvoiceCache = sellInvoiceCache;
+        _sellInvoiceInventoryItemCache = sellInvoiceInventoryItemCache;
+        _sellInvoiceServiceCache = sellInvoiceServiceCache;
+        _sellInvoiceDescriptionCache = sellInvoiceDescriptionCache;
     }
+    public async Task CheckCacheAsync()
+    {
+        if (_sellInvoiceCache.Exists($"ids:{nameof(SellInvoiceRM)}") == 0)
+            await InitCacheAsync1();
+        if (_sellInvoiceInventoryItemCache.Exists($"ids:{nameof(SellInvoiceInventoryItemRM)}") == 0)
+            await InitCacheAsync2();
+        if (_sellInvoiceServiceCache.Exists($"ids:{nameof(SellInvoiceServiceRM)}") == 0)
+            await InitCacheAsync3();
+        if (_sellInvoiceDescriptionCache.Exists($"ids:{nameof(SellInvoiceDescriptionRM)}") == 0)
+            await InitCacheAsync4();
 
+    }
+    private async Task InitCacheAsync1()
+    {
+        var exist = _sellInvoiceCache.Exists($"ids:{nameof(SellInvoiceRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.SellInvoiceRMs.AsNoTracking().ToListAsync();
+            _sellInvoiceCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
+    private async Task InitCacheAsync4()
+    {
+        var exist = _sellInvoiceDescriptionCache.Exists($"ids:{nameof(SellInvoiceDescriptionRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.SellInvoiceDescriptionRMs.AsNoTracking().ToListAsync();
+            _sellInvoiceDescriptionCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
+    private async Task InitCacheAsync3()
+    {
+        var exist = _sellInvoiceServiceCache.Exists($"ids:{nameof(SellInvoiceServiceRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.SellInvoiceServiceRMs.AsNoTracking().ToListAsync();
+            _sellInvoiceServiceCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
+    private async Task InitCacheAsync2()
+    {
+        var exist = _sellInvoiceInventoryItemCache.Exists($"ids:{nameof(SellInvoiceInventoryItemRM)}");
+        if (exist == 1) return;
+        await Semaphore.WaitAsync();
+        try
+        {
+            var result = await _queryDbContext.SellInvoiceInventoryItemRMs.AsNoTracking().ToListAsync();
+            _sellInvoiceInventoryItemCache.Creates(result);
+        }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
     public async Task AddAsync(SellInvoiceRM sellInvoiceRM)
     {
         await _queryDbContext.SellInvoiceRMs.AddAsync(sellInvoiceRM);

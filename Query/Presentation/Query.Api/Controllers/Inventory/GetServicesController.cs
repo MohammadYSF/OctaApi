@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.Inventory.GetServices;
 namespace OctaApi.Controllers.Inventory;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetServicesController : ControllerBase
