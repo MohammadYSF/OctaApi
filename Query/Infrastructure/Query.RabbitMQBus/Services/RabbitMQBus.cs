@@ -37,6 +37,8 @@ public sealed class RabbitMQBus : IEventBus
         connectionFactory.HostName = _rabbitMqConfig.HostName;
         connectionFactory.UserName = _rabbitMqConfig.UserName;
         connectionFactory.Password = _rabbitMqConfig.Password;
+        connectionFactory.Port = _rabbitMqConfig.Port;
+
 
         using IConnection connection = connectionFactory.CreateConnection();
         using IModel channel = connection.CreateModel();
@@ -78,6 +80,7 @@ public sealed class RabbitMQBus : IEventBus
         connectionFactory.HostName = _rabbitMqConfig.HostName;
         connectionFactory.UserName = _rabbitMqConfig.UserName;
         connectionFactory.Password = _rabbitMqConfig.Password;
+        connectionFactory.Port = _rabbitMqConfig.Port;
 
         IConnection connection = connectionFactory.CreateConnection();
         IModel channel = connection.CreateModel();
