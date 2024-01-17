@@ -19,8 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Query.Application\Query.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Query.Persistence\Query.Persistence.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Query.RabbitMQBus\Query.RabbitMQBus.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Query.ReddisDistributedCache\Query.RedisDistributedCache.csproj" />
   </ItemGroup>
 
 </Project>

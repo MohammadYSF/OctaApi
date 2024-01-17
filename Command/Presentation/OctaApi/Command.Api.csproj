@@ -24,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Application\Command.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Command.Persistence.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\RabbitMqEventBus\Command.RabbitMqBus.csproj" />
   </ItemGroup>
 
 </Project>
