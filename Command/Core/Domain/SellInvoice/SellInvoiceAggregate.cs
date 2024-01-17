@@ -32,7 +32,7 @@ public class SellInvoiceAggregate : AggregateRoot
     public Guid? Vehicle { get; set; }
     public bool UseBuyPrice { get; set; } = false;
     public Price Discount { get; set; }
-    public SellInvoicecDescription Description { get; set; }
+    public SellInvoicecDescription Description { get; set; } = new(string.Empty);
     public List<SellInvoicePayment> Payments { get; set; } = new();
     public void Pay(long amount, DateTime payDate, string trackCode, long paidSoFar, long total)
     {
@@ -95,7 +95,7 @@ public class SellInvoiceAggregate : AggregateRoot
     }
     public void Delete()
     {
-        if (this.IsClosed) return; //todo throw exception
+        if (this.IsClosed) throw new Exception(); //todo throw exception
         this.AddDomainEvent(new SellInvoiceDeletedEvent
         {
             EventId = Guid.NewGuid(),
@@ -104,30 +104,40 @@ public class SellInvoiceAggregate : AggregateRoot
     }
     public void SetUseBuyPrice(bool useBuyPrice)
     {
-        this.UseBuyPrice = useBuyPrice;
-        if (UseBuyPrice && (this.UseBuyPrice != useBuyPrice))
+        if (useBuyPrice && (this.UseBuyPrice != useBuyPrice))
+        {
             this.AddDomainEvent(new SellInvoiceUsesBuyPriceEvent
             {
                 EventId = Guid.NewGuid(),
                 SellInvoiceId = this.Id
             });
+            this.UseBuyPrice = useBuyPrice;
+        }
+
         else if ((!useBuyPrice) && (this.UseBuyPrice != useBuyPrice))
+        {
             this.AddDomainEvent(new SellInvoiceDoesNotUseBuyPriceEvent
             {
                 EventId = Guid.NewGuid(),
                 SellInvoiceId = this.Id
             });
+            this.UseBuyPrice = useBuyPrice;
+
+        }
     }
     public void UpdateDescription(string description)
     {
-        this.Description = new SellInvoicecDescription(description);
         if (this.Description.Value != description)
+        {
             this.AddDomainEvent(new SellInvoiceUpDescriptionUpdatedEvent
             {
                 EventId = Guid.NewGuid(),
                 NewDescription = description,
                 SellInvoiceId = this.Id
             });
+            this.Description = new SellInvoicecDescription(description);
+        }
+
     }
     public void AddSellInvoiceInventoryItem(Guid sellInvoiceInventoryItemId, Guid inventoryItemId, float count)
     {
@@ -145,13 +155,16 @@ public class SellInvoiceAggregate : AggregateRoot
     }
     public void RemoveSellInvoiceInventoryItem(Guid sellInvoiceInventoryItem)
     {
+        int oldCount = this.InventoryItems.Count;
+
         this.InventoryItems = this.InventoryItems.Where(a => a.Id != sellInvoiceInventoryItem).ToList();
-        this.AddDomainEvent(new InventoryItemRemovedFromSellInvoicecEvent
-        {
-            EventId = Guid.NewGuid(),
-            SellInvoiceId = this.Id,
-            SellInvoiceInventoryItemId = sellInvoiceInventoryItem
-        });
+        if (oldCount != this.InventoryItems.Count)
+            this.AddDomainEvent(new InventoryItemRemovedFromSellInvoicecEvent
+            {
+                EventId = Guid.NewGuid(),
+                SellInvoiceId = this.Id,
+                SellInvoiceInventoryItemId = sellInvoiceInventoryItem
+            });
         //TODO
     }
     public void AddSellInvoiceService(Guid sellInvoiceServiceId, Guid serviceId, long price)
@@ -169,13 +182,16 @@ public class SellInvoiceAggregate : AggregateRoot
     }
     public void RemoveSellInvoiceService(Guid sellInvoiceServiceId)
     {
+        int oldCount = this.Services.Count;
         this.Services = this.Services.Where(a => a.Id != sellInvoiceServiceId).ToList();
-        this.AddDomainEvent(new ServiceRemovedFromSellInvoiceEvent
-        {
-            EventId = Guid.NewGuid(),
-            SellInvoiceId = this.Id,
-            SellInvoiceServiceId = sellInvoiceServiceId
-        });
+        if (this.Services.Count != oldCount)
+            this.AddDomainEvent(new ServiceRemovedFromSellInvoiceEvent
+            {
+                EventId = Guid.NewGuid(),
+                SellInvoiceId = this.Id,
+                SellInvoiceServiceId = sellInvoiceServiceId
+            });
+
         //TODO
     }
 }
