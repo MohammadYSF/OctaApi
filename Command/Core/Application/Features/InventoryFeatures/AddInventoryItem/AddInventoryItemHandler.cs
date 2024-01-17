@@ -1,6 +1,7 @@
 ﻿using Command.Core.Application.Repositories;
 using Command.Core.Domain.InventoryItem;
 using MediatR;
+using OctaShared.Contracts;
 namespace Command.Core.Application.Features.InventoryFeatures.AddInventoryItem;
 public class AddInventoryItemHandler : IRequestHandler<AddInventoryItemRequest, AddInventoryItemResponse>
 {

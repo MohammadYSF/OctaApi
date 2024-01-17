@@ -1,6 +1,6 @@
 ﻿using Command.Core.Domain.Core;
-using Command.Core.Domain.Customer.Events;
 using Command.Core.Domain.Customer.ValueObjects;
+using OctaShared.Events;
 namespace Command.Core.Domain.Customer;
 public class CustomerAggregate : AggregateRoot
 {
@@ -27,7 +27,7 @@ public class CustomerAggregate : AggregateRoot
             EventId = Guid.NewGuid(),
             FirstName = firstName,
             LastName = lastName,
-            PhoneNumber= phone
+            PhoneNumber = phone
 
         });
         return customerAggregate;
@@ -42,7 +42,7 @@ public class CustomerAggregate : AggregateRoot
             VehiclePlate = vehiclePlate,
             EventId = Guid.NewGuid(),
             VehicleId = vehicleId,
-            CustomerId = this.Id            
+            CustomerId = this.Id
         };
         this.AddDomainEvent(vehicleCraetedEvent);
     }

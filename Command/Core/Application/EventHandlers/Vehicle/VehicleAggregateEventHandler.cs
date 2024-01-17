@@ -1,7 +1,7 @@
 ﻿using Command.Core.Application.Repositories;
-using Command.Core.Common;
-using Command.Core.Domain.Customer.Events;
 using Command.Core.Domain.Vehicle;
+using OctaShared.Contracts;
+using OctaShared.Events;
 namespace Command.Core.Application.EventHandlers.Vehicle;
 
 public class VehicleAggregateEventHandler : IEventHandler<VehicleAddedToCustomerEvent>

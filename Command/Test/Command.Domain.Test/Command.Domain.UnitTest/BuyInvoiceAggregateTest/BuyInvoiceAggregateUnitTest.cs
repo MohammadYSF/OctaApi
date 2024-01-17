@@ -1,7 +1,5 @@
-﻿using Command.Core.Domain.Invoice;
-using Command.Core.Domain.BuyInvoice;
-using Command.Core.Domain.SellInvoice;
-using Command.Core.Domain.BuyInvoice.Entities;
+﻿using Command.Core.Domain.BuyInvoice.Entities;
+using Command.Core.Domain.Invoice;
 using FluentAssertions;
 namespace Command.Domain.UnitTest.BuyInvoiceAggregateTest;
 
@@ -35,7 +33,7 @@ public class BuyInvoiceAggregateUnitTest
                 Count=2
             }
     };
-    var result = BuyInvoiceAggregate.Create(id, buyDate, code, sellerName, buyInvoiceInventoryItems);
-    result.Should().NotBeNull();
-}
+        var result = BuyInvoiceAggregate.Create(id, buyDate, code, sellerName, buyInvoiceInventoryItems);
+        result.Should().NotBeNull();
+    }
 }

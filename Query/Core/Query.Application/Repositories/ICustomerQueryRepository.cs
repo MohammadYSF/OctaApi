@@ -1,4 +1,5 @@
-﻿using Query.Application.ReadModels;
+﻿using OctaShared.ReadModels;
+
 namespace Query.Application.Repositories;
 public interface ICustomerQueryRepository
 {

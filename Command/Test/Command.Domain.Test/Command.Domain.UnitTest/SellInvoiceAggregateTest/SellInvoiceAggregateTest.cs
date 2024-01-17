@@ -1,11 +1,6 @@
 ﻿using Command.Core.Domain.SellInvoice;
-using Command.Core.Domain.SellInvoice.Events;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OctaShared.Events;
 
 namespace Command.Domain.UnitTest.SellInvoiceAggregateTest;
 

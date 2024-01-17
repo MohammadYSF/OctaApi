@@ -2,6 +2,7 @@
 using Command.Core.Application.Repositories;
 using Command.Core.Domain.SellInvoice;
 using MediatR;
+using OctaShared.Contracts;
 namespace Command.Core.Application.Features.InvoiceFeatures.UpdateInvoiceServicesAndInventoryItems;
 public sealed record class UpdateInvoiceServicesAndInventoryItemsHandler : IRequestHandler<UpdateInvoiceServicesAndInventoryItemsRequest, UpdateInvoiceServicesAndInventoryItemsResponse>
 {

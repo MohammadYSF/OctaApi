@@ -1,16 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Query.Application.Core;
+using OctaShared.Contracts;
+using OctaShared.Events;
 using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;
 using Query.Application.EventHandlers.SellInvoice;
 using Query.Application.EventHandlers.Service;
-using Query.Application.Events.BuyInvoice;
-using Query.Application.Events.Customer;
-using Query.Application.Events.InventoryItem;
-using Query.Application.Events.SellInvoice;
-using Query.Application.Events.Services;
-using Query.Application.Events.Vehicles;
 using System.Reflection;
 
 namespace Query.Application;

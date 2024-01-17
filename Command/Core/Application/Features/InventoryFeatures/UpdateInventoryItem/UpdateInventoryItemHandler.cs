@@ -2,6 +2,7 @@
 using Command.Core.Application.Repositories;
 using Command.Core.Domain.InventoryItem;
 using MediatR;
+using OctaShared.Contracts;
 namespace Command.Core.Application.Features.InventoryFeatures.UpdateInventoryItem;
 public class UpdateInventoryItemHandler : IRequestHandler<UpdateInventoryItemRequest, UpdateInventoryItemResponse>
 {

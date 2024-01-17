@@ -1,6 +1,6 @@
 ﻿using Command.Core.Domain.Core;
-using Command.Core.Domain.InventoryItem.Events;
 using Command.Core.Domain.InventoryItem.ValueObjects;
+using OctaShared.Events;
 
 namespace Command.Core.Domain.InventoryItem;
 

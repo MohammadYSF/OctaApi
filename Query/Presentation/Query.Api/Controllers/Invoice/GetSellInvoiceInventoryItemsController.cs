@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.InvoiceFeatures.GetSellInvoiceInventoryItems;
 namespace Query.Presentation.Api.Controllers;

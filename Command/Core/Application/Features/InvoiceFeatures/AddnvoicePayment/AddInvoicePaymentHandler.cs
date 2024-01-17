@@ -2,6 +2,7 @@
 using Command.Core.Application.Repositories;
 using Command.Core.Domain.SellInvoice;
 using MediatR;
+using OctaShared.Contracts;
 namespace Command.Core.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
 public sealed class AddInvoicePaymentHandler : IRequestHandler<AddInvoicePaymentRequest, AddInvoicePaymentResponse>
 {

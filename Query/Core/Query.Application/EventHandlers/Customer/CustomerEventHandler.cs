@@ -1,7 +1,6 @@
-﻿using Query.Application.Core;
-using Query.Application.Events.Customer;
-using Query.Application.Events.Vehicles;
-using Query.Application.ReadModels;
+﻿using OctaShared.Contracts;
+using OctaShared.Events;
+using OctaShared.ReadModels;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.Customer;
 public class CustomerEventHandler :

@@ -1,6 +1,6 @@
-﻿using Query.Application.Core;
-using Query.Application.Events.BuyInvoice;
-using Query.Application.ReadModels;
+﻿using OctaShared.Contracts;
+using OctaShared.Events;
+using OctaShared.ReadModels;
 using Query.Application.Repositories;
 
 namespace Query.Application.EventHandlers.BuyInvoice;

@@ -1,6 +1,7 @@
 ﻿using Command.Core.Application.Repositories;
 using Command.Core.Domain.SellInvoice;
 using MediatR;
+using OctaShared.Contracts;
 namespace Command.Core.Application.Features.InvoiceFeatures.CreateInvoice;
 internal class CreateSellInvoiceHandler : IRequestHandler<CreateSellInvoiceRequest, CreateSellInvoiceResponse>
 {

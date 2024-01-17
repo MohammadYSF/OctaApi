@@ -1,4 +1,4 @@
-﻿using Query.Application.ReadModels;
+﻿using OctaShared.ReadModels;
 namespace Query.Application.Features.VehicleFeatures.GetAllVehicles;
 public sealed record GetAllVehiclesResponse
 {

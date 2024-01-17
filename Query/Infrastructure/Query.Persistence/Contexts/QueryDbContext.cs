@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Query.Application.ReadModels;
+using OctaShared.ReadModels;
 namespace Query.Persistence.Contexts;
 public class QueryDbContext : DbContext
 {

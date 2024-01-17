@@ -1,7 +1,7 @@
-﻿using Query.Application.Common.Exceptions;
-using Query.Application.Core;
-using Query.Application.Events.InventoryItem;
-using Query.Application.ReadModels;
+﻿using OctaShared.Contracts;
+using OctaShared.Events;
+using OctaShared.ReadModels;
+using Query.Application.Common.Exceptions;
 using Query.Application.Repositories;
 namespace Query.Application.EventHandlers.InventoryItem;
 public class InventoryItemEventHandler :

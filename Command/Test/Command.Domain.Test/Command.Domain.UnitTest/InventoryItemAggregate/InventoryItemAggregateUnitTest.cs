@@ -1,8 +1,8 @@
 ﻿using Command.Core.Domain.InventoryItem;
-using Command.Core.Domain.InventoryItem.Events;
 using Command.Core.Domain.InventoryItem.ValueObjects;
 using FluentAssertions;
 using Moq;
+using OctaShared.Events;
 
 namespace Command.Domain.UnitTest.InventoryItemAggregate;
 

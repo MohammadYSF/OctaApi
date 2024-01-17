@@ -1,6 +1,6 @@
 ﻿using Command.Core.Domain.Core;
-using Command.Core.Domain.Service.Events;
 using Command.Core.Domain.Service.ValueObjects;
+using OctaShared.Events;
 namespace Command.Core.Domain.Service;
 public sealed class ServiceAggregate : AggregateRoot
 {

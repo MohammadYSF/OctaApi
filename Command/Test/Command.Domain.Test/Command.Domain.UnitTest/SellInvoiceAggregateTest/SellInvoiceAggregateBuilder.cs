@@ -1,10 +1,4 @@
 ﻿using Command.Core.Domain.SellInvoice;
-using FluentAssertions.Equivalency;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Command.Domain.UnitTest.SellInvoiceAggregateTest
 {

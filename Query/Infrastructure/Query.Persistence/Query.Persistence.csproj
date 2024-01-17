@@ -25,5 +25,19 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Query.Application\Query.Application.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="OctaShared.Contracts">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.Contracts\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.Events">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.Contracts\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.ReadModels">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.ReadModels\bin\Debug\net7.0\OctaShared.ReadModels.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.RedisDistributedCache">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.RedisDistributedCache\bin\Debug\net7.0\OctaShared.RedisDistributedCache.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

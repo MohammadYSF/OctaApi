@@ -1,6 +1,7 @@
 ﻿
 using MediatR;
-using Query.Application.ReadModels;
+using OctaShared.Contracts;
+using OctaShared.ReadModels;
 using Query.Application.Repositories;
 
 namespace OctaApi.Application.Features.Inventory.GetInventoryItems;

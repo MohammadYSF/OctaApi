@@ -1,11 +1,5 @@
-﻿using Command.Core.Domain.Service;
-using Command.Core.Domain.Vehicle;
+﻿using Command.Core.Domain.Vehicle;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Command.Domain.UnitTest.VehicleAggregateTest;
 

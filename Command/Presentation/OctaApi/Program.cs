@@ -1,9 +1,9 @@
 using Command.Core.Application;
 using Command.Core.Application.EventHandlers.Vehicle;
-using Command.Core.Application.Repositories;
-using Command.Core.Domain.Customer.Events;
 using Command.Infrastructure.Persistence.Persistence;
-using Command.Infrastructure.RabbitMqBus;
+using OctaShared.Contracts;
+using OctaShared.Events;
+using OctaShared.RabbitMqBus;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();

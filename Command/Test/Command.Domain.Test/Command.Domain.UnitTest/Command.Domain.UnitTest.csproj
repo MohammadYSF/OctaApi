@@ -28,4 +28,13 @@
     <ProjectReference Include="..\..\..\Core\Domain\Command.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="OctaShared.Contracts">
+      <HintPath>..\..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.Events">
+      <HintPath>..\..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
