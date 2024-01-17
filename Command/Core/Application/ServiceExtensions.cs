@@ -1,10 +1,10 @@
 ﻿using Command.Core.Application.Common.Behavior;
 using Command.Core.Application.EventHandlers.Vehicle;
-using Command.Core.Common;
-using Command.Core.Domain.Customer.Events;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using OctaShared.Contracts;
+using OctaShared.Events;
 using System.Reflection;
 
 namespace Command.Core.Application;

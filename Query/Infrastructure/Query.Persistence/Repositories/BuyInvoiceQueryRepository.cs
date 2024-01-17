@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Query.Application.ReadModels;
+using OctaShared.Contracts;
+using OctaShared.ReadModels;
 using Query.Application.Repositories;
 using Query.Persistence.Contexts;
 

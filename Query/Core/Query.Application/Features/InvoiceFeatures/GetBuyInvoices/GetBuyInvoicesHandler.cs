@@ -1,5 +1,6 @@
 ﻿using MediatR;
-using Query.Application.ReadModels;
+using OctaShared.Contracts;
+using OctaShared.ReadModels;
 using Query.Application.Repositories;
 namespace Query.Application.Features.InvoiceFeatures.GetBuyInvoices;
 public sealed class GetBuyInvoicesHandler : IRequestHandler<GetBuyInvoicesRequest, GetBuyInvoicesResponse>

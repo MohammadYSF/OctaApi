@@ -1,7 +1,7 @@
 ﻿using Command.Core.Domain.Core;
 using Command.Core.Domain.SellInvoice.Entities;
-using Command.Core.Domain.SellInvoice.Events;
 using Command.Core.Domain.SellInvoice.ValueObjects;
+using OctaShared.Events;
 
 namespace Command.Core.Domain.SellInvoice;
 

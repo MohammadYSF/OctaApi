@@ -17,11 +17,27 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Core\" />
 	  <Folder Include="Features\VehicleFeatures\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Domain\Command.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="OctaShared.Contracts">
+	    <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OctaShared.DTOs">
+	    <HintPath>..\..\..\..\OctaShared\OctaShared.DTOs\bin\Debug\net7.0\OctaShared.DTOs.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OctaShared.Events">
+	    <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OctaShared.ReadModels">
+	    <HintPath>..\..\..\..\OctaShared\OctaShared.ReadModels\bin\Debug\net7.0\OctaShared.ReadModels.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

@@ -1,12 +1,8 @@
 ﻿using MediatR;
+using OctaShared.Contracts;
+using OctaShared.ReadModels;
 using Query.Application.Common.Exceptions;
-using Query.Application.ReadModels;
 using Query.Application.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Query.Application.Features.InvoiceFeatures.GetSellInvoiceDetailsBySellInvoiceIdAndCustomerId;
 

@@ -1,5 +1,5 @@
-﻿using Command.Core.Application.ReadModels;
-using Command.Core.Application.Repositories;
+﻿using Command.Core.Application.Repositories;
+using OctaShared.ReadModels;
 namespace Command.Persistence.Repositories;
 
 public class SellInvoiceRMRepository : ISellInvoiceRMRepository

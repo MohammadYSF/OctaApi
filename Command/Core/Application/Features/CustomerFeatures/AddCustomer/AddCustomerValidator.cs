@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using OctaShared.DTOs.Request;
 namespace Command.Core.Application.Features.CustomerFeatures.AddCustomer;
 public class AddCustomerValidator : AbstractValidator<AddCustomerRequest>
 {

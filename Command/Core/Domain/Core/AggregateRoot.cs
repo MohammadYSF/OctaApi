@@ -1,3 +1,5 @@
+using OctaShared.Events;
+
 namespace Command.Core.Domain.Core;
 
 public abstract class AggregateRoot : Entity

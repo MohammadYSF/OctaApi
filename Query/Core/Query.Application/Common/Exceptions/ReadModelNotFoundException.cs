@@ -16,6 +16,6 @@ public class ReadModelNotFoundException<T> : Exception
         Errors.Append($"{nameof(T)} not found");
     }
 
-    public string[] Errors { get; set; } = {};
+    public string[] Errors { get; set; } = { };
 }
 

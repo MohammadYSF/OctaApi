@@ -1,5 +1,6 @@
 ﻿using MediatR;
-using Query.Application.ReadModels;
+using OctaShared.Contracts;
+using OctaShared.ReadModels;
 using Query.Application.Repositories;
 namespace OctaApi.Application.Features.InvoiceFeatures.GetSellInvoices;
 public sealed class GetSellInvoicesHandler : IRequestHandler<GetSellInvoicesRequest, GetSellInvoicesResponse>
@@ -7,7 +8,7 @@ public sealed class GetSellInvoicesHandler : IRequestHandler<GetSellInvoicesRequ
     private readonly ISellInvoiceQueryRepository _sellInvoiceQueryRepository;
     private readonly IDistributedCacheService<SellInvoiceRM> _slelInvoiceRMCacheService;
 
-    public GetSellInvoicesHandler(ISellInvoiceQueryRepository sellInvoiceQueryRepository, IDistributedCacheService<SellInvoiceRM>  distributedCacheService)
+    public GetSellInvoicesHandler(ISellInvoiceQueryRepository sellInvoiceQueryRepository, IDistributedCacheService<SellInvoiceRM> distributedCacheService)
     {
         _sellInvoiceQueryRepository = sellInvoiceQueryRepository;
         _slelInvoiceRMCacheService = distributedCacheService;

@@ -1,7 +1,7 @@
 using Command.Core.Domain.Customer;
-using Command.Core.Domain.Customer.Events;
 using FluentAssertions;
 using Moq;
+using OctaShared.Events;
 
 namespace Command.Domain.UnitTest.Customer;
 

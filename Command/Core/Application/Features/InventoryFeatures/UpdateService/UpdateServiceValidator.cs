@@ -1,9 +1,8 @@
-﻿using Command.Core.Application.Features.InventoryFeatures.AddService;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Command.Core.Application.Features.InventoryFeatures.UpdateService
 {
-    public class UpdateServiceValidator : AbstractValidator<AddServiceRequest>
+    public class UpdateServiceValidator : AbstractValidator<OctaShared.DTOs.Request.AddServiceRequest>
     {
         public UpdateServiceValidator()
         {

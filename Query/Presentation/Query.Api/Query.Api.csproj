@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+	  <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -19,8 +22,21 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Query.Application\Query.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Query.Persistence\Query.Persistence.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Query.RabbitMQBus\Query.RabbitMQBus.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Query.ReddisDistributedCache\Query.RedisDistributedCache.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OctaShared.Contracts">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.Contracts\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.Events">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.Contracts\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.RabbitMQBus">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.RabbitMQBus.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.RedisDistributedCache">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.RedisDistributedCache\bin\Debug\net7.0\OctaShared.RedisDistributedCache.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

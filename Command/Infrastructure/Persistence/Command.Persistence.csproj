@@ -25,4 +25,10 @@
 
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="OctaShared.ReadModels">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.ReadModels\bin\Debug\net7.0\OctaShared.ReadModels.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

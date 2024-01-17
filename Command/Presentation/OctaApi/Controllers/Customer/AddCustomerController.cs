@@ -1,6 +1,6 @@
-﻿using Command.Core.Application.Features.CustomerFeatures.AddCustomer;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OctaShared.DTOs.Request;
 namespace Command.Presentation.Api.Controllers.Customer;
 
 //[Authorize]

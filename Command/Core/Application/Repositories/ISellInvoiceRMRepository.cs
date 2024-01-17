@@ -1,5 +1,4 @@
-﻿
-using Command.Core.Application.ReadModels;
+﻿using OctaShared.ReadModels;
 
 namespace Command.Core.Application.Repositories;
 public interface ISellInvoiceRMRepository

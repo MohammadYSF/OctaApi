@@ -1,5 +1,5 @@
-﻿using Command.Core.Application.Features.InvoiceFeatures.DeleteSellInvoice;
-using FluentValidation;
+﻿using FluentValidation;
+using OctaShared.DTOs.Request;
 
 namespace Application.Features.InvoiceFeatures.DeleteSellInvoiuce;
 public class DeleteSellInvoiceValidator : AbstractValidator<DeleteSellInvoiceRequest>

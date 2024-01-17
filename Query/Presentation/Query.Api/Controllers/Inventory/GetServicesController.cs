@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaApi.Application.Features.Inventory.GetServices;
 namespace OctaApi.Controllers.Inventory;

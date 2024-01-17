@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Query.Application.Features.VehicleFeatures.GetAllVehicles;
 namespace OctaApi.Controllers;

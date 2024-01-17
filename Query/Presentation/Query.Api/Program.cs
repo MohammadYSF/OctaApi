@@ -1,16 +1,12 @@
+using OctaShared.Contracts;
+using OctaShared.Events;
+using OctaShared.RabbitMqBus;
+using OctaShared.RedisDistributedCache;
 using Query.Application;
 using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;
 using Query.Application.EventHandlers.SellInvoice;
-using Query.Application.Events.BuyInvoice;
-using Query.Application.Events.Customer;
-using Query.Application.Events.InventoryItem;
-using Query.Application.Events.SellInvoice;
-using Query.Application.Events.Vehicles;
-using Query.Application.Repositories;
-using Query.Infrastructure.RabbitMqBus;
-using Query.Infrastructure.RedisDistributedCache;
 using Query.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
