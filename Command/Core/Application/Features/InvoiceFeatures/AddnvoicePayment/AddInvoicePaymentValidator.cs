@@ -1,5 +1,5 @@
-﻿using Command.Core.Application.Features.InvoiceFeatures.AddSellInvoicePayment;
-using FluentValidation;
+﻿using FluentValidation;
+using OctaShared.DTOs.Request;
 
 namespace Command.Core.Application.Features.InvoiceFeatures.AddnvoicePayment
 {

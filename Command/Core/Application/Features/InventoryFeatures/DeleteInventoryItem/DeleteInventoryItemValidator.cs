@@ -1,5 +1,5 @@
-﻿using Command.Core.Application.Features.InventoryFeatures.DeleteInventoryItem;
-using FluentValidation;
+﻿using FluentValidation;
+using OctaShared.DTOs.Request;
 
 namespace Command.Core.Application.Features.InventoryFeatures.AddService;
 

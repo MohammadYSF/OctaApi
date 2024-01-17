@@ -2,6 +2,8 @@
 using Command.Core.Domain.Customer;
 using MediatR;
 using OctaShared.Contracts;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace Command.Core.Application.Features.CustomerFeatures.AddCustomer;
 public class AddCustomerHandler : IRequestHandler<AddCustomerRequest, AddCustomerResponse>
 {

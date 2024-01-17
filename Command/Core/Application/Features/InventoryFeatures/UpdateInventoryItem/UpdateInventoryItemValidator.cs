@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using OctaShared.DTOs.Request;
 namespace Command.Core.Application.Features.InventoryFeatures.UpdateInventoryItem;
 public class UpdateInventoryItemValidator : AbstractValidator<UpdateInventoryItemRequest>
 {

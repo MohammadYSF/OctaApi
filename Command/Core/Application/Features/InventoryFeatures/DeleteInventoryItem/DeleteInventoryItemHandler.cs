@@ -2,6 +2,8 @@
 using Command.Core.Application.Repositories;
 using Command.Core.Domain.InventoryItem;
 using OctaShared.Contracts;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace Command.Core.Application.Features.InventoryFeatures.DeleteInventoryItem;
 public class DeleteInventoryItemHandler
 {

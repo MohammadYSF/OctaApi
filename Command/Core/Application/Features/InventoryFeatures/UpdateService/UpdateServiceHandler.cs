@@ -3,6 +3,8 @@ using Command.Core.Application.Repositories;
 using Command.Core.Domain.Service;
 using MediatR;
 using OctaShared.Contracts;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace Command.Core.Application.Features.InventoryFeatures.UpdateService;
 public class UpdateServiceHandler : IRequestHandler<UpdateServiceRequest, UpdateServiceResponse>
 {

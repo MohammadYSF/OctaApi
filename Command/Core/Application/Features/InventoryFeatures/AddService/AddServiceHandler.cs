@@ -2,6 +2,8 @@
 using Command.Core.Domain.Service;
 using MediatR;
 using OctaShared.Contracts;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace Command.Core.Application.Features.InventoryFeatures.AddService;
 public class AddServiceHandler : IRequestHandler<AddServiceRequest, AddServiceResponse>
 {
