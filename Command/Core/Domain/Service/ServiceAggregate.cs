@@ -27,6 +27,7 @@ public sealed class ServiceAggregate : AggregateRoot
     }
     public void Delete()
     {
+        if (!this.IsActive) throw new Exception("");
         this.IsActive = false;
     }
     public void Update(string newServiceName, long newDefaultPrice)
