@@ -1,11 +1,12 @@
 ﻿using Command.Core.Domain.Core;
 using Command.Core.Domain.Vehicle.ValueObjects;
+using OctaShared.Events;
 namespace Command.Core.Domain.Vehicle;
 public class VehicleAggregate : AggregateRoot
 {
-    public static VehicleAggregate Create(Guid id, int code, string name, string plate, string color)
+    public static VehicleAggregate Create(Guid id, int code, string name, string plate, string color,Guid customerId)
     {
-        var customerVehicle = new VehicleAggregate
+        var aggregate = new VehicleAggregate
         {
             Id = id,
             Code = new VehicleCode(code),
@@ -13,7 +14,17 @@ public class VehicleAggregate : AggregateRoot
             Name = new VehicleName(name),
             Plate = new VehiclePlate(plate)
         };
-        return customerVehicle;
+        aggregate.AddDomainEvent(new VehicleCreatedEvent
+        {
+            Code = code,
+            Color = color,
+            VehicleId = id,
+            Plate = plate,
+            Name = name,
+            EventId = Guid.NewGuid(),
+            CustomerId = customerId
+        });
+        return aggregate;
     }
     public VehicleCode Code { get; set; }
     public VehicleName Name { get; set; }

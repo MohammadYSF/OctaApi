@@ -21,7 +21,7 @@ public sealed class GetInventoryItemsHandler : IRequestHandler<GetInventoryItems
     public async Task<GetInventoryItemsResponse> Handle(GetInventoryItemsRequest request, CancellationToken cancellationToken)
     {
         await _inventoryItemRepository.CheckCacheAsync();
-        var inventories = _inventoryItemCacheService.GetAll().ToList();
+        var inventories = _inventoryItemCacheService.GetAll().Where(a => !a.ToDate.HasValue).ToList();
         //var inventories = await _inventoryItemRepository.GetAsync();
         var response = new GetInventoryItemsResponse(inventories);
         return response;

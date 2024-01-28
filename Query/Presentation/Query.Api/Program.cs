@@ -7,6 +7,7 @@ using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;
 using Query.Application.EventHandlers.SellInvoice;
+using Query.Application.EventHandlers.Service;
 using Query.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +54,7 @@ var eventBus = app.Services.GetRequiredService<IEventBus>();
 eventBus.Subscribe<BuyInvoiceCreatedEvent, BuyInvoiceEventHandler>();
 eventBus.Subscribe<CustomerCreatedEvent, CustomerEventHandler>();
 eventBus.Subscribe<VehicleCreatedEvent, CustomerEventHandler>();
-eventBus.Subscribe<VehicleCreatedEvent, CustomerEventHandler>();
+eventBus.Subscribe<InventoryItemBoughtEvent, InventoryItemEventHandler>();
 eventBus.Subscribe<InventoryItemCreatedEvent, InventoryItemEventHandler>();
 eventBus.Subscribe<InventoryItemUpdatedEvent, InventoryItemEventHandler>();
 eventBus.Subscribe<SellInvoiceCreatedEvent, SellInvoiceEventHandler>();
@@ -63,6 +64,8 @@ eventBus.Subscribe<ServiceAddedToSellInvoiceEvent, SellInvoiceEventHandler>();
 eventBus.Subscribe<InventoryItemAddedToSellInvoiceEvent, SellInvoiceEventHandler>();
 eventBus.Subscribe<ServiceRemovedFromSellInvoiceEvent, SellInvoiceEventHandler>();
 eventBus.Subscribe<InventoryItemRemovedFromSellInvoicecEvent, SellInvoiceEventHandler>();
+eventBus.Subscribe<ServiceCreatedEvent, ServiceEventHandler>();
+eventBus.Subscribe<ServiceUpdatedEvent, ServiceEventHandler>();
 
 app.MapControllers();
 

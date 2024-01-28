@@ -19,7 +19,7 @@ public sealed record class UpdateInvoiceServicesAndInventoryItemsHandler : IRequ
     }
     public async Task<UpdateInvoiceServicesAndInventoryItemsResponse> Handle(UpdateInvoiceServicesAndInventoryItemsRequest request, CancellationToken cancellationToken)
     {
-        var datetimeNow = DateTime.Now;
+        var datetimeNow = DateTime.UtcNow;
         SellInvoiceAggregate? sellInvoiceAggregate = await _sellInvoiceRepository.GetByIdAsync(request.InvoiceId);
         if (sellInvoiceAggregate == null)
             throw new AggregateNotFoundException<SellInvoiceAggregate>($"{nameof(SellInvoiceAggregate)} with id {request.InvoiceId} not found !");

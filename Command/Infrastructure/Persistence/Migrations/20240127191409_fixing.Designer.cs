@@ -3,6 +3,7 @@ using System;
 using Command.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Command.Persistence.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240127191409_fixing")]
+    partial class fixing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -382,17 +385,11 @@ namespace Command.Persistence.Migrations
                             b1.Property<Guid>("BuyInvoiceId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<float>("BuyPrice")
-                                .HasColumnType("real");
-
                             b1.Property<float>("Count")
                                 .HasColumnType("real");
 
                             b1.Property<Guid>("InventoryItemId")
                                 .HasColumnType("uuid");
-
-                            b1.Property<float>("SellPrice")
-                                .HasColumnType("real");
 
                             b1.HasKey("Id", "BuyInvoiceId");
 

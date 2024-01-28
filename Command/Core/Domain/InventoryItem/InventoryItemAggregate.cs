@@ -44,6 +44,10 @@ public class InventoryItemَAggregate : AggregateRoot
             SellPrice = sellPrice,
             Code = this.Code.ToString(),
             Name = this.Name.ToString(),
+            Count = this.Count.Value,
+            Date = DateTime.UtcNow,
+            InventoryItemId = this.Id,
+
         });
         //TODO
     }
@@ -67,6 +71,10 @@ public class InventoryItemَAggregate : AggregateRoot
             UpdateDate = DateTime.UtcNow,
             Code = this.Code.Value
         });
+    }
+    public void UnUse(float count)
+    {
+        this.Count = new InventoryItemCount(this.Count.Value + count);
     }
     public void Use(float count)
     {

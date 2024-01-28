@@ -81,6 +81,7 @@ public class SellInvoiceAggregate : AggregateRoot
             Code = new SellInvoiceCode(code),
             Customer = customer,
             Vehicle = vehicle,
+            Discount = new Price(0)
         };
         agg.AddDomainEvent(new SellInvoiceCreatedEvent
         {
@@ -153,17 +154,20 @@ public class SellInvoiceAggregate : AggregateRoot
         });
         //TODO
     }
-    public void RemoveSellInvoiceInventoryItem(Guid sellInvoiceInventoryItem)
+    public void RemoveSellInvoiceInventoryItem(Guid sellInvoiceInventoryItemId)
     {
         int oldCount = this.InventoryItems.Count;
 
-        this.InventoryItems = this.InventoryItems.Where(a => a.Id != sellInvoiceInventoryItem).ToList();
+        this.InventoryItems = this.InventoryItems.Where(a => a.Id != sellInvoiceInventoryItemId).ToList();
+        SellInvoiceInventoryItem sellInvoiceInventoryItem = this.InventoryItems.FirstOrDefault(a => a.Id == sellInvoiceInventoryItemId);
         if (oldCount != this.InventoryItems.Count)
             this.AddDomainEvent(new InventoryItemRemovedFromSellInvoicecEvent
             {
                 EventId = Guid.NewGuid(),
                 SellInvoiceId = this.Id,
-                SellInvoiceInventoryItemId = sellInvoiceInventoryItem
+                SellInvoiceInventoryItemId = sellInvoiceInventoryItemId,
+                Count=sellInvoiceInventoryItem.Count,
+                InventoryItemId = sellInvoiceInventoryItem.InventoryItemId
             });
         //TODO
     }

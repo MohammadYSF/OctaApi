@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Query.Persistence.Contexts;
@@ -11,9 +12,11 @@ using Query.Persistence.Contexts;
 namespace Query.Persistence.Migrations
 {
     [DbContext(typeof(QueryDbContext))]
-    partial class QueryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240128003820_update vehicle readmodel")]
+    partial class updatevehiclereadmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,9 +186,6 @@ namespace Query.Persistence.Migrations
 
                     b.Property<Guid>("InventoryItemId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("InventoryItemName")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("SellInvoiceId")
                         .HasColumnType("uuid");

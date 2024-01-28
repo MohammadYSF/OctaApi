@@ -69,9 +69,9 @@ public class CustomerQueryRepository : ICustomerQueryRepository
         return await _queryDbContext.CustomerRMs.AsNoTracking().ToListAsync();
     }
 
-    public Task<CustomerRM?> GetByCustomerCodeAsync(string customerCode)
+    public async Task<CustomerRM?> GetByCustomerCodeAsync(string customerCode)
     {
-        throw new NotImplementedException();
+        return await _queryDbContext.CustomerRMs.Where(a => a.CustomerCode == customerCode).FirstOrDefaultAsync();
     }
 
     public async Task<CustomerRM?> GetByCustomerIdAsync(Guid customerId)

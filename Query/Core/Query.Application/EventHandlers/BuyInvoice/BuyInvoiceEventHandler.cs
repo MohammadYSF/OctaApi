@@ -26,7 +26,7 @@ public class BuyInvoiceEventHandler :
             BuyInvoiceCreateDate = @event.BuyDate,
             BuyInvoiceId = @event.BuyInvoiced,
             Id = Guid.NewGuid(),
-            TotalPrice = 0
+            TotalPrice = @event.TotalPrice
         };
         await _buyInvoiceQueryRepository.AddAsync(buyInvoiceRM);
         await _queryUnitOfWork.SaveAsync(default);
