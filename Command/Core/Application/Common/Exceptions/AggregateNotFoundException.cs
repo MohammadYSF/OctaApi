@@ -15,3 +15,4 @@ public class AggregateNotFoundException<T> : Exception where T : AggregateRoot
 
     public string[] Errors { get; set; }
 }
+

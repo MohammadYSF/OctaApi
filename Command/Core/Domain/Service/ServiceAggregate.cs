@@ -1,5 +1,6 @@
 ﻿using Command.Core.Domain.Core;
 using Command.Core.Domain.Service.ValueObjects;
+using Command.Domain.Core;
 using OctaShared.Events;
 namespace Command.Core.Domain.Service;
 public sealed class ServiceAggregate : AggregateRoot
@@ -27,7 +28,7 @@ public sealed class ServiceAggregate : AggregateRoot
     }
     public void Delete()
     {
-        if (!this.IsActive) throw new Exception("");
+        if (!this.IsActive) throw new DomainException<ServiceAggregate>("can not delete a not-active service");
         this.IsActive = false;
     }
     public void Update(string newServiceName, long newDefaultPrice)

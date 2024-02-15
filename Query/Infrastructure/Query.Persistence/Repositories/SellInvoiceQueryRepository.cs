@@ -110,7 +110,7 @@ public class SellInvoiceQueryRepository : ISellInvoiceQueryRepository
 
     public async Task AddAsync(SellInvoicePaymentRM sellInvoicePaymentRM)
     {
-        await _queryDbContext.SellInvoicePaymentRMs.AddAsync(sellInvoicePaymentRM);        
+        await _queryDbContext.SellInvoicePaymentRMs.AddAsync(sellInvoicePaymentRM);
     }
 
     public Task DeleteAsync(SellInvoiceInventoryItemRM sellInvoiceInventoryRM)

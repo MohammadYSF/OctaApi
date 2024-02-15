@@ -4,7 +4,7 @@ using OctaShared.Events;
 namespace Command.Core.Domain.Vehicle;
 public class VehicleAggregate : AggregateRoot
 {
-    public static VehicleAggregate Create(Guid id, int code, string name, string plate, string color,Guid customerId)
+    public static VehicleAggregate Create(Guid id, int code, string name, string plate, string color, Guid customerId)
     {
         var aggregate = new VehicleAggregate
         {

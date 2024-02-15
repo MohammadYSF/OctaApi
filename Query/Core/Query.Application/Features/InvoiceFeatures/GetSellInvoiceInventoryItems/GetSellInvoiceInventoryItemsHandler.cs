@@ -10,7 +10,7 @@ public sealed class GetSellInvoiceInventoryItemsHandler : IRequestHandler<GetSel
 
     public GetSellInvoiceInventoryItemsHandler(ISellInvoiceQueryRepository sellInvoiceQueryRepository, IDistributedCacheService<SellInvoiceInventoryItemRM> sellInvoiceInventoryItemRMCache)
     {
-        _sellInvoiceQueryRepository = sellInvoiceQueryRepository;   
+        _sellInvoiceQueryRepository = sellInvoiceQueryRepository;
         _sellInvoiceInventoryItemRMCache = sellInvoiceInventoryItemRMCache;
     }
     public async Task<GetSellInvoiceInventoryItemsResponse> Handle(GetSellInvoiceInventoryItemsRequest request, CancellationToken cancellationToken)

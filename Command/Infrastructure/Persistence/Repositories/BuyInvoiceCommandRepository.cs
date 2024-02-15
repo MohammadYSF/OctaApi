@@ -12,7 +12,7 @@ public class BuyInvoiceCommandRepository : IBuyInvoiceCommandRepository
     }
     public async Task CreateAsync(BuyInvoiceAggregate buyInvoiceAggregate)
     {
-        await _writeDbContext.BuyInvoices.AddAsync(buyInvoiceAggregate);        
+        await _writeDbContext.BuyInvoices.AddAsync(buyInvoiceAggregate);
     }
     public Task UpdateAsync(BuyInvoiceAggregate buyInvoiceAggregate)
     {
