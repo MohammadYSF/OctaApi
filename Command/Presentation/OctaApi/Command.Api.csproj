@@ -45,5 +45,9 @@
 			<HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.RabbitMQBus.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="..\..\..\Tests\IntegrationTests\CustomerIntegrationTest\CustomerIntegrationTest" />
+	</ItemGroup>
+
 
 </Project>

@@ -10,7 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
+	  <PackageReference Include="FluentAssertions" Version="6.12.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -34,6 +35,9 @@
     <Reference Include="OctaShared.Contracts">
       <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
     </Reference>
+    <Reference Include="OctaShared.DTOs">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.DTOs\bin\Debug\net7.0\OctaShared.DTOs.dll</HintPath>
+    </Reference>
     <Reference Include="OctaShared.Events">
       <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
     </Reference>
@@ -41,5 +45,13 @@
       <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.RabbitMQBus.dll</HintPath>
     </Reference>
   </ItemGroup>
+	<ItemGroup>
+		<Content Include="appsettingsCommand.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="appsettingsQuery.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
