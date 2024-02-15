@@ -57,6 +57,9 @@ eventBus.Subscribe<VehicleCreatedEvent, CustomerEventHandler>();
 eventBus.Subscribe<InventoryItemBoughtEvent, InventoryItemEventHandler>();
 eventBus.Subscribe<InventoryItemCreatedEvent, InventoryItemEventHandler>();
 eventBus.Subscribe<InventoryItemUpdatedEvent, InventoryItemEventHandler>();
+eventBus.Subscribe<InventoryItemAddedToSellInvoiceEvent, InventoryItemEventHandler>();
+eventBus.Subscribe<InventoryItemRemovedFromSellInvoicecEvent, InventoryItemEventHandler>();
+
 eventBus.Subscribe<SellInvoiceCreatedEvent, SellInvoiceEventHandler>();
 eventBus.Subscribe<SellInvoiceDeletedEvent, SellInvoiceEventHandler>();
 eventBus.Subscribe<SellInvoicePaymentCreatedEvent, SellInvoiceEventHandler>();

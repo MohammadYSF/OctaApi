@@ -27,6 +27,8 @@ public static class ServiceExtensions
         services.AddTransient<IEventHandler<InventoryItemCreatedEvent>, InventoryItemEventHandler>();
         services.AddTransient<IEventHandler<InventoryItemUpdatedEvent>, InventoryItemEventHandler>();
         services.AddTransient<IEventHandler<InventoryItemBoughtEvent>, InventoryItemEventHandler>();
+        services.AddTransient<IEventHandler<InventoryItemRemovedFromSellInvoicecEvent>, InventoryItemEventHandler>();
+        services.AddTransient<IEventHandler<InventoryItemAddedToSellInvoiceEvent>, InventoryItemEventHandler>();
 
         services.AddTransient<SellInvoiceEventHandler>();
         services.AddTransient<IEventHandler<SellInvoiceCreatedEvent>, SellInvoiceEventHandler>();
