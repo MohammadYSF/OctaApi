@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Command\Core\Application\Command.Application.csproj" />
+    <ProjectReference Include="..\..\..\Command\Presentation\OctaApi\Command.Api.csproj" />
+    <ProjectReference Include="..\..\..\Query\Core\Query.Application\Query.Application.csproj" />
+    <ProjectReference Include="..\..\..\Query\Presentation\Query.Api\Query.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OctaShared.Contracts">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.Events">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="OctaShared.RabbitMQBus">
+      <HintPath>..\..\..\..\OctaShared\OctaShared.RabbitMQBus\bin\Debug\net7.0\OctaShared.RabbitMQBus.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

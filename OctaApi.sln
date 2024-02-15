@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Command.Domain.UnitTest", "Command\Test\Command.Domain.Test\Command.Domain.UnitTest\Command.Domain.UnitTest.csproj", "{3BF7F1F4-5AF0-44B0-A103-C92106132CA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerIntegrationTest", "Tests\IntegrationTests\CustomerIntegrationTest\CustomerIntegrationTest.csproj", "{C87E8CC6-62A7-4F19-8CCD-D3A6C9706A1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{3BF7F1F4-5AF0-44B0-A103-C92106132CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BF7F1F4-5AF0-44B0-A103-C92106132CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BF7F1F4-5AF0-44B0-A103-C92106132CA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C87E8CC6-62A7-4F19-8CCD-D3A6C9706A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87E8CC6-62A7-4F19-8CCD-D3A6C9706A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87E8CC6-62A7-4F19-8CCD-D3A6C9706A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87E8CC6-62A7-4F19-8CCD-D3A6C9706A1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
