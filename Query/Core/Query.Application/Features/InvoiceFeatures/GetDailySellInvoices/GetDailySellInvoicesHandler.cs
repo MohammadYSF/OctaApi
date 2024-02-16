@@ -18,7 +18,7 @@ public sealed record GetDailySellInvoicesHandler : IRequestHandler<GetDailySellI
     public async Task<GetDailySellInvoicesResponse> Handle(GetDailySellInvoicesRequest request, CancellationToken cancellationToken)
     {
         await _sellInvoiceQueryRepository.CheckCacheAsync();
-        var data = _sellInvoiceRMCacheService.FindBy(a => a.SellInvoiceDate.Date == DateTime.Today.Date).ToList();
+        var data = _sellInvoiceRMCacheService.GetAll().Where(a => a.SellInvoiceDate.Date == DateTime.Today.Date).ToList();
         //var data = (await _sellInvoiceQueryRepository.GetAsync()).Where(a => a.SellInvoiceDate.Date == DateTime.Today.Date).ToList();
 
         var response = new GetDailySellInvoicesResponse(data);

@@ -50,4 +50,10 @@ public class VehicleQueryRepository : IVehicleQueryRepository
     {
         return await _queryDbContext.VehicleRMs.FirstOrDefaultAsync(a => a.VehicleId == vehicleId);
     }
+
+    public async Task AddAsync(VehicleRM vehicleRM)
+    {
+        await _queryDbContext.VehicleRMs.AddAsync(vehicleRM);
+
+    }
 }

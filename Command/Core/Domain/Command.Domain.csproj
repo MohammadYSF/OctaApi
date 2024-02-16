@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ServiceStack.Redis" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="OctaShared.Contracts">
       <HintPath>..\..\..\..\OctaShared\OctaShared.RedisDistributedCache\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
     </Reference>

@@ -108,9 +108,9 @@ public class SellInvoiceQueryRepository : ISellInvoiceQueryRepository
         await _queryDbContext.SellInvoiceInventoryItemRMs.AddAsync(sellInvoiceInventoryRM);
     }
 
-    public Task AddAsync(SellInvoicePaymentRM sellInvoicePaymentRM)
+    public async Task AddAsync(SellInvoicePaymentRM sellInvoicePaymentRM)
     {
-        throw new NotImplementedException();
+        await _queryDbContext.SellInvoicePaymentRMs.AddAsync(sellInvoicePaymentRM);
     }
 
     public Task DeleteAsync(SellInvoiceInventoryItemRM sellInvoiceInventoryRM)
@@ -133,12 +133,14 @@ public class SellInvoiceQueryRepository : ISellInvoiceQueryRepository
 
     public Task DeleteAsync(List<SellInvoicePaymentRM> sellInvoicePaymentRMs)
     {
-        throw new NotImplementedException();
+        if (sellInvoicePaymentRMs.Count == 0) return Task.CompletedTask;
+        _queryDbContext.SellInvoicePaymentRMs.RemoveRange(sellInvoicePaymentRMs);
+        return Task.CompletedTask;
     }
 
-    public Task<List<SellInvoiceRM>> GetAsync()
+    public async Task<List<SellInvoiceRM>> GetAsync()
     {
-        throw new NotImplementedException();
+        return await _queryDbContext.SellInvoiceRMs.ToListAsync();
     }
 
     public async Task<SellInvoiceRM?> GetBySellInvoiceIdAsync(Guid sellInvoiceId)
@@ -148,7 +150,7 @@ public class SellInvoiceQueryRepository : ISellInvoiceQueryRepository
 
     public Task<SellInvoiceDescriptionRM?> GetSellInvoiceDescriptionRMBySellInvoiceId(Guid sellInvoiceId)
     {
-        throw new NotImplementedException();
+        return _queryDbContext.SellInvoiceDescriptionRMs.Where(a => a.SellInvoiceId == sellInvoiceId).FirstOrDefaultAsync();
     }
 
     public async Task<SellInvoiceInventoryItemRM?> GetSellInvoiceInventoryItemRMBySellInviceInventoryItemId(Guid sellInvoiceInventoryItemId)
@@ -156,14 +158,14 @@ public class SellInvoiceQueryRepository : ISellInvoiceQueryRepository
         return await _queryDbContext.SellInvoiceInventoryItemRMs.FirstOrDefaultAsync(a => a.Id == sellInvoiceInventoryItemId);
     }
 
-    public Task<List<SellInvoiceInventoryItemRM>> GetSellInvoiceInventoryItemRMsBySellInvoiceId(Guid sellInvoiceId)
+    public async Task<List<SellInvoiceInventoryItemRM>> GetSellInvoiceInventoryItemRMsBySellInvoiceId(Guid sellInvoiceId)
     {
-        throw new NotImplementedException();
+        return await _queryDbContext.SellInvoiceInventoryItemRMs.Where(a => a.SellInvoiceId == sellInvoiceId).ToListAsync();
     }
 
-    public Task<List<SellInvoicePaymentRM>> GetSellInvoicePaymentRMsBySellInvoiceIdAsync(Guid sellInvoiceId)
+    public async Task<List<SellInvoicePaymentRM>> GetSellInvoicePaymentRMsBySellInvoiceIdAsync(Guid sellInvoiceId)
     {
-        throw new NotImplementedException();
+        return await _queryDbContext.SellInvoicePaymentRMs.Where(a => a.SellInvoiceId == sellInvoiceId).ToListAsync();
     }
 
     public async Task<SellInvoiceServiceRM?> GetSellInvoiceServiceRMBySellInvoicecServiceId(Guid sellInvoiceServiceId)

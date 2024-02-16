@@ -4,10 +4,11 @@ using Command.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Command.Infrastructure.Persistence.Migrations
+namespace Command.Persistence.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
     partial class WriteDbContextModelSnapshot : ModelSnapshot
@@ -21,7 +22,7 @@ namespace Command.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Customer.CustomerAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.Customer.CustomerAggregate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,64 +38,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                     b.ToTable("Customer", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Invoice.BuyInvoiceAggregate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BuyInvoice", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.SellInvoice.SellInvoiceAggregate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("Customer")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("UseBuyPrice")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("Vehicle")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SellInvoices");
-                });
-
-            modelBuilder.Entity("Domain.Service.ServiceAggregate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("DefaultPricecHistory")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("Domain.Vehicle.VehicleAggregate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Vehicle", (string)null);
-                });
-
-            modelBuilder.Entity("OctaApi.Domain.InventoryItem.InventoryItemَAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.InventoryItem.InventoryItemَAggregate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,9 +66,69 @@ namespace Command.Infrastructure.Persistence.Migrations
                     b.ToTable("InventoryItems");
                 });
 
-            modelBuilder.Entity("Domain.Customer.CustomerAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.Invoice.BuyInvoiceAggregate", b =>
                 {
-                    b.OwnsOne("Domain.Customer.ValueObjects.CustomerCode", "Code", b1 =>
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BuyInvoice", (string)null);
+                });
+
+            modelBuilder.Entity("Command.Core.Domain.SellInvoice.SellInvoiceAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("Customer")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("UseBuyPrice")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("Vehicle")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellInvoices");
+                });
+
+            modelBuilder.Entity("Command.Core.Domain.Service.ServiceAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DefaultPricecHistory")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Command.Core.Domain.Vehicle.VehicleAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vehicle", (string)null);
+                });
+
+            modelBuilder.Entity("Command.Core.Domain.Customer.CustomerAggregate", b =>
+                {
+                    b.OwnsOne("Command.Core.Domain.Customer.ValueObjects.CustomerCode", "Code", b1 =>
                         {
                             b1.Property<Guid>("CustomerAggregateId")
                                 .HasColumnType("uuid");
@@ -141,7 +145,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("CustomerAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Customer.ValueObjects.CustomerFirstName", "FirstName", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Customer.ValueObjects.CustomerFirstName", "FirstName", b1 =>
                         {
                             b1.Property<Guid>("CustomerAggregateId")
                                 .HasColumnType("uuid");
@@ -160,7 +164,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("CustomerAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Customer.ValueObjects.CustomerLastName", "LastName", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Customer.ValueObjects.CustomerLastName", "LastName", b1 =>
                         {
                             b1.Property<Guid>("CustomerAggregateId")
                                 .HasColumnType("uuid");
@@ -179,7 +183,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("CustomerAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Customer.ValueObjects.CustomerPhoneNumber", "PhoneNumber", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Customer.ValueObjects.CustomerPhoneNumber", "PhoneNumber", b1 =>
                         {
                             b1.Property<Guid>("CustomerAggregateId")
                                 .HasColumnType("uuid");
@@ -211,9 +215,113 @@ namespace Command.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Invoice.BuyInvoiceAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.InventoryItem.InventoryItemَAggregate", b =>
                 {
-                    b.OwnsOne("Domain.BuyInvoice.ValueObjects.BuyInvoiceBuyDate", "BuyDate", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Core.Price", "BuyPrice", b1 =>
+                        {
+                            b1.Property<Guid>("InventoryItemَAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<long>("Value")
+                                .HasColumnType("bigint")
+                                .HasColumnName("BuyPrice");
+
+                            b1.HasKey("InventoryItemَAggregateId");
+
+                            b1.ToTable("InventoryItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InventoryItemَAggregateId");
+                        });
+
+                    b.OwnsOne("Command.Core.Domain.Core.Price", "SellPrice", b1 =>
+                        {
+                            b1.Property<Guid>("InventoryItemَAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<long>("Value")
+                                .HasColumnType("bigint")
+                                .HasColumnName("SellPrice");
+
+                            b1.HasKey("InventoryItemَAggregateId");
+
+                            b1.ToTable("InventoryItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InventoryItemَAggregateId");
+                        });
+
+                    b.OwnsOne("Command.Core.Domain.InventoryItem.ValueObjects.InventoryItemCode", "Code", b1 =>
+                        {
+                            b1.Property<Guid>("InventoryItemَAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer")
+                                .HasColumnName("Code");
+
+                            b1.HasKey("InventoryItemَAggregateId");
+
+                            b1.ToTable("InventoryItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InventoryItemَAggregateId");
+                        });
+
+                    b.OwnsOne("Command.Core.Domain.InventoryItem.ValueObjects.InventoryItemCount", "Count", b1 =>
+                        {
+                            b1.Property<Guid>("InventoryItemَAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<float>("Value")
+                                .HasColumnType("real")
+                                .HasColumnName("Count");
+
+                            b1.HasKey("InventoryItemَAggregateId");
+
+                            b1.ToTable("InventoryItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InventoryItemَAggregateId");
+                        });
+
+                    b.OwnsOne("Command.Core.Domain.InventoryItem.ValueObjects.InventoryItemName", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("InventoryItemَAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("InventoryItemَAggregateId");
+
+                            b1.ToTable("InventoryItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InventoryItemَAggregateId");
+                        });
+
+                    b.Navigation("BuyPrice")
+                        .IsRequired();
+
+                    b.Navigation("Code")
+                        .IsRequired();
+
+                    b.Navigation("Count")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+
+                    b.Navigation("SellPrice")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Command.Core.Domain.Invoice.BuyInvoiceAggregate", b =>
+                {
+                    b.OwnsOne("Command.Core.Domain.BuyInvoice.ValueObjects.BuyInvoiceBuyDate", "BuyDate", b1 =>
                         {
                             b1.Property<Guid>("BuyInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -230,7 +338,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("BuyInvoiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.BuyInvoice.ValueObjects.BuyInvoiceCode", "Code", b1 =>
+                    b.OwnsOne("Command.Core.Domain.BuyInvoice.ValueObjects.BuyInvoiceCode", "Code", b1 =>
                         {
                             b1.Property<Guid>("BuyInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -247,7 +355,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("BuyInvoiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.BuyInvoice.ValueObjects.BuyInvoiceSellerName", "SellerName", b1 =>
+                    b.OwnsOne("Command.Core.Domain.BuyInvoice.ValueObjects.BuyInvoiceSellerName", "SellerName", b1 =>
                         {
                             b1.Property<Guid>("BuyInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -266,16 +374,16 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("BuyInvoiceAggregateId");
                         });
 
-                    b.OwnsMany("Domain.BuyInvoice.Entities.BuyInvoiceInventoryItem", "InventoryItems", b1 =>
+                    b.OwnsMany("Command.Core.Domain.BuyInvoice.Entities.BuyInvoiceInventoryItem", "InventoryItems", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<Guid>("SellInvoiceId")
-                                .HasColumnType("uuid");
-
                             b1.Property<Guid>("BuyInvoiceId")
                                 .HasColumnType("uuid");
+
+                            b1.Property<float>("BuyPrice")
+                                .HasColumnType("real");
 
                             b1.Property<float>("Count")
                                 .HasColumnType("real");
@@ -283,7 +391,10 @@ namespace Command.Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("InventoryItemId")
                                 .HasColumnType("uuid");
 
-                            b1.HasKey("Id", "SellInvoiceId");
+                            b1.Property<float>("SellPrice")
+                                .HasColumnType("real");
+
+                            b1.HasKey("Id", "BuyInvoiceId");
 
                             b1.HasIndex("BuyInvoiceId");
 
@@ -305,9 +416,9 @@ namespace Command.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.SellInvoice.SellInvoiceAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.SellInvoice.SellInvoiceAggregate", b =>
                 {
-                    b.OwnsOne("Domain.Core.Price", "Discount", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Core.Price", "Discount", b1 =>
                         {
                             b1.Property<Guid>("SellInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -324,7 +435,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("SellInvoiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.SellInvoice.ValueObjects.SellInvoiceCode", "Code", b1 =>
+                    b.OwnsOne("Command.Core.Domain.SellInvoice.ValueObjects.SellInvoiceCode", "Code", b1 =>
                         {
                             b1.Property<Guid>("SellInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -341,7 +452,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("SellInvoiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.SellInvoice.ValueObjects.SellInvoiceSellDate", "CreateDate", b1 =>
+                    b.OwnsOne("Command.Core.Domain.SellInvoice.ValueObjects.SellInvoiceSellDate", "CreateDate", b1 =>
                         {
                             b1.Property<Guid>("SellInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -358,7 +469,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("SellInvoiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.SellInvoice.ValueObjects.SellInvoicecDescription", "Description", b1 =>
+                    b.OwnsOne("Command.Core.Domain.SellInvoice.ValueObjects.SellInvoicecDescription", "Description", b1 =>
                         {
                             b1.Property<Guid>("SellInvoiceAggregateId")
                                 .HasColumnType("uuid");
@@ -376,7 +487,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("SellInvoiceAggregateId");
                         });
 
-                    b.OwnsMany("Domain.SellInvoice.Entities.SellInvoiceInventoryItem", "InventoryItems", b1 =>
+                    b.OwnsMany("Command.Core.Domain.SellInvoice.Entities.SellInvoiceInventoryItem", "InventoryItems", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
@@ -402,7 +513,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("SellInvoiceId");
                         });
 
-                    b.OwnsMany("Domain.SellInvoice.Entities.SellInvoicePayment", "Payments", b1 =>
+                    b.OwnsMany("Command.Core.Domain.SellInvoice.Entities.SellInvoicePayment", "Payments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
@@ -419,7 +530,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("SellInvoiceId");
 
-                            b1.OwnsOne("Domain.SellInvoice.ValueObjects.SellInvoicePaidAmount", "PaidAmount", b2 =>
+                            b1.OwnsOne("Command.Core.Domain.SellInvoice.ValueObjects.SellInvoicePaidAmount", "PaidAmount", b2 =>
                                 {
                                     b2.Property<Guid>("SellInvoicePaymentId")
                                         .HasColumnType("uuid");
@@ -439,7 +550,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                         .HasForeignKey("SellInvoicePaymentId", "SellInvoicePaymentSellInvoiceId");
                                 });
 
-                            b1.OwnsOne("Domain.SellInvoice.ValueObjects.SellInvoicePaymentDate", "PaidDate", b2 =>
+                            b1.OwnsOne("Command.Core.Domain.SellInvoice.ValueObjects.SellInvoicePaymentDate", "PaidDate", b2 =>
                                 {
                                     b2.Property<Guid>("SellInvoicePaymentId")
                                         .HasColumnType("uuid");
@@ -459,7 +570,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                         .HasForeignKey("SellInvoicePaymentId", "SellInvoicePaymentSellInvoiceId");
                                 });
 
-                            b1.OwnsOne("Domain.SellInvoice.ValueObjects.SellInvoicePaymentTrackCode", "PaymentTrackCode", b2 =>
+                            b1.OwnsOne("Command.Core.Domain.SellInvoice.ValueObjects.SellInvoicePaymentTrackCode", "PaymentTrackCode", b2 =>
                                 {
                                     b2.Property<Guid>("SellInvoicePaymentId")
                                         .HasColumnType("uuid");
@@ -490,7 +601,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.OwnsMany("Domain.SellInvoice.Entities.SellInvoiceService", "Services", b1 =>
+                    b.OwnsMany("Command.Core.Domain.SellInvoice.Entities.SellInvoiceService", "Services", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
@@ -511,7 +622,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("SellInvoiceId");
 
-                            b1.OwnsOne("Domain.Core.Price", "ServicePrice", b2 =>
+                            b1.OwnsOne("Command.Core.Domain.Core.Price", "ServicePrice", b2 =>
                                 {
                                     b2.Property<Guid>("SellInvoiceServiceId")
                                         .HasColumnType("uuid");
@@ -554,9 +665,9 @@ namespace Command.Infrastructure.Persistence.Migrations
                     b.Navigation("Services");
                 });
 
-            modelBuilder.Entity("Domain.Service.ServiceAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.Service.ServiceAggregate", b =>
                 {
-                    b.OwnsOne("Domain.Core.Price", "DefaultPrice", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Core.Price", "DefaultPrice", b1 =>
                         {
                             b1.Property<Guid>("ServiceAggregateId")
                                 .HasColumnType("uuid");
@@ -573,7 +684,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("ServiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Service.ValueObjects.ServiceCode", "Code", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Service.ValueObjects.ServiceCode", "Code", b1 =>
                         {
                             b1.Property<Guid>("ServiceAggregateId")
                                 .HasColumnType("uuid");
@@ -590,7 +701,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("ServiceAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Service.ValueObjects.ServiceName", "Name", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Service.ValueObjects.ServiceName", "Name", b1 =>
                         {
                             b1.Property<Guid>("ServiceAggregateId")
                                 .HasColumnType("uuid");
@@ -618,9 +729,9 @@ namespace Command.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Vehicle.VehicleAggregate", b =>
+            modelBuilder.Entity("Command.Core.Domain.Vehicle.VehicleAggregate", b =>
                 {
-                    b.OwnsOne("Domain.Vehicle.ValueObjects.VehicleCode", "Code", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Vehicle.ValueObjects.VehicleCode", "Code", b1 =>
                         {
                             b1.Property<Guid>("VehicleAggregateId")
                                 .HasColumnType("uuid");
@@ -638,7 +749,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("VehicleAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Vehicle.ValueObjects.VehicleColor", "Color", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Vehicle.ValueObjects.VehicleColor", "Color", b1 =>
                         {
                             b1.Property<Guid>("VehicleAggregateId")
                                 .HasColumnType("uuid");
@@ -656,7 +767,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("VehicleAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Vehicle.ValueObjects.VehicleName", "Name", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Vehicle.ValueObjects.VehicleName", "Name", b1 =>
                         {
                             b1.Property<Guid>("VehicleAggregateId")
                                 .HasColumnType("uuid");
@@ -675,7 +786,7 @@ namespace Command.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("VehicleAggregateId");
                         });
 
-                    b.OwnsOne("Domain.Vehicle.ValueObjects.VehiclePlate", "Plate", b1 =>
+                    b.OwnsOne("Command.Core.Domain.Vehicle.ValueObjects.VehiclePlate", "Plate", b1 =>
                         {
                             b1.Property<Guid>("VehicleAggregateId")
                                 .HasColumnType("uuid");
@@ -704,110 +815,6 @@ namespace Command.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Plate")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OctaApi.Domain.InventoryItem.InventoryItemَAggregate", b =>
-                {
-                    b.OwnsOne("Domain.Core.Price", "BuyPrice", b1 =>
-                        {
-                            b1.Property<Guid>("InventoryItemَAggregateId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<long>("Value")
-                                .HasColumnType("bigint")
-                                .HasColumnName("BuyPrice");
-
-                            b1.HasKey("InventoryItemَAggregateId");
-
-                            b1.ToTable("InventoryItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("InventoryItemَAggregateId");
-                        });
-
-                    b.OwnsOne("Domain.Core.Price", "SellPrice", b1 =>
-                        {
-                            b1.Property<Guid>("InventoryItemَAggregateId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<long>("Value")
-                                .HasColumnType("bigint")
-                                .HasColumnName("SellPrice");
-
-                            b1.HasKey("InventoryItemَAggregateId");
-
-                            b1.ToTable("InventoryItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("InventoryItemَAggregateId");
-                        });
-
-                    b.OwnsOne("OctaApi.Domain.InventoryItem.ValueObjects.InventoryItemCode", "Code", b1 =>
-                        {
-                            b1.Property<Guid>("InventoryItemَAggregateId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Value")
-                                .HasColumnType("integer")
-                                .HasColumnName("Code");
-
-                            b1.HasKey("InventoryItemَAggregateId");
-
-                            b1.ToTable("InventoryItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("InventoryItemَAggregateId");
-                        });
-
-                    b.OwnsOne("OctaApi.Domain.InventoryItem.ValueObjects.InventoryItemCount", "Count", b1 =>
-                        {
-                            b1.Property<Guid>("InventoryItemَAggregateId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<float>("Value")
-                                .HasColumnType("real")
-                                .HasColumnName("Count");
-
-                            b1.HasKey("InventoryItemَAggregateId");
-
-                            b1.ToTable("InventoryItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("InventoryItemَAggregateId");
-                        });
-
-                    b.OwnsOne("OctaApi.Domain.InventoryItem.ValueObjects.InventoryItemName", "Name", b1 =>
-                        {
-                            b1.Property<Guid>("InventoryItemَAggregateId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("Name");
-
-                            b1.HasKey("InventoryItemَAggregateId");
-
-                            b1.ToTable("InventoryItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("InventoryItemَAggregateId");
-                        });
-
-                    b.Navigation("BuyPrice")
-                        .IsRequired();
-
-                    b.Navigation("Code")
-                        .IsRequired();
-
-                    b.Navigation("Count")
-                        .IsRequired();
-
-                    b.Navigation("Name")
-                        .IsRequired();
-
-                    b.Navigation("SellPrice")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

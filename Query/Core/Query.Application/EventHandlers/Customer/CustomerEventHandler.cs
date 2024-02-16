@@ -11,15 +11,20 @@ public class CustomerEventHandler :
     private readonly IQueryUnitOfWork _queryUnitOfWork;
     private readonly IDistributedCacheService<CustomerRM> _customerRMCacheService;
     private readonly IDistributedCacheService<CustomerVehicleRM> _customerVehicleRMCacheService;
+    private readonly IVehicleQueryRepository _vehicleQueryRepository;
+    private readonly IDistributedCacheService<VehicleRM> _vehicleRMCacheService;
+
     private static readonly SemaphoreSlim Semaphore = new(1, 1);
 
 
-    public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<CustomerRM> customerRMCacheService, IDistributedCacheService<CustomerVehicleRM> customerVehicleRMCacheService)
+    public CustomerEventHandler(ICustomerQueryRepository customerQueryRepository, IQueryUnitOfWork queryUnitOfWork, IDistributedCacheService<CustomerRM> customerRMCacheService, IDistributedCacheService<CustomerVehicleRM> customerVehicleRMCacheService, IVehicleQueryRepository vehicleQueryRepository, IDistributedCacheService<VehicleRM> vehicleRMCacheService)
     {
         _customerQueryRepository = customerQueryRepository;
         _queryUnitOfWork = queryUnitOfWork;
         _customerRMCacheService = customerRMCacheService;
         _customerVehicleRMCacheService = customerVehicleRMCacheService;
+        _vehicleQueryRepository = vehicleQueryRepository;
+        _vehicleRMCacheService = vehicleRMCacheService;
     }
     //private async Task InitCache()
     //{
@@ -51,6 +56,8 @@ public class CustomerEventHandler :
         await _queryUnitOfWork.SaveAsync(default);
         _customerRMCacheService.Dirty();
         _customerVehicleRMCacheService.Dirty();
+        _vehicleRMCacheService.Dirty();
+
         //_ = InitCache();
 
 
@@ -58,6 +65,8 @@ public class CustomerEventHandler :
 
     public async Task HandleAsync(VehicleCreatedEvent @event)
     {
+        var customer = await _customerQueryRepository.GetByCustomerIdAsync(@event.CustomerId);
+
         var customerVehicleRM = new CustomerVehicleRM
         {
             CustomerId = @event.CustomerId,
@@ -67,10 +76,22 @@ public class CustomerEventHandler :
             VehicleName = @event.Name,
             VehiclePlate = @event.Plate
         };
+        var vehicleRM = new VehicleRM
+        {
+            Id = Guid.NewGuid(),
+            VehicleId = @event.VehicleId,
+            VehicleCode = @event.Code.ToString(),
+            VehicleName = @event.Name,
+            CustomerId = customer == null ? Guid.Empty : customer.CustomerId,
+            CustomerCode = customer?.CustomerCode,
+            CustomerName = customer?.CustomerName,
+        };
+        await _vehicleQueryRepository.AddAsync(vehicleRM);
         await _customerQueryRepository.AddAsync(customerVehicleRM);
         await _queryUnitOfWork.SaveAsync(default);
         _customerRMCacheService.Dirty();
         _customerVehicleRMCacheService.Dirty();
+
         //_ = InitCache();
     }
 }

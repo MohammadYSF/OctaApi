@@ -27,7 +27,7 @@ public sealed class CreateBuyInvoiceHandler :
         List<BuyInvoiceInventoryItem> inventoryItems = new();
         foreach (var item in request.Dtos)
         {
-            var buyInvoiceInventoryItem = BuyInvoiceInventoryItem.Create(Guid.NewGuid(), buyInvoiceId, item.Id, item.Count);
+            var buyInvoiceInventoryItem = BuyInvoiceInventoryItem.Create(Guid.NewGuid(), buyInvoiceId, item.Id, item.Count, item.BuyPrice, item.SellPrice);
             inventoryItems.Add(buyInvoiceInventoryItem);
         }
         BuyInvoiceAggregate buyInvoiceAggregate = BuyInvoiceAggregate.Create(buyInvoiceId, request.RegisterDate, request.Code, request.SellerName, inventoryItems);
@@ -42,7 +42,7 @@ public sealed class CreateBuyInvoiceHandler :
                 _eventBus.Publish(item2);
             }
         }
-        await _buyInvoiceRepository.UpdateAsync(buyInvoiceAggregate);
+        await _buyInvoiceRepository.CreateAsync(buyInvoiceAggregate);
         await _inventoryItemRepository.UpdateAsync(inventoryItemAggregates);
         await _unitOfWork.SaveAsync(cancellationToken);
         foreach (var item in buyInvoiceAggregate.GetDomainEvents())

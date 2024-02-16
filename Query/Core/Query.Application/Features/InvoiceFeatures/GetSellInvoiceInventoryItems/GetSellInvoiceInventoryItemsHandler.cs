@@ -16,7 +16,7 @@ public sealed class GetSellInvoiceInventoryItemsHandler : IRequestHandler<GetSel
     public async Task<GetSellInvoiceInventoryItemsResponse> Handle(GetSellInvoiceInventoryItemsRequest request, CancellationToken cancellationToken)
     {
         await _sellInvoiceQueryRepository.CheckCacheAsync();
-        var data = _sellInvoiceInventoryItemRMCache.FindBy(a => a.SellInvoiceId == request.InvoiceId);
+        var data = _sellInvoiceInventoryItemRMCache.GetAll().Where(a => a.SellInvoiceId == request.InvoiceId).ToList();
         //var data = await _sellInvoiceQueryRepository.GetSellInvoiceInventoryItemRMsBySellInvoiceId(request.InvoiceId);
         var response = new GetSellInvoiceInventoryItemsResponse(Data: data);
         return response;

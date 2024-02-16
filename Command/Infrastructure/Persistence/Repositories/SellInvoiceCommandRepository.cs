@@ -25,6 +25,7 @@ public class SellInvoiceCommandRepository : ISellInvoiceCommandRepository
     public async Task<int> GenerateNewCodeAsync()
     {
         List<int> usedCodes = await _writeDbContext.SellInvoices.Select(a => a.Code.Value).ToListAsync();
+        if (usedCodes.Count == 0) return 1;
         int min = usedCodes.Min();
         int max = usedCodes.Max();
         List<int> unUsedCodes = Enumerable.Range(min, max).Where(a => !usedCodes.Contains(a)).ToList();

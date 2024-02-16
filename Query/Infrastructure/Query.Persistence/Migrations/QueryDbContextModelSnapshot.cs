@@ -22,7 +22,7 @@ namespace Query.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Query.Application.ReadModels.BuyInvoiceRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.BuyInvoiceRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("BuyInvoiceRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.CustomerRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.CustomerRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("CustomerRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.CustomerVehicleRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.CustomerVehicleRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,7 +98,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("CustomerVehicleRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.InventoryItemRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.InventoryItemRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("InventoryItemRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.SellInvoiceDescriptionRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.SellInvoiceDescriptionRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,7 +166,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("SellInvoiceDescriptionRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.SellInvoiceInventoryItemRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.SellInvoiceInventoryItemRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -184,6 +184,9 @@ namespace Query.Persistence.Migrations
                     b.Property<Guid>("InventoryItemId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("InventoryItemName")
+                        .HasColumnType("text");
+
                     b.Property<Guid>("SellInvoiceId")
                         .HasColumnType("uuid");
 
@@ -195,7 +198,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("SellInvoiceInventoryItemRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.SellInvoicePaymentRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.SellInvoicePaymentRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +215,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("SellInvoicePaymentRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.SellInvoiceRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.SellInvoiceRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -265,7 +268,7 @@ namespace Query.Persistence.Migrations
                     b.ToTable("SellInvoiceRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.SellInvoiceServiceRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.SellInvoiceServiceRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,12 +289,15 @@ namespace Query.Persistence.Migrations
                     b.Property<Guid>("ServiceId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("SellInvoiceServiceRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.ServiceRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.ServiceRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -323,11 +329,22 @@ namespace Query.Persistence.Migrations
                     b.ToTable("ServiceRMs");
                 });
 
-            modelBuilder.Entity("Query.Application.ReadModels.VehicleRM", b =>
+            modelBuilder.Entity("OctaShared.ReadModels.VehicleRM", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("CustomerCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("VehicleCode")
                         .IsRequired()

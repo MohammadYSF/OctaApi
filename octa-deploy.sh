@@ -3,7 +3,7 @@ publish_path=../octaApi-publish
 echo "\n \e[36mPublishing to\e[0m ..."
 echo $publish_path
 
-cd OctaApi
+cd Query/Presentation/Query.Api
 dotnet publish -o $publish_path
 #cp -r report_templates $publish_path
 

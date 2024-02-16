@@ -1,6 +1,7 @@
 ﻿using Command.Core.Domain.Core;
 using Command.Core.Domain.SellInvoice.Entities;
 using Command.Core.Domain.SellInvoice.ValueObjects;
+using Command.Domain.Core;
 using OctaShared.Events;
 
 namespace Command.Core.Domain.SellInvoice;
@@ -81,6 +82,7 @@ public class SellInvoiceAggregate : AggregateRoot
             Code = new SellInvoiceCode(code),
             Customer = customer,
             Vehicle = vehicle,
+            Discount = new Price(0)
         };
         agg.AddDomainEvent(new SellInvoiceCreatedEvent
         {
@@ -95,7 +97,7 @@ public class SellInvoiceAggregate : AggregateRoot
     }
     public void Delete()
     {
-        if (this.IsClosed) throw new Exception(); //todo throw exception
+        if (this.IsClosed) throw new DomainException<SellInvoiceAggregate>("can not delete a closed sellInvoice ! ");
         this.AddDomainEvent(new SellInvoiceDeletedEvent
         {
             EventId = Guid.NewGuid(),
@@ -153,17 +155,20 @@ public class SellInvoiceAggregate : AggregateRoot
         });
         //TODO
     }
-    public void RemoveSellInvoiceInventoryItem(Guid sellInvoiceInventoryItem)
+    public void RemoveSellInvoiceInventoryItem(Guid sellInvoiceInventoryItemId)
     {
         int oldCount = this.InventoryItems.Count;
 
-        this.InventoryItems = this.InventoryItems.Where(a => a.Id != sellInvoiceInventoryItem).ToList();
+        SellInvoiceInventoryItem sellInvoiceInventoryItem = this.InventoryItems.FirstOrDefault(a => a.Id == sellInvoiceInventoryItemId);
+        this.InventoryItems = this.InventoryItems.Where(a => a.Id != sellInvoiceInventoryItemId).ToList();
         if (oldCount != this.InventoryItems.Count)
             this.AddDomainEvent(new InventoryItemRemovedFromSellInvoicecEvent
             {
                 EventId = Guid.NewGuid(),
                 SellInvoiceId = this.Id,
-                SellInvoiceInventoryItemId = sellInvoiceInventoryItem
+                SellInvoiceInventoryItemId = sellInvoiceInventoryItemId,
+                Count = sellInvoiceInventoryItem.Count,
+                InventoryItemId = sellInvoiceInventoryItem.InventoryItemId
             });
         //TODO
     }

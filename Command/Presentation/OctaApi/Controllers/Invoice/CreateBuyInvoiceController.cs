@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaShared.DTOs.Request;
 namespace Command.Presentation.Api.Controllers;
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class CreateBuyInvoiceController : ControllerBase
@@ -28,7 +27,7 @@ public class CreateBuyInvoiceController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "");
-            return BadRequest();
+            return BadRequest(e);
         }
     }
 

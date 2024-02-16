@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaShared.DTOs.Request;
 namespace Command.Presentation.Api.Controllers.Inventory;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class AddInventoryItemController : ControllerBase

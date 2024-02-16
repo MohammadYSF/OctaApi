@@ -1,4 +1,5 @@
 ﻿using Command.Core.Domain.SellInvoice;
+using Command.Domain.Core;
 using FluentAssertions;
 using OctaShared.Events;
 
@@ -111,7 +112,7 @@ public class SellInvoiceAggregateTest
                     .WithCustomer(customer)
                     .WithVehicle(vehicle)
                     .Build();
-        Assert.Throws<Exception>(() => sellInvoiceAggregate.Delete());
+        Assert.Throws<DomainException<SellInvoiceAggregate>>(() => sellInvoiceAggregate.Delete());
     }
     [Fact]
     public void SellInvoiceAggregate_AddSellInvoiceInventoryItem_ShouldAddInventoryItemToInvoice()

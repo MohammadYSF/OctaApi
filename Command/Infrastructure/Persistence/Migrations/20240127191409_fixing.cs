@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Command.Infrastructure.Persistence.Migrations
+namespace Command.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initwdb : Migration
+    public partial class fixing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,12 +49,12 @@ namespace Command.Infrastructure.Persistence.Migrations
                     SellPriceHistory = table.Column<string>(type: "text", nullable: false),
                     Code = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    BuyPrice = table.Column<long>(type: "bigint", nullable: true),
-                    SellPrice = table.Column<long>(type: "bigint", nullable: true),
+                    BuyPrice = table.Column<long>(type: "bigint", nullable: false),
+                    SellPrice = table.Column<long>(type: "bigint", nullable: false),
                     Count = table.Column<float>(type: "real", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     RegisterDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    CountLowerBound = table.Column<float>(type: "real", nullable: true)
+                    CountLowerBound = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,8 +86,9 @@ namespace Command.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Code = table.Column<int>(type: "integer", nullable: false),
-                    DefaultPrice = table.Column<long>(type: "bigint", nullable: true),
-                    DefaultPricecHistory = table.Column<string>(type: "text", nullable: false)
+                    DefaultPrice = table.Column<long>(type: "bigint", nullable: false),
+                    DefaultPricecHistory = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,14 +115,13 @@ namespace Command.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SellInvoiceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BuyInvoiceId = table.Column<Guid>(type: "uuid", nullable: false),
                     InventoryItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Count = table.Column<float>(type: "real", nullable: false),
-                    BuyInvoiceId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Count = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BuyInvoicecInventoryItems", x => new { x.Id, x.SellInvoiceId });
+                    table.PrimaryKey("PK_BuyInvoicecInventoryItems", x => new { x.Id, x.BuyInvoiceId });
                     table.ForeignKey(
                         name: "FK_BuyInvoicecInventoryItems_BuyInvoice_BuyInvoiceId",
                         column: x => x.BuyInvoiceId,

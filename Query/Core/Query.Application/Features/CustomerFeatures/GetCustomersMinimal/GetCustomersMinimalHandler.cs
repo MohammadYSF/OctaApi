@@ -19,7 +19,7 @@ public sealed class GetCustomersMinimalHandler : IRequestHandler<GetCustomersMin
     {
         await _customerRepository.CheckCacheAsync();
 
-        var data = _customerRMCache.GetAll().Select(a => new GetCustomersMinimal_DTO(a.Id, int.Parse(a.CustomerCode), a.CustomerFirstName + " " + a.CustomerLastName)).ToList();
+        var data = _customerRMCache.GetAll().Select(a => new GetCustomersMinimal_DTO(a.CustomerId, int.Parse(a.CustomerCode), a.CustomerFirstName + " " + a.CustomerLastName)).ToList();
         var response = new GetCustomersMinimalResponse(data);
         return response;
     }

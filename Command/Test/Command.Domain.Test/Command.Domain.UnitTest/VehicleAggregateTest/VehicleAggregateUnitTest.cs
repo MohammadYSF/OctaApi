@@ -13,7 +13,8 @@ public class VehicleAggregateUnitTest
         string name = "vehicleA";
         string color = "red";
         string plate = "23D123";
-        var serviceAggregate = VehicleAggregate.Create(id, code, name, color, plate);
+        Guid customerId = Guid.NewGuid();
+        var serviceAggregate = VehicleAggregate.Create(id, code, name, color, plate, customerId);
         serviceAggregate.Should().NotBeNull();
 
     }

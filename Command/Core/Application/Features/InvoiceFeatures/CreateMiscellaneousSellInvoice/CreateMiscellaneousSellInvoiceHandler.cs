@@ -21,7 +21,7 @@ namespace Command.Core.Application.Features.InvoiceFeatures.CreateMiscellaneousS
         public async Task<CreateMiscellaneousSellInvoiceResponse> Handle(CreateMiscellaneousSellInvoiceRequest request, CancellationToken cancellationToken)
         {
             Guid id = Guid.NewGuid();
-            DateTime createDate = DateTime.Now;
+            DateTime createDate = DateTime.UtcNow;
             int code = await _sellInvoiceRepository.GenerateNewCodeAsync();
             var aggregate = SellInvoiceAggregate.CreateMiscellaneous(id, createDate, code);
             await _sellInvoiceRepository.UpdateAsync(aggregate);
