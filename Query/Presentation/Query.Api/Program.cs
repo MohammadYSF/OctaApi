@@ -1,5 +1,6 @@
 using OctaShared.Contracts;
 using OctaShared.Events;
+using OctaShared.Events.Events.InventoryItem;
 using OctaShared.RabbitMqBus;
 using OctaShared.RedisDistributedCache;
 using Query.Application;
@@ -62,6 +63,7 @@ public partial class Program
         eventBus.Subscribe<InventoryItemBoughtEvent, InventoryItemEventHandler>();
         eventBus.Subscribe<InventoryItemCreatedEvent, InventoryItemEventHandler>();
         eventBus.Subscribe<InventoryItemUpdatedEvent, InventoryItemEventHandler>();
+        eventBus.Subscribe<InventoryItemDeletedEvent, InventoryItemEventHandler>();
         eventBus.Subscribe<InventoryItemAddedToSellInvoiceEvent, InventoryItemEventHandler>();
         eventBus.Subscribe<InventoryItemRemovedFromSellInvoicecEvent, InventoryItemEventHandler>();
 

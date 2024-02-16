@@ -1,5 +1,6 @@
 ﻿using OctaShared.Contracts;
 using OctaShared.Events;
+using OctaShared.Events.Events.InventoryItem;
 using OctaShared.ReadModels;
 using Query.Application.Common.Exceptions;
 using Query.Application.Repositories;
@@ -10,6 +11,7 @@ public class InventoryItemEventHandler :
     , IEventHandler<InventoryItemBoughtEvent>
     , IEventHandler<InventoryItemAddedToSellInvoiceEvent>
     , IEventHandler<InventoryItemRemovedFromSellInvoicecEvent>
+    , IEventHandler<InventoryItemDeletedEvent>
 
 
 {
@@ -120,5 +122,16 @@ public class InventoryItemEventHandler :
         await _inventoryItemQueryRepository.UpdateAsync(prevRM);
         await _unitOfWork.SaveAsync(default);
         _inventoryItemRMCacheService.Dirty();
+    }
+
+    public async Task HandleAsync(InventoryItemDeletedEvent @event)
+    {
+        InventoryItemRM? inventoryItemRM = (await _inventoryItemQueryRepository.GetByInventoryItemIdAsync(@event.InventoryItemId)).FirstOrDefault(a => !a.ToDate.HasValue);
+        if (inventoryItemRM == null) throw new ReadModelNotFoundException<InventoryItemRM>();
+        inventoryItemRM.IsDeleted = true;
+        await _inventoryItemQueryRepository.UpdateAsync(inventoryItemRM);
+        await _unitOfWork.SaveAsync(default);
+        _inventoryItemRMCacheService.Dirty();
+
     }
 }

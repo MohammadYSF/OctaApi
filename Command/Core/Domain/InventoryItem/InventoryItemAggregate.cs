@@ -1,6 +1,7 @@
 ﻿using Command.Core.Domain.Core;
 using Command.Core.Domain.InventoryItem.ValueObjects;
 using OctaShared.Events;
+using OctaShared.Events.Events.InventoryItem;
 
 namespace Command.Core.Domain.InventoryItem;
 
@@ -27,6 +28,7 @@ public class InventoryItemَAggregate : AggregateRoot
     public void Delete()
     {
         this.IsActive = false;
+        this.AddDomainEvent(new InventoryItemDeletedEvent { InventoryItemId = this.Id, EventId = Guid.NewGuid() });
     }
     public void Buy(long buyPrice, long sellPrice, float count)
     {

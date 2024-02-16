@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OctaShared.Contracts;
 using OctaShared.Events;
+using OctaShared.Events.Events.InventoryItem;
 using Query.Application.EventHandlers.BuyInvoice;
 using Query.Application.EventHandlers.Customer;
 using Query.Application.EventHandlers.InventoryItem;
@@ -29,6 +30,7 @@ public static class ServiceExtensions
         services.AddTransient<IEventHandler<InventoryItemBoughtEvent>, InventoryItemEventHandler>();
         services.AddTransient<IEventHandler<InventoryItemRemovedFromSellInvoicecEvent>, InventoryItemEventHandler>();
         services.AddTransient<IEventHandler<InventoryItemAddedToSellInvoiceEvent>, InventoryItemEventHandler>();
+        services.AddTransient<IEventHandler<InventoryItemDeletedEvent>, InventoryItemEventHandler>();
 
         services.AddTransient<SellInvoiceEventHandler>();
         services.AddTransient<IEventHandler<SellInvoiceCreatedEvent>, SellInvoiceEventHandler>();

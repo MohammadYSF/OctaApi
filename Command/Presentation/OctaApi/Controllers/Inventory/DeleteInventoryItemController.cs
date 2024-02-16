@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OctaShared.DTOs.Request;
 namespace Command.Presentation.Api.Controllers.Inventory;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class DeleteInventoryItemController : ControllerBase
@@ -29,7 +29,7 @@ public class DeleteInventoryItemController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "");
-            return BadRequest();
+            return BadRequest(e);
         }
     }
 
