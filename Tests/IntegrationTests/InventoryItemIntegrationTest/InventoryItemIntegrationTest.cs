@@ -142,6 +142,13 @@ namespace InventoryItemIntegrationTest
             var x = await response.Content.ReadFromJsonAsync<GetInventoryItemsResponse>();
             return x;
         }
+        private async Task<GetServicesResponse> GetServices()
+        {
+            var response = await _queryHttpClient.GetAsync("/GetServices");
+            response.EnsureSuccessStatusCode();
+            var x = await response.Content.ReadFromJsonAsync<GetServicesResponse>();
+            return x;
+        }
         private async Task<GetBuyInvoicesResponse> GetBuyInvoices()
         {
             var response = await _queryHttpClient.GetAsync("/GetBuyInvoices");
@@ -171,6 +178,19 @@ namespace InventoryItemIntegrationTest
             inventoryItem_afterUpdate.InventoryItemSellPrice.Should().Be(sellPrice);
             inventoryItem_afterUpdate.InventoryItemBuyPrice.Should().Be(buyPrice);
 
+        }
+        [Fact]
+        public async void after_adding_new_service_count_should_increase()
+        {
+            var name = "سرویس تعویض تسمه";
+            var price = 100000;
+            var services_before = await this.GetServices();
+            var request = new AddServiceRequest(name, price);
+            var response = await _commandHttpClient.PostAsJsonAsync("/AddService", request);
+            response.EnsureSuccessStatusCode();
+            await Task.Delay(2000);
+            var services_after = await this.GetServices();
+            (services_after.ServiceDTOs.Count - services_before.ServiceDTOs.Count).Should().Be(1);
         }
         [Fact]
         public async void when_creating_buy_invoice_inventoryItem_Should_Update()
