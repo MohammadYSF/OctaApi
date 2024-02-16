@@ -27,7 +27,7 @@ public class CreateBuyInvoiceController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "");
-            return BadRequest();
+            return BadRequest(e);
         }
     }
 

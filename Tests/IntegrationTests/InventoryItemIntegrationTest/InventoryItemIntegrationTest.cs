@@ -1,5 +1,6 @@
 ﻿using Command.Infrastructure.Persistence.Persistence;
 using FluentAssertions;
+using FluentAssertions.Equivalency;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 using OctaShared.DTOs.Request;
 using OctaShared.DTOs.Response;
 using OctaShared.RabbitMqBus;
+using ServiceStack;
 using System.Net.Http.Json;
 
 namespace InventoryItemIntegrationTest
@@ -116,6 +118,67 @@ namespace InventoryItemIntegrationTest
                 response2.EnsureSuccessStatusCode();
                 var getInventoryItemsResponse_afterDeleting = await response2.Content.ReadFromJsonAsync<GetInventoryItemsResponse>();
                 (getInventoryItemsResponse_afterDeleting.InventoryItemDTOs.Count() - getInventoryItemsResponse_beforeDeleting.InventoryItemDTOs.Count()).Should().Be(-1);
+            }
+        }
+        [Fact]
+        public async void after_creating_buy_invoice_dataCount_should_increase()
+        {
+            var buyPrice = 250;
+            var sellPrice = 280;
+            var buyCount = 3000;
+            int code = 12345;
+            var sellerName = "آقای مفلوک";
+            var response = await _queryHttpClient.GetAsync("/GetInventoryItems");
+            response.EnsureSuccessStatusCode();
+            var getInventoryItemsResponse_beforeCreatingBuyInvoice = await response.Content.ReadFromJsonAsync<GetInventoryItemsResponse>();
+            if (getInventoryItemsResponse_beforeCreatingBuyInvoice.InventoryItemDTOs.Count > 0)
+            {
+                var response2 = await _queryHttpClient.GetAsync("/GetBuyInvoices");
+                response2.EnsureSuccessStatusCode();
+                var getBuyInvoicesResponse_beforeCreatingNewBuyInvoice = await response2.Content.ReadFromJsonAsync<GetBuyInvoicesResponse>();
+                var radnomInventoryItem = getInventoryItemsResponse_beforeCreatingBuyInvoice.InventoryItemDTOs.Last();
+                var request = new CreateBuyInvoiceRequest(new()
+            {
+                new(radnomInventoryItem.InventoryItemId,buyPrice,sellPrice,buyCount,0)
+            }, code, sellerName, DateTime.UtcNow);
+                var createBuyInvoiceResponse = await _commandHttpClient.PostAsJsonAsync($"/CreateBuyInvoice", request);
+                createBuyInvoiceResponse.EnsureSuccessStatusCode();
+                await Task.Delay(2000);
+                var response3 = await _queryHttpClient.GetAsync("/GetBuyInvoices");
+                response3.EnsureSuccessStatusCode();
+                var getBuyInvoicesResponse_afterCreatingNewBuyInvoice = await response3.Content.ReadFromJsonAsync<GetBuyInvoicesResponse>();
+
+                (getBuyInvoicesResponse_afterCreatingNewBuyInvoice.Data.Count - getBuyInvoicesResponse_beforeCreatingNewBuyInvoice.Data.Count).Should().Be(1);
+            }
+        }
+        [Fact]
+        public async void when_creating_buy_invoice_inventoryItem_Should_Update()
+        {
+            var buyPrice = 250;
+            var sellPrice = 280;
+            var buyCount = 3000;
+            var sellerName = "آقای مفلوک";
+            int code = 12345;
+            var response = await _queryHttpClient.GetAsync("/GetInventoryItems");
+            response.EnsureSuccessStatusCode();
+            var getInventoryItemsResponse_beforeCreatingBuyInvoice = await response.Content.ReadFromJsonAsync<GetInventoryItemsResponse>();
+            if (getInventoryItemsResponse_beforeCreatingBuyInvoice.InventoryItemDTOs.Count > 0)
+            {
+                var sut = getInventoryItemsResponse_beforeCreatingBuyInvoice.InventoryItemDTOs.Last();
+                var request = new CreateBuyInvoiceRequest(new()
+            {
+                new(sut.InventoryItemId,buyPrice,sellPrice,buyCount,0)
+            }, code, sellerName, DateTime.UtcNow);
+                var createBuyInvoiceResponse = await _commandHttpClient.PostAsJsonAsync($"/CreateBuyInvoice", request);
+                createBuyInvoiceResponse.EnsureSuccessStatusCode();
+                await Task.Delay(2000);
+                var response2 = await _queryHttpClient.GetAsync("/GetInventoryItems");
+                response2.EnsureSuccessStatusCode();
+                var getInventoryItemsResponse_after = await response2.Content.ReadFromJsonAsync<GetInventoryItemsResponse>();
+                var sut2 = getInventoryItemsResponse_after.InventoryItemDTOs.First(a => a.InventoryItemId == sut.InventoryItemId);
+                sut2.InventoryItemCount.Should().Be(sut.InventoryItemCount + buyCount);
+                sut.InventoryItemSellPrice.Should().Be(sellPrice);
+                sut.InventoryItemBuyPrice.Should().Be(buyPrice);
             }
         }
     }
