@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaShared.DTOs.Request;
 namespace Command.Presentation.Api.Controllers.Inventory;
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UpdateInventoryItemController : ControllerBase
@@ -28,7 +28,7 @@ public class UpdateInventoryItemController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "");
-            return BadRequest();
+            return BadRequest(e);
         }
     }
 
