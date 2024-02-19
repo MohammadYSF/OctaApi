@@ -1,6 +1,7 @@
 # OctaApi
 
 OctaApi , is the API for the Octa application ( octa is an autoservice-management application)
+see also [octa authentication service](https://github.com/MohammadYSF/OctaAuth) , [octa mobile app](https://github.com/SoroushBeigi/octa-app) 
 
 ## Features
 
