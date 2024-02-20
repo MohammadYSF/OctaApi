@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
+using OctaShared.DTOs.Request;
 namespace OctaApi.Controllers.Customer;
 
 //[Authorize]

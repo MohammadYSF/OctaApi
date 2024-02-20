@@ -110,6 +110,76 @@ namespace InventoryItemIntegrationTest
                 (getInventoryItemsResponse_afterDeleting.InventoryItemDTOs.Count() - getInventoryItemsResponse_beforeDeleting.InventoryItemDTOs.Count()).Should().Be(-1);
             }
         }
+        private async Task<GetAllVehiclesResponse> GetVehicles()
+        {
+            var response = await _queryHttpClient.GetAsync("/GetAllVehicles");
+            response.EnsureSuccessStatusCode();
+            var x = await response.Content.ReadFromJsonAsync<GetAllVehiclesResponse>();
+            return x;
+        }
+        [Fact]
+        public async void after_creating_sellInvoice_dataCount_should_increase()
+        {
+            var getSellInvoicesResponse_before = await this.GetSellInvoicesAsync();
+            var vehicles = await this.GetVehicles();
+            var randomVehicle = vehicles.Data.Last();
+            CreateSellInvoiceRequest request = new(randomVehicle.VehicleId, randomVehicle.CustomerId);
+            var createSellInvoiceResponse = await _commandHttpClient.PostAsJsonAsync($"/CreateSellInvoice", request);
+            createSellInvoiceResponse.EnsureSuccessStatusCode();
+            await Task.Delay(2000);
+            var getSellInvoicesResponse_after = await this.GetSellInvoicesAsync();
+            (getSellInvoicesResponse_after.Data.Count - getSellInvoicesResponse_before.Data.Count).Should().Be(1);
+        }
+        [Fact]
+        public async void after_updating_sellInvoice_getData_should_be_updated()
+        {
+            await this.CreateMiscellaneousInvoice();
+            await Task.Delay(2000);
+            var getInventoryItems_before = await this.GetInventoryItemsAsync();
+            var getServices_before = await this.GetServicesAsync();
+            var getSellInvoicesResponse_before = await this.GetSellInvoicesAsync();
+            var randomSellInvoice = getSellInvoicesResponse_before.Data.OrderBy(a => a.SellInvoiceDate).Last();
+            var randomInventoryItem = getInventoryItems_before.InventoryItemDTOs.First();
+            string description = "سه ماهه دیگر ماشینتو یه بار دیگه بیار اینجا پیش خودم";
+            var randomService = getServices_before.ServiceDTOs.First();
+            var request = new UpdateInvoiceServicesAndInventoryItemsRequest(randomSellInvoice.SellInvoiceId, new()
+            {
+                new(randomInventoryItem.InventoryItemId,randomInventoryItem.InventoryItemCount-2)
+            }, new()
+            {
+                new(randomService.ServiceId,6000)
+            }, new() { },
+            new() { },
+            false,
+            description);
+            var updateSellInvoice = await _commandHttpClient.PutAsJsonAsync($"/UpdateInvoiceServicesAndInventoryItems", request);
+            updateSellInvoice.EnsureSuccessStatusCode();
+            await Task.Delay(2000);
+            var getInventoryItems_after = await this.GetInventoryItemsAsync();
+            var target_inventoryItem = getInventoryItems_after.InventoryItemDTOs.First(a => a.InventoryItemId == randomInventoryItem.InventoryItemId);
+            var getSellInvoicecs_after = await this.GetSellInvoicesAsync();
+            var target_sellInvoice = getSellInvoicecs_after.Data.First(a => a.SellInvoiceId == randomSellInvoice.SellInvoiceId);
+            target_sellInvoice.ToPay.Should().Be((long)(((randomInventoryItem.InventoryItemCount - 2) * randomInventoryItem.InventoryItemSellPrice) + (6000)));
+        }
+
+        private async Task CreateMiscellaneousInvoice()
+        {
+            CreateMiscellaneousSellInvoiceRequest request = new();
+            var createSellInvoiceResponse = await _commandHttpClient.PostAsJsonAsync($"/CreateMiscellaneousSellInvoice", request);
+            createSellInvoiceResponse.EnsureSuccessStatusCode();
+        }
+        [Fact]
+        public async void after_creating_miscellaneous_sellInvoice_dataCount_should_increase()
+        {
+            var getSellInvoicesResponse_before = await this.GetSellInvoicesAsync();
+            var vehicles = await this.GetVehicles();
+            var randomVehicle = vehicles.Data.Last();
+            await this.CreateMiscellaneousInvoice();
+            await Task.Delay(2000);
+            var getSellInvoicesResponse_after = await this.GetSellInvoicesAsync();
+            (getSellInvoicesResponse_after.Data.Count - getSellInvoicesResponse_before.Data.Count).Should().Be(1);
+        }
+
         [Fact]
         public async void after_creating_buy_invoice_dataCount_should_increase()
         {
@@ -142,7 +212,7 @@ namespace InventoryItemIntegrationTest
             var x = await response.Content.ReadFromJsonAsync<GetInventoryItemsResponse>();
             return x;
         }
-        private async Task<GetServicesResponse> GetServices()
+        private async Task<GetServicesResponse> GetServicesAsync()
         {
             var response = await _queryHttpClient.GetAsync("/GetServices");
             response.EnsureSuccessStatusCode();
@@ -154,6 +224,13 @@ namespace InventoryItemIntegrationTest
             var response = await _queryHttpClient.GetAsync("/GetBuyInvoices");
             response.EnsureSuccessStatusCode();
             var x = await response.Content.ReadFromJsonAsync<GetBuyInvoicesResponse>();
+            return x;
+        }
+        private async Task<GetSellInvoicesResponse> GetSellInvoicesAsync()
+        {
+            var response = await _queryHttpClient.GetAsync("/GetSellInvoices");
+            response.EnsureSuccessStatusCode();
+            var x = await response.Content.ReadFromJsonAsync<GetSellInvoicesResponse>();
             return x;
         }
         [Fact]
@@ -184,12 +261,12 @@ namespace InventoryItemIntegrationTest
         {
             var name = "سرویس تعویض تسمه";
             var price = 100000;
-            var services_before = await this.GetServices();
+            var services_before = await this.GetServicesAsync();
             var request = new AddServiceRequest(name, price);
             var response = await _commandHttpClient.PostAsJsonAsync("/AddService", request);
             response.EnsureSuccessStatusCode();
             await Task.Delay(2000);
-            var services_after = await this.GetServices();
+            var services_after = await this.GetServicesAsync();
             (services_after.ServiceDTOs.Count - services_before.ServiceDTOs.Count).Should().Be(1);
         }
         [Fact]

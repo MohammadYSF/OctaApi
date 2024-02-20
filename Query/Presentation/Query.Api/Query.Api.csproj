@@ -29,6 +29,9 @@
 		<Reference Include="OctaShared.Contracts">
 			<HintPath>..\..\..\..\OctaShared\OctaShared.Contracts\bin\Debug\net7.0\OctaShared.Contracts.dll</HintPath>
 		</Reference>
+		<Reference Include="OctaShared.DTOs">
+		  <HintPath>..\..\..\..\OctaShared\OctaShared.DTOs\bin\Debug\net7.0\OctaShared.DTOs.dll</HintPath>
+		</Reference>
 		<Reference Include="OctaShared.Events">
 			<HintPath>..\..\..\..\OctaShared\OctaShared.Contracts\bin\Debug\net7.0\OctaShared.Events.dll</HintPath>
 		</Reference>

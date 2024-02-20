@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Query.Application.Features.VehicleFeatures.GetAllVehicles;
+using OctaShared.DTOs.Request;
 namespace OctaApi.Controllers;
 //[Authorize]
 [ApiController]

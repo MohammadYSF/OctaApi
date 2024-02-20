@@ -3,6 +3,7 @@ using OctaShared.Events;
 using OctaShared.ReadModels;
 using Query.Application.Common.Exceptions;
 using Query.Application.Repositories;
+using System.Diagnostics.Tracing;
 namespace Query.Application.EventHandlers.SellInvoice;
 public class SellInvoiceEventHandler :
     IEventHandler<SellInvoiceCreatedEvent>
@@ -49,28 +50,53 @@ public class SellInvoiceEventHandler :
     }
     public async Task HandleAsync(SellInvoiceCreatedEvent @event)
     {
-        var customerRM = await _customerQueryRepository.GetByCustomerIdAsync(@event.CustomerId);
-        if (customerRM == null) throw new ReadModelNotFoundException<CustomerRM>();
-        VehicleRM? vehicleRM = await _vehicleQueryRepository.GetByVehicleIdAsync(@event.VehicleId);
-        if (vehicleRM == null) throw new ReadModelNotFoundException<VehicleRM>();
-
-        var sellInvoiceRM = new SellInvoiceRM
+        SellInvoiceRM sellInvoiceRM;
+        if (@event.CustomerId == Guid.Empty && @event.VehicleId == Guid.Empty)
         {
-            Id = Guid.NewGuid(),
-            ToPay = 0,
-            ToPayWhenUsingBuyPrices = 0,
-            Tax = 0,
-            TotalPrice = 0,
-            TotalPriceWhenUsingBuyPrices = 0,
-            Discount = 0,
-            SellInvoiceId = @event.SellInvoiceId,
-            CustomerCode = customerRM?.CustomerCode,
-            CustomerName = customerRM?.CustomerName,
-            SellInvoiceCode = @event.SellInvoiceCode,
-            SellInvoiceDate = @event.CreatedDate,
-            VehicleCode = vehicleRM?.VehicleCode,
-            VehicleName = vehicleRM?.VehicleName
-        };
+            // so Miscellaneous is created
+            sellInvoiceRM = new()
+            {
+                Id = Guid.NewGuid(),
+                ToPay = 0,
+                ToPayWhenUsingBuyPrices = 0,
+                Tax = 0,
+                TotalPrice = 0,
+                TotalPriceWhenUsingBuyPrices = 0,
+                Discount = 0,
+                SellInvoiceId = @event.SellInvoiceId,
+                CustomerCode = string.Empty,
+                CustomerName = string.Empty,
+                SellInvoiceCode = @event.SellInvoiceCode,
+                SellInvoiceDate = @event.CreatedDate,
+                VehicleCode = string.Empty,
+                VehicleName = string.Empty
+            };
+        }
+        else
+        {
+            var customerRM = await _customerQueryRepository.GetByCustomerIdAsync(@event.CustomerId);
+            if (customerRM == null) throw new ReadModelNotFoundException<CustomerRM>();
+            VehicleRM? vehicleRM = await _vehicleQueryRepository.GetByVehicleIdAsync(@event.VehicleId);
+            if (vehicleRM == null) throw new ReadModelNotFoundException<VehicleRM>();
+
+            sellInvoiceRM = new()
+            {
+                Id = Guid.NewGuid(),
+                ToPay = 0,
+                ToPayWhenUsingBuyPrices = 0,
+                Tax = 0,
+                TotalPrice = 0,
+                TotalPriceWhenUsingBuyPrices = 0,
+                Discount = 0,
+                SellInvoiceId = @event.SellInvoiceId,
+                CustomerCode = customerRM?.CustomerCode,
+                CustomerName = customerRM?.CustomerName,
+                SellInvoiceCode = @event.SellInvoiceCode,
+                SellInvoiceDate = @event.CreatedDate,
+                VehicleCode = vehicleRM?.VehicleCode,
+                VehicleName = vehicleRM?.VehicleName
+            };
+        }
         await _sellInvoiceQueryRepository.AddAsync(sellInvoiceRM);
         await _queryUnitOfWork.SaveAsync(default);
         _SellInvoiceRMCacheService.Dirty();

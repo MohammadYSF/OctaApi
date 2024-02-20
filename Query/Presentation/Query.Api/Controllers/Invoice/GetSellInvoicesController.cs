@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.InvoiceFeatures.GetSellInvoices;
+using OctaShared.DTOs.Request;
 namespace Query.Presentation.Api.Controllers;
 //[Authorize]
 [ApiController]

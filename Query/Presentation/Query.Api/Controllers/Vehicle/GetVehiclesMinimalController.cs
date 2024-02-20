@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;
+using OctaShared.DTOs.Request;
 namespace OctaApi.Controllers;
 
 //[Authorize]

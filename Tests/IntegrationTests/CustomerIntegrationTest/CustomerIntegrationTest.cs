@@ -3,11 +3,10 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
-using OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 using OctaShared.RabbitMqBus;
 using System.Net.Http.Json;
-
 namespace CustomerIntegrationTest
 {
     public class CommandWebApplicationFactory<TProgram>
@@ -80,14 +79,24 @@ namespace CustomerIntegrationTest
             });
         }
 
-
-
-        [Fact]
-        public async void after_adding_new_customer_customer_count_should_increase()
+        private async Task<GetCustomersResponse> GetCustomers()
         {
             var response = await _queryHttpClient.GetAsync("/GetCustomers");
             response.EnsureSuccessStatusCode();
-            var getCustomersResponse_beforeAddingCustomer = await response.Content.ReadFromJsonAsync<GetCustomersResponse>();
+            var x = await response.Content.ReadFromJsonAsync<GetCustomersResponse>();
+            return x;
+        }
+        private async Task<GetAllVehiclesResponse> GetVehicles()
+        {
+            var response = await _queryHttpClient.GetAsync("/GetAllVehicles");
+            response.EnsureSuccessStatusCode();
+            var x = await response.Content.ReadFromJsonAsync<GetAllVehiclesResponse>();
+            return x;
+        }
+        [Fact]
+        public async void after_adding_new_customer_customer_count_should_increase()
+        {
+            var getCustomersResponse_beforeAddingCustomer = await this.GetCustomers();
 
             var addCustomerRequest = new AddCustomerRequest("مهران", "فردوسی پور", "09217641909", DateTime.UtcNow, new List<OctaShared.DTOs.VehicleDTO>()
             {
@@ -96,10 +105,27 @@ namespace CustomerIntegrationTest
             var createCustomerResponse = await _commandHttpClient.PostAsJsonAsync<AddCustomerRequest>("/AddCustomer", addCustomerRequest);
             createCustomerResponse.EnsureSuccessStatusCode();
             await Task.Delay(1000);
-            var response2 = await _queryHttpClient.GetAsync("/GetCustomers");
-            response.EnsureSuccessStatusCode();
-            var getCustomersResponse_afterAddingCustomer = await response2.Content.ReadFromJsonAsync<GetCustomersResponse>();
+
+            var getCustomersResponse_afterAddingCustomer = await this.GetCustomers();
             (getCustomersResponse_afterAddingCustomer.Count - getCustomersResponse_beforeAddingCustomer.Count).Should().Be(1);
         }
+        [Fact]
+        public async void after_adding_new_customer_with_2vehicle_count_should_increase_by_2()
+        {
+            var getVehiclesResponse_before = await this.GetVehicles();
+
+            var addCustomerRequest = new AddCustomerRequest("اشکان", "نایبی", "09145670091", DateTime.UtcNow, new List<OctaShared.DTOs.VehicleDTO>()
+            {
+                new OctaShared.DTOs.VehicleDTO("زانتیا","21ح981","زرشکی"),
+                new OctaShared.DTOs.VehicleDTO("پیکان","87م123","زرشکی"),
+            });
+            var createCustomerResponse = await _commandHttpClient.PostAsJsonAsync<AddCustomerRequest>("/AddCustomer", addCustomerRequest);
+            createCustomerResponse.EnsureSuccessStatusCode();
+            await Task.Delay(1000);
+
+            var getVehiclesResponse_after = await this.GetVehicles();
+            (getVehiclesResponse_after.Count - getVehiclesResponse_before.Count).Should().Be(2);
+        }
+
     }
 }

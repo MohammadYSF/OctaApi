@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using OctaShared.Contracts;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 using OctaShared.ReadModels;
 using Query.Application.Repositories;
 namespace OctaApi.Application.Features.VehicleFeatures.GetVehiclesMinimal;

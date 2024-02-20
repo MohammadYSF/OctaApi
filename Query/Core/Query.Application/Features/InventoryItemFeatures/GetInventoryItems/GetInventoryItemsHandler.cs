@@ -3,7 +3,8 @@ using MediatR;
 using OctaShared.Contracts;
 using OctaShared.ReadModels;
 using Query.Application.Repositories;
-
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace OctaApi.Application.Features.Inventory.GetInventoryItems;
 
 public sealed class GetInventoryItemsHandler : IRequestHandler<GetInventoryItemsRequest, GetInventoryItemsResponse>

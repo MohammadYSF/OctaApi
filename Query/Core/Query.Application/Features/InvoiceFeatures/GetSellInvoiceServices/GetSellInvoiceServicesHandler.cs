@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using OctaShared.Contracts;
 using OctaShared.ReadModels;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 using Query.Application.Repositories;
 namespace Query.Application.Features.InvoiceFeatures.GetSellInvoiceServices;
 public sealed class GetSellInvoiceServicesHandler : IRequestHandler<GetSellInvoicecServicesRequest, GetSellInvoiceServicesResponse>

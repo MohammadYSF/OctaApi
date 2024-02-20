@@ -1,4 +1,0 @@
-﻿using OctaShared.ReadModels;
-
-namespace OctaApi.Application.Features.InvoiceFeatures.GetInvoiceReportInfo;
-public sealed record GetInvoiceReportInfoResponse(SellInvoiceRM SellInvoiceRM, SellInvoiceDescriptionRM SellInvoiceDescriptionRM, List<SellInvoiceServiceRM> SellInvoiceServiceRMs, List<SellInvoiceInventoryItemRM> SellInvoiceInventoryItemRMs);

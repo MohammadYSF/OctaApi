@@ -2,6 +2,8 @@
 using OctaShared.Contracts;
 using OctaShared.ReadModels;
 using Query.Application.Repositories;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace Query.Application.Features.InvoiceFeatures.GetBuyInvoices;
 public sealed class GetBuyInvoicesHandler : IRequestHandler<GetBuyInvoicesRequest, GetBuyInvoicesResponse>
 {

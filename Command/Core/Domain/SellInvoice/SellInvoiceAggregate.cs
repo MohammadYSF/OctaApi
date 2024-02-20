@@ -61,6 +61,7 @@ public class SellInvoiceAggregate : AggregateRoot
             Code = new SellInvoiceCode(code),
             Customer = Guid.Empty,
             Vehicle = Guid.Empty,
+            Discount = new Price(0)
         };
         agg.AddDomainEvent(new SellInvoiceCreatedEvent
         {

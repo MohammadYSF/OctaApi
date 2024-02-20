@@ -2,6 +2,8 @@
 using OctaShared.Contracts;
 using OctaShared.ReadModels;
 using Query.Application.Repositories;
+using OctaShared.DTOs.Request;
+using OctaShared.DTOs.Response;
 namespace OctaApi.Application.Features.CustomerFeatures.GetCustomers;
 
 public sealed class GetCustomersHandler : IRequestHandler<GetCustomersRequest, GetCustomersResponse>

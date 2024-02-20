@@ -24,7 +24,7 @@ namespace Command.Core.Application.Features.InvoiceFeatures.CreateMiscellaneousS
             DateTime createDate = DateTime.UtcNow;
             int code = await _sellInvoiceRepository.GenerateNewCodeAsync();
             var aggregate = SellInvoiceAggregate.CreateMiscellaneous(id, createDate, code);
-            await _sellInvoiceRepository.UpdateAsync(aggregate);
+            await _sellInvoiceRepository.AddAsync(aggregate);
             await _unitOfWork.SaveAsync(cancellationToken);
             foreach (var item in aggregate.GetDomainEvents())
             {
