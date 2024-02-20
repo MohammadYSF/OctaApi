@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OctaShared.DTOs.Request;
 namespace OctaApi.Controllers.Customer;
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class GetCustomersController : ControllerBase
